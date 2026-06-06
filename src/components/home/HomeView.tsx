@@ -5,11 +5,22 @@ import { useNavigationStore } from '@/store/navigation-store';
 import { useProgressStore } from '@/store/progress-store';
 import {
   Brain, MessageSquare, Layers, Plug, Database,
-  Bot, Laptop, Rocket, ArrowRight, Sparkles,
+  Bot, Laptop, Rocket, ArrowRight, Sparkles, RotateCcw,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { motion } from 'framer-motion';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -54,9 +65,35 @@ export function HomeView() {
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium">Ваш прогресс</span>
-            <span className="text-sm text-muted-foreground">
-              {completedCount} из {totalSubtopics} тем ({overallProgress}%)
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">
+                {completedCount} из {totalSubtopics} тем ({overallProgress}%)
+              </span>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-destructive">
+                    <RotateCcw className="h-3.5 w-3.5" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Сбросить прогресс?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Все просмотренные и изученные темы будут отмечены как непройденные. Это действие нельзя отменить.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Отмена</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => useProgressStore.getState().resetProgress()}
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      Сбросить
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </div>
           <Progress value={overallProgress} className="h-2" />
         </motion.div>
