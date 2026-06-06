@@ -1,4 +1,8 @@
 import { TopicCategory } from '@/types';
+import { promptEngineering } from './topic-prompt-engineering';
+import { contextEngineering } from './topic-context-engineering';
+import { mcp } from './topic-mcp';
+import { rag, aiAgents, localAI, productionAI } from './topic-remaining';
 
 export const topics: TopicCategory[] = [
   {
@@ -469,4 +473,11 @@ function selfAttention(Q: number[][], K: number[][], V: number[][]) {
       },
     ],
   },
+  promptEngineering,
+  contextEngineering,
+  mcp,
+  rag,
+  aiAgents,
+  localAI,
+  productionAI,
 ];
