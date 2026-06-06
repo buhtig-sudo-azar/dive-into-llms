@@ -64,13 +64,13 @@ export interface TopicCategory {
 
 export interface ChatMessage {
   id: string;
-  role: 'user' | 'assistant' | 'system';
+  role: 'user' | 'assistant';
   content: string;
   timestamp: number;
 }
 
 export interface SearchItem {
-  type: 'category' | 'subtopic' | 'term' | 'section';
+  type: 'category' | 'subtopic' | 'term';
   title: string;
   description: string;
   categorySlug: string;
