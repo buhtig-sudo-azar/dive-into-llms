@@ -1,4 +1,4 @@
-export interface Introduction {
+export interface SubtopicIntroduction {
   what: string;
   why: string;
   where: string;
@@ -10,14 +10,14 @@ export interface Term {
   definition: string;
 }
 
-export interface Theory {
+export interface SubtopicTheory {
   terms: Term[];
   principles: string;
   architecture: string;
   connections: string;
 }
 
-export interface Diagram {
+export interface DiagramData {
   type: 'flowchart' | 'architecture' | 'pipeline' | 'comparison';
   title: string;
   svgContent: string;
@@ -46,9 +46,9 @@ export interface Subtopic {
   slug: string;
   title: string;
   categorySlug: string;
-  introduction: Introduction;
-  theory: Theory;
-  diagram: Diagram;
+  introduction: SubtopicIntroduction;
+  theory: SubtopicTheory;
+  diagram: DiagramData;
   practicalExamples: PracticalExample[];
   commonMistakes: CommonMistake[];
   furtherReading: FurtherReading[];
@@ -57,8 +57,8 @@ export interface Subtopic {
 export interface TopicCategory {
   slug: string;
   title: string;
-  icon: string;
   description: string;
+  icon: string;
   subtopics: Subtopic[];
 }
 
@@ -69,17 +69,11 @@ export interface ChatMessage {
   timestamp: number;
 }
 
-export interface ChatSession {
-  categorySlug: string;
-  messages: ChatMessage[];
-  isLoading: boolean;
-}
-
-export interface SearchResult {
-  type: 'category' | 'subtopic' | 'term';
+export interface SearchItem {
+  type: 'category' | 'subtopic' | 'term' | 'section';
+  title: string;
+  description: string;
   categorySlug: string;
   subtopicSlug?: string;
-  title: string;
-  excerpt: string;
-  matchField: string;
+  keywords: string[];
 }
