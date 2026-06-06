@@ -1,15 +1,14 @@
 import { create } from 'zustand';
-import type { ChatMessage } from '@/types';
+import { ChatMessage } from '@/types';
 
 interface ChatState {
   messages: ChatMessage[];
   isLoading: boolean;
   activeCategory: string | null;
-  chatOpen: boolean;
-  addMessage: (msg: ChatMessage) => void;
+  addMessage: (message: Omit<ChatMessage, 'id' | 'timestamp'>) => void;
+  appendToLastMessage: (content: string) => void;
   setLoading: (loading: boolean) => void;
   setActiveCategory: (slug: string | null) => void;
-  setChatOpen: (open: boolean) => void;
   clearMessages: () => void;
 }
 
@@ -17,10 +16,23 @@ export const useChatStore = create<ChatState>((set) => ({
   messages: [],
   isLoading: false,
   activeCategory: null,
-  chatOpen: false,
-  addMessage: (msg) => set((s) => ({ messages: [...s.messages, msg] })),
+  addMessage: (message) =>
+    set((s) => ({
+      messages: [
+        ...s.messages,
+        { ...message, id: crypto.randomUUID(), timestamp: Date.now() },
+      ],
+    })),
+  appendToLastMessage: (content) =>
+    set((s) => {
+      const messages = [...s.messages];
+      const last = messages[messages.length - 1];
+      if (last && last.role === 'assistant') {
+        messages[messages.length - 1] = { ...last, content: last.content + content };
+      }
+      return { messages };
+    }),
   setLoading: (loading) => set({ isLoading: loading }),
-  setActiveCategory: (slug) => set({ activeCategory: slug, messages: [] }),
-  setChatOpen: (open) => set({ chatOpen: open }),
+  setActiveCategory: (slug) => set({ activeCategory: slug }),
   clearMessages: () => set({ messages: [] }),
 }));

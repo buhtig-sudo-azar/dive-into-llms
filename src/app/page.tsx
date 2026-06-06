@@ -1,31 +1,15 @@
-'use client'
+'use client';
+
+import { AppShell } from '@/components/layout/AppShell';
+import { useProgressStore } from '@/store/progress-store';
+import { useEffect } from 'react';
 
 export default function Home() {
-  return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      gap: '2rem',
-      padding: '1rem'
-    }}>
-      <div style={{
-        position: 'relative',
-        width: '6rem',
-        height: '6rem'
-      }}>
-        <img
-          src="/logo.svg"
-          alt="Z.ai Logo"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain'
-          }}
-        />
-      </div>
-    </div>
-  )
+  const _hydrate = useProgressStore(s => s._hydrate);
+
+  useEffect(() => {
+    _hydrate();
+  }, [_hydrate]);
+
+  return <AppShell />;
 }

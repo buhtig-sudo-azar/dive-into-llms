@@ -58,7 +58,7 @@ export interface TopicCategory {
   slug: string;
   title: string;
   description: string;
-  icon: string;
+  iconName: string;
   subtopics: Subtopic[];
 }
 
