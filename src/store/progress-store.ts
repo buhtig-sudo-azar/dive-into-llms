@@ -5,6 +5,8 @@ interface ProgressState {
   completedSubtopics: string[];
   markAsViewed: (slug: string) => void;
   markAsCompleted: (slug: string) => void;
+  unmarkCompleted: (slug: string) => void;
+  resetProgress: () => void;
   isCompleted: (slug: string) => boolean;
   isViewed: (slug: string) => boolean;
   getOverallProgress: (total: number) => number;
@@ -51,6 +53,16 @@ export const useProgressStore = create<ProgressState>((set, get) => ({
       saveToStorage(viewed, completed);
       return { completedSubtopics: completed, viewedSubtopics: viewed };
     }),
+  unmarkCompleted: (slug) =>
+    set((s) => {
+      const completed = s.completedSubtopics.filter((s) => s !== slug);
+      saveToStorage(s.viewedSubtopics, completed);
+      return { completedSubtopics: completed };
+    }),
+  resetProgress: () => {
+    saveToStorage([], []);
+    set({ viewedSubtopics: [], completedSubtopics: [] });
+  },
   isCompleted: (slug) => get().completedSubtopics.includes(slug),
   isViewed: (slug) => get().viewedSubtopics.includes(slug),
   getOverallProgress: (total) => {
