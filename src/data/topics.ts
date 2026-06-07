@@ -123,6 +123,15 @@ enc.free(); // Освобождаем ресурсы`,
             language: 'typescript',
           },
         ],
+        sandboxes: [
+          {
+            type: 'prompt-playground',
+            title: 'Попробуйте запрос к LLM',
+            description: 'Введите любой запрос и получите ответ от реальной языковой модели. Поменяйте системный промпт, чтобы увидеть, как меняется поведение модели.',
+            defaultPrompt: 'Объясни, что такое LLM простыми словами',
+            defaultSystem: 'Ты полезный ассистент. Отвечай кратко и понятно.',
+          },
+        ],
         commonMistakes: [
           {
             mistake: 'Считать, что LLM «понимает» текст как человек',
@@ -247,6 +256,14 @@ console.log(\`Стоимость: $\${cost.toFixed(4)}\`);`,
             language: 'typescript',
           },
         ],
+        sandboxes: [
+          {
+            type: 'tokenizer',
+            title: 'Попробуйте токенизацию',
+            description: 'Введите текст и увидите, как он разбивается на токены. Попробуйте русский и английский текст, чтобы увидеть разницу.',
+            defaultPrompt: 'Привет! Как у тебя дела сегодня? Hello world!',
+          },
+        ],
         commonMistakes: [
           {
             mistake: 'Считать, что 1 слово = 1 токен',
@@ -346,6 +363,15 @@ function trimConversation(messages: Message[], maxTokens: number,
   return result;
 }`,
             language: 'typescript',
+          },
+        ],
+        sandboxes: [
+          {
+            type: 'temperature',
+            title: 'Как температура влияет на ответы',
+            description: 'Попробуйте один и тот же запрос при разной температуре и сравните результаты. Низкая температура — точные ответы, высокая — креативные.',
+            defaultPrompt: 'Напиши короткую историю о роботе',
+            defaultTemperature: 0.7,
           },
         ],
         commonMistakes: [
