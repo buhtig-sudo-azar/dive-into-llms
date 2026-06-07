@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -34,6 +35,18 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
+        {/* ADMIN Panel Analytics Tracker */}
+        <Script id="admin-panel-tracker" strategy="afterInteractive">
+          {`window.AdminPanelTracker = {
+            endpoint: 'https://my-project-black-iota.vercel.app/api/track',
+            projectId: 'https-dive-into-llms-vercel-app',
+            projectName: 'dive-into-llms'
+          };`}
+        </Script>
+        <Script
+          src="https://my-project-black-iota.vercel.app/tracker/tracker.js"
+          strategy="afterInteractive"
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
