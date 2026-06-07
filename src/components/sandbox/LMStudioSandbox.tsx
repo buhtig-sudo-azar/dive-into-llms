@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Slider } from '@/components/ui/slider';
 import {
   Play, Loader2, RotateCcw, Monitor, Server, Cpu, HardDrive,
-  Zap, Activity, Download, ChevronDown, ChevronUp, Wifi,
+  Zap, Activity, Download, ChevronDown, ChevronUp, Wifi, Info,
 } from 'lucide-react';
 import { useModelStore } from '@/store/model-store';
 
@@ -68,6 +68,7 @@ export function LMStudioSandbox({
   const [apiRawRequest, setApiRawRequest] = useState('');
   const [apiRawResponse, setApiRawResponse] = useState('');
   const [apiTesting, setApiTesting] = useState(false);
+  const [showGuide, setShowGuide] = useState(true);
 
   /* perf mock */
   const [ramUsed, setRamUsed] = useState(0);
@@ -202,11 +203,12 @@ export function LMStudioSandbox({
       let actualCompletionTokens: number | null = null;
       let actualPromptTokens: number | null = null;
       let modelUsed: string | null = null;
+      let hitTokenLimit = false;
 
       // Приблизительная оценка токенов: ~1.3 токена на слово для русского текста
       const estimateTokens = (text: string) => Math.round(text.split(/\s+/).filter(Boolean).length * 1.3);
 
-      while (true) {
+      while (!hitTokenLimit) {
         const { done, value } = await reader.read();
         if (done) break;
 
@@ -242,6 +244,27 @@ export function LMStudioSandbox({
               if (delta) {
                 fullText += delta;
                 const tokenCount = actualCompletionTokens || estimateTokens(fullText);
+
+                // Клиентская обрезка: если токены превысили лимит — обрываем
+                if (tokenCount >= maxTokens) {
+                  // Обрезаем текст до примерного лимита токенов
+                  const words = fullText.split(/\s+/);
+                  const maxWords = Math.floor(maxTokens / 1.3);
+                  if (words.length > maxWords) {
+                    fullText = words.slice(0, maxWords).join(' ') + '...';
+                  }
+                  setResponse(fullText);
+                  setTokensGenerated(maxTokens);
+                  const elapsed = (Date.now() - startTimeRef.current) / 1000;
+                  setGenTime(elapsed);
+                  setTokensPerSec(elapsed > 0 ? Math.round(maxTokens / elapsed) : 0);
+                  // Прерываем стрим — лимит достигнут
+                  if (abortRef.current) abortRef.current.abort();
+                  setLogLines((l) => [...l, `[GEN] Лимит токенов достигнут (${maxTokens}) — генерация прервана`]);
+                  hitTokenLimit = true;
+                  break;
+                }
+
                 setResponse(fullText);
                 setTokensGenerated(tokenCount);
                 const elapsed = (Date.now() - startTimeRef.current) / 1000;
@@ -255,14 +278,14 @@ export function LMStudioSandbox({
         }
       }
 
-      const finalTokens = actualCompletionTokens || estimateTokens(fullText);
+      const finalTokens = hitTokenLimit ? maxTokens : (actualCompletionTokens || estimateTokens(fullText));
       setTokensGenerated(finalTokens);
       const finalElapsed = (Date.now() - startTimeRef.current) / 1000;
       setGenTime(finalElapsed);
       setTokensPerSec(finalElapsed > 0 ? Math.round(finalTokens / finalElapsed) : 0);
       setLogLines((l) => [
         ...l,
-        `[GEN] Генерация завершена: ${actualCompletionTokens ? '' : '~'}${finalTokens} токенов за ${finalElapsed.toFixed(1)}с (лимит: ${maxTokens})`,
+        `[GEN] Генерация завершена: ${hitTokenLimit ? '' : (actualCompletionTokens ? '' : '~')}${finalTokens} токенов за ${finalElapsed.toFixed(1)}с${hitTokenLimit ? ' [LIMIT]' : ''} (лимит: ${maxTokens})`,
       ]);
 
       // Показываем сырой JSON ответа, если API Server включён
@@ -275,7 +298,7 @@ export function LMStudioSandbox({
           choices: [{
             index: 0,
             message: { role: 'assistant', content: fullText },
-            finish_reason: finalTokens >= maxTokens ? 'length' : 'stop',
+            finish_reason: hitTokenLimit ? 'length' : (finalTokens >= maxTokens ? 'length' : 'stop'),
           }],
           usage: {
             prompt_tokens: actualPromptTokens || estimateTokens(systemPrompt + prompt),
@@ -414,6 +437,72 @@ export function LMStudioSandbox({
       </CardHeader>
 
       <CardContent className="space-y-4">
+        {/* ═══════ Инструкция ═══════ */}
+        <div className="rounded-lg border border-primary/20 bg-primary/5">
+          <button
+            onClick={() => setShowGuide(!showGuide)}
+            className="flex items-center justify-between w-full p-3"
+          >
+            <div className="flex items-center gap-2">
+              <Info className="h-4 w-4 text-primary" />
+              <span className="font-semibold text-sm">Как пользоваться этим стендом</span>
+            </div>
+            {showGuide ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </button>
+
+          {showGuide && (
+            <div className="px-3 pb-3 space-y-3 text-sm text-muted-foreground">
+              <p>
+                Этот стенд имитирует работу <b className="text-foreground">LM Studio</b> — программы для запуска языковых моделей прямо на вашем компьютере. Здесь вы можете загрузить модель, настроить параметры и посмотреть как работает инференс. Все запросы идут через реальный LLM, а интерфейс повторяет LM Studio.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="rounded-md border border-border bg-card p-2.5 space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <HardDrive className="h-3.5 w-3.5 text-primary" />
+                    <span className="font-semibold text-xs text-foreground">1. Выбор модели</span>
+                  </div>
+                  <p className="text-xs">Выберите GGUF-модель из списка. Модели с бейджем «Готова» уже скачаны, «Скачать» — нужно загрузить. Нажмите «Загрузить модель» — она загрузится в RAM (имитация).</p>
+                </div>
+
+                <div className="rounded-md border border-border bg-card p-2.5 space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <Cpu className="h-3.5 w-3.5 text-primary" />
+                    <span className="font-semibold text-xs text-foreground">2. Параметры инференса</span>
+                  </div>
+                  <p className="text-xs"><b>Temperature</b> — креативность (0 = точно, 2 = хаотично). <b>Max Tokens</b> — максимальная длина ответа. <b>Context Length</b> — размер контекста. <b>GPU Layers</b> — сколько слоёв на GPU (больше = быстрее).</p>
+                </div>
+
+                <div className="rounded-md border border-border bg-card p-2.5 space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <Server className="h-3.5 w-3.5 text-primary" />
+                    <span className="font-semibold text-xs text-foreground">3. API Server</span>
+                  </div>
+                  <p className="text-xs">Ключевая фича LM Studio — запуск локального OpenAI-совместимого сервера. Включите его, нажмите «Test API» и увидите реальный JSON запрос/ответ в формате OpenAI. Это позволяет подключать любые приложения к локальной модели.</p>
+                </div>
+
+                <div className="rounded-md border border-border bg-card p-2.5 space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <Activity className="h-3.5 w-3.5 text-primary" />
+                    <span className="font-semibold text-xs text-foreground">4. Inference и мониторинг</span>
+                  </div>
+                  <p className="text-xs">Введите запрос и нажмите «Запустить». Ответ стримится в реальном времени. Мониторинг показывает RAM, скорость (токены/сек), время генерации и прогресс по лимиту токенов.</p>
+                </div>
+              </div>
+
+              <div className="rounded-md border border-amber-500/20 bg-amber-500/5 p-2.5 space-y-1">
+                <span className="font-semibold text-xs text-amber-600">Попробуйте сами:</span>
+                <ul className="text-xs space-y-0.5 list-disc list-inside">
+                  <li>Поставьте Max Tokens = 64 и посмотрите как оборвётся ответ на середине</li>
+                  <li>Сравните Temperature 0.1 и 1.5 — один и тот же вопрос даст разный результат</li>
+                  <li>Включите API Server → Test API — увидите сырой JSON как при работе с OpenAI API</li>
+                  <li>Попробуйте разные модели — у каждой свой размер и требования к RAM</li>
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* ═══════ 1. Model Selector ═══════ */}
         <div className="rounded-lg border border-border bg-muted/20 p-3 space-y-3">
           <div className="flex items-center gap-2">
