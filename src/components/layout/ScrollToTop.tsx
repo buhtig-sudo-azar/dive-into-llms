@@ -1,15 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function ScrollToTop() {
   const [visible, setVisible] = useState(false);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    // Find the main scrollable container
-    const main = document.querySelector('main');
+    // Find the main scrollable container (closest <main> to this component)
+    const findMain = () => {
+      const main = document.querySelector('main');
+      return main;
+    };
+
+    const main = findMain();
     if (!main) return;
 
     const handleScroll = () => {
@@ -29,6 +35,7 @@ export function ScrollToTop() {
 
   return (
     <button
+      ref={btnRef}
       onClick={scrollToTop}
       aria-label="Наверх"
       className={cn(

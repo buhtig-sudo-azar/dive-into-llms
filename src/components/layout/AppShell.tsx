@@ -11,10 +11,21 @@ import { TopicView } from '@/components/content/TopicView';
 import { ChatPanel } from '@/components/chat/ChatPanel';
 import { SearchDialog } from '@/components/search/SearchDialog';
 import { ScrollToTop } from './ScrollToTop';
+import { useEffect, useRef } from 'react';
 
 export function AppShell() {
   const currentView = useNavigationStore(s => s.currentView);
+  const currentCategory = useNavigationStore(s => s.currentCategory);
+  const currentSubtopic = useNavigationStore(s => s.currentSubtopic);
   const chatOpen = useNavigationStore(s => s.chatOpen);
+  const mainRef = useRef<HTMLElement | null>(null);
+
+  // Автопрокрутка наверх при любой навигации
+  useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [currentView, currentCategory, currentSubtopic]);
 
   return (
     <div className="flex flex-col h-screen">
@@ -22,7 +33,7 @@ export function AppShell() {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <div className="flex flex-1 overflow-hidden">
-          <main className="flex-1 overflow-y-auto flex flex-col">
+          <main ref={mainRef} className="flex-1 overflow-y-auto flex flex-col">
             <Breadcrumbs />
             <div className="flex-1">
               {currentView === 'home' && <HomeView />}
