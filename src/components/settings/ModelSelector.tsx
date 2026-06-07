@@ -34,37 +34,47 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { HelpTooltip } from '@/components/ui/help-tooltip';
 
 function RateLimitIndicator({ rateLimit }: { rateLimit?: ModelRateLimit }) {
   if (!rateLimit || !rateLimit.checkedAt) {
-    // Not checked yet — grey dot
     return (
-      <span className="shrink-0 flex items-center gap-1">
-        <span className="w-2 h-2 rounded-full bg-muted-foreground/30" />
-      </span>
+      <HelpTooltip content="Статус модели ещё не проверен. Нажмите «Проверить все», чтобы узнать доступность." side="left">
+        <span className="shrink-0 flex items-center gap-1 cursor-help">
+          <span className="w-2 h-2 rounded-full bg-muted-foreground/30" />
+        </span>
+      </HelpTooltip>
     );
   }
 
   if (rateLimit.available) {
-    // Available — green dot + remaining count if known
     return (
-      <span className="shrink-0 flex items-center gap-1">
-        <span className="w-2 h-2 rounded-full bg-green-500" />
-        {rateLimit.remaining != null && (
-          <span className="text-[9px] text-muted-foreground font-mono">
-            {rateLimit.remaining}
-          </span>
-        )}
-      </span>
+      <HelpTooltip
+        content={`Модель работает и доступна для запросов.${rateLimit.remaining != null ? ` Осталось запросов: ${rateLimit.remaining}.` : ''}${rateLimit.latency != null ? ` Задержка: ${rateLimit.latency}мс.` : ''}`}
+        side="left"
+      >
+        <span className="shrink-0 flex items-center gap-1 cursor-help">
+          <span className="w-2 h-2 rounded-full bg-green-500" />
+          {rateLimit.remaining != null && (
+            <span className="text-[9px] text-muted-foreground font-mono">
+              {rateLimit.remaining}
+            </span>
+          )}
+        </span>
+      </HelpTooltip>
     );
   }
 
-  // Rate limited / error — red dot
   return (
-    <span className="shrink-0 flex items-center gap-1" title="Лимит исчерпан">
-      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-      <span className="text-[9px] text-red-500 font-medium">лимит</span>
-    </span>
+    <HelpTooltip
+      content={`Лимит запросов исчерпан.${rateLimit.reason === 'rate_limited' ? ' Суточный лимит бесплатной модели закончился — попробуйте позже или выберите другую.' : rateLimit.reason === 'not_found' ? ' Модель не найдена на OpenRouter — возможно, она была удалена.' : ' Произошла ошибка при проверке модели.'}`}
+      side="left"
+    >
+      <span className="shrink-0 flex items-center gap-1 cursor-help">
+        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+        <span className="text-[9px] text-red-500 font-medium">лимит</span>
+      </span>
+    </HelpTooltip>
   );
 }
 
@@ -185,57 +195,72 @@ export function ModelSelector() {
   return (
     <div className="flex items-center gap-1.5">
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            size="sm"
-            className={cn(
-              'gap-1.5 h-8 px-2.5 text-xs font-medium transition-all',
-              'border-primary/20 hover:border-primary/40 hover:bg-primary/5'
-            )}
-            disabled={isApplying}
-          >
-            {isApplying ? (
-              <Loader2 className="h-3 w-3 animate-spin" />
-            ) : currentRateLimit && !currentRateLimit.available && currentRateLimit.checkedAt ? (
-              <CircleAlert className="h-3 w-3 text-red-500" />
-            ) : (
-              <Cpu className="h-3 w-3 text-primary" />
-            )}
-            <span className="max-w-[100px] sm:max-w-[160px] truncate">
-              {isApplying ? 'Применение...' : currentLabel}
-            </span>
-            {!isKnownModel && (
-              <Badge variant="secondary" className="text-[9px] px-1 py-0 h-4 ml-0.5">
-                custom
-              </Badge>
-            )}
-            {limitedCount > 0 && (
-              <Badge variant="destructive" className="text-[9px] px-1 py-0 h-4 ml-0.5">
-                {limitedCount} лимит
-              </Badge>
-            )}
-            <ChevronsUpDown className="h-3 w-3 text-muted-foreground" />
-          </Button>
-        </PopoverTrigger>
+        <HelpTooltip
+          content="Выбор ИИ-модели — нажмите, чтобы открыть список бесплатных моделей. Текущая модель используется для чата с агентом и всех песочниц. Двойной клик — подсказка."
+          side="bottom"
+        >
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className={cn(
+                'gap-1.5 h-8 px-2.5 text-xs font-medium transition-all',
+                'border-primary/20 hover:border-primary/40 hover:bg-primary/5'
+              )}
+              disabled={isApplying}
+            >
+              {isApplying ? (
+                <Loader2 className="h-3 w-3 animate-spin" />
+              ) : currentRateLimit && !currentRateLimit.available && currentRateLimit.checkedAt ? (
+                <CircleAlert className="h-3 w-3 text-red-500" />
+              ) : (
+                <Cpu className="h-3 w-3 text-primary" />
+              )}
+              <span className="max-w-[100px] sm:max-w-[160px] truncate">
+                {isApplying ? 'Применение...' : currentLabel}
+              </span>
+              {!isKnownModel && (
+                <HelpTooltip content="Это пользовательская модель — она не из стандартного списка бесплатных моделей OpenRouter." side="top">
+                  <Badge variant="secondary" className="text-[9px] px-1 py-0 h-4 ml-0.5">
+                    custom
+                  </Badge>
+                </HelpTooltip>
+              )}
+              {limitedCount > 0 && (
+                <HelpTooltip content={`${limitedCount} модел${limitedCount === 1 ? 'ь' : limitedCount < 5 ? 'и' : 'ей'} исчерпали суточный лимит бесплатных запросов. Выберите другую или подождите сброса.`} side="top">
+                  <Badge variant="destructive" className="text-[9px] px-1 py-0 h-4 ml-0.5">
+                    {limitedCount} лимит
+                  </Badge>
+                </HelpTooltip>
+              )}
+              <ChevronsUpDown className="h-3 w-3 text-muted-foreground" />
+            </Button>
+          </PopoverTrigger>
+        </HelpTooltip>
+
         <PopoverContent className="w-[360px] p-0" align="end">
           <Command>
             <div className="flex items-center border-b border-border px-3">
               <CommandInput placeholder="Поиск модели..." className="flex-1" />
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-7 px-2 text-[10px] gap-1 shrink-0 ml-1"
-                onClick={handleCheckAll}
-                disabled={isCheckingAll || isLoadingModels}
+              <HelpTooltip
+                content="Проверить доступность всех моделей. Каждая модель получит тестовый запрос — это поможет узнать, у какой модели исчерпан суточный лимит, а какая готова к работе."
+                side="left"
               >
-                {isCheckingAll ? (
-                  <Loader2 className="h-3 w-3 animate-spin" />
-                ) : (
-                  <Activity className="h-3 w-3" />
-                )}
-                {isCheckingAll ? 'Проверка...' : 'Проверить все'}
-              </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 px-2 text-[10px] gap-1 shrink-0 ml-1"
+                  onClick={handleCheckAll}
+                  disabled={isCheckingAll || isLoadingModels}
+                >
+                  {isCheckingAll ? (
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                  ) : (
+                    <Activity className="h-3 w-3" />
+                  )}
+                  {isCheckingAll ? 'Проверка...' : 'Проверить все'}
+                </Button>
+              </HelpTooltip>
             </div>
             <CommandList>
               <CommandEmpty>
@@ -287,16 +312,21 @@ export function ModelSelector() {
                   <span>Своё</span>
                 </div>
               }>
-                <CommandItem
-                  onSelect={() => {
-                    setShowCustom(true);
-                    setTimeout(() => inputRef.current?.focus(), 100);
-                  }}
-                  className="flex items-center gap-2 cursor-pointer"
+                <HelpTooltip
+                  content="Введите ID модели вручную, если её нет в списке. Формат: провайдер/модель:free — например deepseek/deepseek-r1:free. Модель применится ко всем чатам и песочницам."
+                  side="bottom"
                 >
-                  <WifiOff className="h-3.5 w-3.5 text-primary" />
-                  <span className="text-sm">Вставить свою модель</span>
-                </CommandItem>
+                  <CommandItem
+                    onSelect={() => {
+                      setShowCustom(true);
+                      setTimeout(() => inputRef.current?.focus(), 100);
+                    }}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <WifiOff className="h-3.5 w-3.5 text-primary" />
+                    <span className="text-sm">Вставить свою модель</span>
+                  </CommandItem>
+                </HelpTooltip>
               </CommandGroup>
             </CommandList>
           </Command>
@@ -305,32 +335,42 @@ export function ModelSelector() {
           {showCustom && (
             <div className="p-3 border-t border-border">
               <div className="flex gap-2">
-                <Input
-                  ref={inputRef}
-                  value={customInput}
-                  onChange={(e) => setCustomInput(e.target.value)}
-                  placeholder="vendor/model-name:free"
-                  className="text-xs h-8 font-mono"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                      handleCustomSubmit();
-                    }
-                  }}
-                />
-                <Button
-                  size="sm"
-                  className="h-8 px-3 text-xs gap-1 shrink-0"
-                  onClick={handleCustomSubmit}
-                  disabled={!customInput.trim() || isApplying}
+                <HelpTooltip
+                  content="Введите ID модели в формате провайдер/модель:free. Список всех моделей: openrouter.ai/models"
+                  side="bottom"
                 >
-                  {isApplying ? (
-                    <Loader2 className="h-3 w-3 animate-spin" />
-                  ) : (
-                    <RefreshCw className="h-3 w-3" />
-                  )}
-                  Применить
-                </Button>
+                  <Input
+                    ref={inputRef}
+                    value={customInput}
+                    onChange={(e) => setCustomInput(e.target.value)}
+                    placeholder="vendor/model-name:free"
+                    className="text-xs h-8 font-mono"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleCustomSubmit();
+                      }
+                    }}
+                  />
+                </HelpTooltip>
+                <HelpTooltip
+                  content="Применить введённую модель. Она станет активной для чата с агентом и всех песочниц."
+                  side="bottom"
+                >
+                  <Button
+                    size="sm"
+                    className="h-8 px-3 text-xs gap-1 shrink-0"
+                    onClick={handleCustomSubmit}
+                    disabled={!customInput.trim() || isApplying}
+                  >
+                    {isApplying ? (
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                    ) : (
+                      <RefreshCw className="h-3 w-3" />
+                    )}
+                    Применить
+                  </Button>
+                </HelpTooltip>
               </div>
               <p className="text-[10px] text-muted-foreground mt-1.5">
                 Формат: <code className="font-mono text-primary/80">провайдер/модель:free</code> — модель применится мгновенно
@@ -341,15 +381,21 @@ export function ModelSelector() {
           {/* Rate limit legend */}
           <div className="px-3 py-2 border-t border-border">
             <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-green-500" /> Доступна
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-red-500" /> Лимит
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-muted-foreground/30" /> Не проверена
-              </span>
+              <HelpTooltip content="Зелёная точка — модель работает и принимает запросы. Число рядом — сколько запросов осталось до лимита." side="top">
+                <span className="flex items-center gap-1 cursor-help">
+                  <span className="w-2 h-2 rounded-full bg-green-500" /> Доступна
+                </span>
+              </HelpTooltip>
+              <HelpTooltip content="Красная пульсирующая точка — суточный лимит бесплатных запросов исчерпан. Попробуйте другую модель или подождите сброса." side="top">
+                <span className="flex items-center gap-1 cursor-help">
+                  <span className="w-2 h-2 rounded-full bg-red-500" /> Лимит
+                </span>
+              </HelpTooltip>
+              <HelpTooltip content="Серая точка — модель ещё не проверена. Нажмите «Проверить все», чтобы узнать её статус." side="top">
+                <span className="flex items-center gap-1 cursor-help">
+                  <span className="w-2 h-2 rounded-full bg-muted-foreground/30" /> Не проверена
+                </span>
+              </HelpTooltip>
             </div>
           </div>
         </PopoverContent>
