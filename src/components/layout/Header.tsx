@@ -7,7 +7,7 @@ import { useNavigationStore } from '@/store/navigation-store';
 
 export function Header() {
   const { theme, setTheme } = useTheme();
-  const { toggleSidebar, toggleChat, sidebarOpen, chatOpen } = useNavigationStore();
+  const { toggleSidebar, sidebarOpen } = useNavigationStore();
 
   return (
     <header className="sticky top-0 z-50 flex h-14 items-center gap-2 border-b border-border bg-background/80 backdrop-blur-md px-4">

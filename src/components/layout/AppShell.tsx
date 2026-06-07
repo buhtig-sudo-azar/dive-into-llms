@@ -8,7 +8,8 @@ import { useNavigationStore } from '@/store/navigation-store';
 import { HomeView } from '@/components/home/HomeView';
 import { CategoryView } from '@/components/content/CategoryView';
 import { TopicView } from '@/components/content/TopicView';
-import { ChatPanel } from '@/components/chat/ChatPanel';
+import { TopicAgent } from '@/components/chat/TopicAgent';
+import { AgentChatPopup } from '@/components/chat/AgentChatPopup';
 import { SearchDialog } from '@/components/search/SearchDialog';
 import { ScrollToTop } from './ScrollToTop';
 import { useEffect, useRef } from 'react';
@@ -17,7 +18,6 @@ export function AppShell() {
   const currentView = useNavigationStore(s => s.currentView);
   const currentCategory = useNavigationStore(s => s.currentCategory);
   const currentSubtopic = useNavigationStore(s => s.currentSubtopic);
-  const chatOpen = useNavigationStore(s => s.chatOpen);
   const mainRef = useRef<HTMLElement | null>(null);
 
   // Автопрокрутка наверх при любой навигации
@@ -32,32 +32,22 @@ export function AppShell() {
       <Header />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-        <div className="flex flex-1 overflow-hidden">
-          <main ref={mainRef} className="flex-1 overflow-y-auto flex flex-col">
-            <Breadcrumbs />
-            <div className="flex-1">
-              {currentView === 'home' && <HomeView />}
-              {currentView === 'category' && <CategoryView />}
-              {currentView === 'subtopic' && <TopicView />}
-            </div>
-            <Footer />
-          </main>
-
-          {/* Chat panel - desktop only */}
-          {chatOpen && (
-            <div className="hidden md:flex w-80 lg:w-96 border-l border-border flex-shrink-0 h-full overflow-hidden">
-              <ChatPanel />
-            </div>
-          )}
-        </div>
+        <main ref={mainRef} className="flex-1 overflow-y-auto flex flex-col">
+          <Breadcrumbs />
+          <div className="flex-1">
+            {currentView === 'home' && <HomeView />}
+            {currentView === 'category' && <CategoryView />}
+            {currentView === 'subtopic' && <TopicView />}
+          </div>
+          <Footer />
+        </main>
       </div>
 
-      {/* Mobile chat modal */}
-      {chatOpen && (
-        <div className="md:hidden fixed inset-0 z-50 bg-background">
-          <ChatPanel isMobile />
-        </div>
-      )}
+      {/* Плавающий AI-агент — появляется в каждой теме */}
+      <TopicAgent />
+
+      {/* Всплывающее окно чата с агентом */}
+      <AgentChatPopup />
 
       <SearchDialog />
       <ScrollToTop />
