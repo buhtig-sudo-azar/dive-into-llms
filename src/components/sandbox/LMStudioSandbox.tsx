@@ -65,6 +65,9 @@ export function LMStudioSandbox({
   const [showSettings, setShowSettings] = useState(true);
   const [showApi, setShowApi] = useState(false);
   const [logLines, setLogLines] = useState<string[]>([]);
+  const [apiRawRequest, setApiRawRequest] = useState('');
+  const [apiRawResponse, setApiRawResponse] = useState('');
+  const [apiTesting, setApiTesting] = useState(false);
 
   /* perf mock */
   const [ramUsed, setRamUsed] = useState(0);
@@ -137,12 +140,31 @@ export function LMStudioSandbox({
     setTokensPerSec(0);
     setGenTime(0);
     setTokensGenerated(0);
+    setApiRawRequest('');
+    setApiRawResponse('');
     startTimeRef.current = Date.now();
 
     abortRef.current = new AbortController();
 
     setLogLines((l) => [...l, `[GEN] Отправка запроса к модели...`]);
     setLogLines((l) => [...l, `[GEN] Параметры: max_tokens=${maxTokens}, temperature=${temperature.toFixed(1)}`]);
+
+    // Показываем сырой JSON запроса, если API Server включён
+    if (apiServerOn) {
+      const requestBody = {
+        model: selectedModel.id,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: prompt },
+        ],
+        max_tokens: maxTokens,
+        temperature,
+        stream: true,
+      };
+      setApiRawRequest(JSON.stringify(requestBody, null, 2));
+      setLogLines((l) => [...l, `[API] POST http://localhost:1234/v1/chat/completions`]);
+      setLogLines((l) => [...l, `[API] Body: ${JSON.stringify({ ...requestBody, stream: false }, null, 0).slice(0, 120)}...`]);
+    }
 
     try {
       const res = await fetch('/api/chat', {
@@ -170,6 +192,8 @@ export function LMStudioSandbox({
       const decoder = new TextDecoder();
       let fullText = '';
       let actualCompletionTokens: number | null = null;
+      let actualPromptTokens: number | null = null;
+      let modelUsed: string | null = null;
 
       // Приблизительная оценка токенов: ~1.3 токена на слово для русского текста
       const estimateTokens = (text: string) => Math.round(text.split(/\s+/).filter(Boolean).length * 1.3);
@@ -188,10 +212,22 @@ export function LMStudioSandbox({
             try {
               const parsed = JSON.parse(data);
 
+              // Информация о модели (кастомное событие от нашего API)
+              if (parsed.type === 'model_info' && parsed.model) {
+                modelUsed = parsed.model;
+                if (apiServerOn) {
+                  setLogLines((l) => [...l, `[API] Модель: ${parsed.model}`]);
+                }
+                continue;
+              }
+
               // Проверяем usage — OpenRouter может прислать реальное число токенов
               const usage = parsed.usage;
               if (usage?.completion_tokens) {
                 actualCompletionTokens = usage.completion_tokens;
+              }
+              if (usage?.prompt_tokens) {
+                actualPromptTokens = usage.prompt_tokens;
               }
 
               const delta = parsed.choices?.[0]?.delta?.content;
@@ -220,6 +256,28 @@ export function LMStudioSandbox({
         ...l,
         `[GEN] Генерация завершена: ${actualCompletionTokens ? '' : '~'}${finalTokens} токенов за ${finalElapsed.toFixed(1)}с (лимит: ${maxTokens})`,
       ]);
+
+      // Показываем сырой JSON ответа, если API Server включён
+      if (apiServerOn) {
+        const responseJson = {
+          id: 'chatcmpl-lmstudio',
+          object: 'chat.completion',
+          created: Math.floor(Date.now() / 1000),
+          model: modelUsed || selectedModel.id,
+          choices: [{
+            index: 0,
+            message: { role: 'assistant', content: fullText },
+            finish_reason: finalTokens >= maxTokens ? 'length' : 'stop',
+          }],
+          usage: {
+            prompt_tokens: actualPromptTokens || estimateTokens(systemPrompt + prompt),
+            completion_tokens: finalTokens,
+            total_tokens: (actualPromptTokens || estimateTokens(systemPrompt + prompt)) + finalTokens,
+          },
+        };
+        setApiRawResponse(JSON.stringify(responseJson, null, 2));
+        setLogLines((l) => [...l, `[API] 200 OK — ${JSON.stringify(responseJson).length} байт`]);
+      }
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
       setError(err instanceof Error ? err.message : 'Произошла ошибка');
@@ -227,7 +285,78 @@ export function LMStudioSandbox({
     } finally {
       setGenerating(false);
     }
-  }, [prompt, systemPrompt, temperature, maxTokens, generating, modelLoaded, currentModel, apiToken]);
+  }, [prompt, systemPrompt, temperature, maxTokens, generating, modelLoaded, currentModel, apiToken, apiServerOn, selectedModel]);
+
+  /* тест API Server — реальный запрос без стрима, показать полный JSON */
+  const handleTestApi = useCallback(async () => {
+    if (!modelLoaded || apiTesting) return;
+    setApiTesting(true);
+    setApiRawRequest('');
+    setApiRawResponse('');
+
+    const requestBody = {
+      model: selectedModel.id,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: prompt || 'Привет!' },
+      ],
+      max_tokens: maxTokens,
+      temperature,
+      stream: false,
+    };
+    setApiRawRequest(JSON.stringify(requestBody, null, 2));
+    setLogLines((l) => [...l, `[API] Тестовый запрос: POST /v1/chat/completions`]);
+
+    try {
+      const res = await fetch('/api/sandbox', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: prompt || 'Привет!' },
+          ],
+          systemPrompt,
+          temperature,
+          max_tokens: Math.min(maxTokens, 128),
+          model: currentModel,
+          apiToken: apiToken || undefined,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      // Формируем ответ в формате OpenAI API
+      const openAiResponse = {
+        id: 'chatcmpl-lmstudio-test',
+        object: 'chat.completion',
+        created: Math.floor(Date.now() / 1000),
+        model: currentModel || selectedModel.id,
+        choices: [{
+          index: 0,
+          message: { role: 'assistant', content: data.content },
+          finish_reason: 'stop',
+        }],
+        usage: {
+          prompt_tokens: estimateTokens(systemPrompt + (prompt || 'Привет!')),
+          completion_tokens: estimateTokens(data.content),
+          total_tokens: estimateTokens(systemPrompt + (prompt || 'Привет!') + data.content),
+        },
+      };
+      setApiRawResponse(JSON.stringify(openAiResponse, null, 2));
+      setLogLines((l) => [...l, `[API] Тест OK — ответ получен (${data.content.length} символов)`]);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Ошибка';
+      setApiRawResponse(JSON.stringify({ error: { message: msg, type: 'server_error', code: 500 } }, null, 2));
+      setLogLines((l) => [...l, `[API] Ошибка: ${msg}`]);
+    } finally {
+      setApiTesting(false);
+    }
+  }, [modelLoaded, apiTesting, selectedModel, systemPrompt, prompt, maxTokens, temperature, currentModel, apiToken]);
+
+  // Вспомогательная функция для estimateTokens (для handleTestApi)
+  const estimateTokens = (text: string) => Math.round(text.split(/\s+/).filter(Boolean).length * 1.3);
 
   /* сброс */
   const handleReset = () => {
@@ -240,6 +369,8 @@ export function LMStudioSandbox({
     setGpuLayers(33);
     setApiServerOn(false);
     setShowApi(false);
+    setApiRawRequest('');
+    setApiRawResponse('');
     setLogLines([]);
     setError('');
   };
@@ -250,10 +381,13 @@ export function LMStudioSandbox({
       setLogLines((l) => [
         ...l,
         `[API] Сервер запущен: http://localhost:1234/v1`,
-        `[API] OpenAI-совместимый endpoint активен`,
+        `[API] Endpoints: /v1/chat/completions, /v1/models`,
+        `[API] Нажмите "Test API" чтобы отправить тестовый запрос`,
       ]);
     } else if (!apiServerOn) {
       setLogLines((l) => [...l, `[API] Сервер остановлен.`]);
+      setApiRawRequest('');
+      setApiRawResponse('');
     }
   }, [apiServerOn, modelLoaded]);
 
@@ -427,7 +561,7 @@ export function LMStudioSandbox({
           )}
         </div>
 
-        {/* ═══════ 3. API Server Toggle ═══════ */}
+        {/* ═══════ 3. API Server ═══════ */}
         <div className="rounded-lg border border-border bg-muted/20 p-3">
           <button
             onClick={() => setShowApi(!showApi)}
@@ -444,7 +578,7 @@ export function LMStudioSandbox({
           </button>
 
           {showApi && (
-            <div className="mt-3 space-y-2">
+            <div className="mt-3 space-y-3">
               <div className="flex items-center gap-2">
                 <Button
                   size="sm"
@@ -456,14 +590,40 @@ export function LMStudioSandbox({
                   <Wifi className="h-3 w-3" />
                   {apiServerOn ? 'Остановить' : 'Запустить'}
                 </Button>
+                {apiServerOn && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleTestApi}
+                    disabled={apiTesting || generating}
+                    className="gap-1.5 text-xs"
+                  >
+                    {apiTesting ? <Loader2 className="h-3 w-3 animate-spin" /> : <Play className="h-3 w-3" />}
+                    {apiTesting ? 'Запрос...' : 'Test API'}
+                  </Button>
+                )}
                 {!modelLoaded && (
                   <span className="text-xs text-muted-foreground">Сначала загрузите модель</span>
                 )}
               </div>
 
+              {/* Curl-команда */}
               {apiServerOn && (
-                <div className="rounded-md bg-card border border-border p-2 font-mono text-xs space-y-1">
-                  <div className="text-muted-foreground"># Подключение к LM Studio API</div>
+                <div className="rounded-md bg-card border border-border p-2 font-mono text-[11px] space-y-1">
+                  <div className="text-muted-foreground"># Пример curl-запроса к LM Studio</div>
+                  <div className="text-amber-500">curl http://localhost:1234/v1/chat/completions \</div>
+                  <div className="pl-4 text-amber-500">-H &quot;Content-Type: application/json&quot; \</div>
+                  <div className="pl-4 text-amber-500">-d &apos;&#123; &quot;model&quot;: &quot;{selectedModel.id}&quot;, &quot;messages&quot;: &#91;&#123; &quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Привет&quot; &#125;&#93;, &quot;max_tokens&quot;: {maxTokens} &#125;&apos;</div>
+                </div>
+              )}
+
+              {/* Код подключения */}
+              {apiServerOn && (
+                <div className="rounded-md bg-card border border-border p-2 font-mono text-[11px] space-y-1">
+                  <div className="text-muted-foreground"># JavaScript — подключение через OpenAI SDK</div>
+                  <div>
+                    <span className="text-purple-500">import</span> OpenAI <span className="text-purple-500">from</span> <span className="text-amber-500">&apos;openai&apos;</span>;
+                  </div>
                   <div>
                     <span className="text-purple-500">const</span> client = <span className="text-green-500">new</span> OpenAI(&#123;
                   </div>
@@ -471,9 +631,37 @@ export function LMStudioSandbox({
                     baseURL: <span className="text-amber-500">&apos;http://localhost:1234/v1&apos;</span>,
                   </div>
                   <div className="pl-4">
-                    apiKey: <span className="text-amber-500">&apos;lm-studio&apos;</span> <span className="text-muted-foreground">// не проверяется</span>
+                    apiKey: <span className="text-amber-500">&apos;lm-studio&apos;</span> <span className="text-muted-foreground">// любой ключ подходит</span>
                   </div>
                   <div>&#125;);</div>
+                  <div className="mt-1">
+                    <span className="text-purple-500">const</span> res = <span className="text-purple-500">await</span> client.chat.completions.create(&#123;
+                  </div>
+                  <div className="pl-4">model: <span className="text-amber-500">&apos;{selectedModel.id}&apos;</span>,</div>
+                  <div className="pl-4">messages: &#91;&#123; role: <span className="text-amber-500">&apos;user&apos;</span>, content: <span className="text-amber-500">&apos;Привет&apos;</span> &#125;&#93;,</div>
+                  <div className="pl-4">max_tokens: <span className="text-blue-500">{maxTokens}</span>,</div>
+                  <div className="pl-4">temperature: <span className="text-blue-500">{temperature.toFixed(1)}</span>,</div>
+                  <div>&#125;);</div>
+                </div>
+              )}
+
+              {/* Сырой JSON запрос */}
+              {apiRawRequest && (
+                <div>
+                  <div className="text-xs font-medium text-muted-foreground mb-1">REQUEST — POST /v1/chat/completions</div>
+                  <div className="rounded-md bg-card border border-amber-500/30 p-2 font-mono text-[10px] overflow-x-auto max-h-[160px] overflow-y-auto whitespace-pre">
+                    {apiRawRequest}
+                  </div>
+                </div>
+              )}
+
+              {/* Сырой JSON ответ */}
+              {apiRawResponse && (
+                <div>
+                  <div className="text-xs font-medium text-muted-foreground mb-1">RESPONSE — 200 OK</div>
+                  <div className="rounded-md bg-card border border-green-500/30 p-2 font-mono text-[10px] overflow-x-auto max-h-[200px] overflow-y-auto whitespace-pre">
+                    {apiRawResponse}
+                  </div>
                 </div>
               )}
             </div>
@@ -596,6 +784,8 @@ export function LMStudioSandbox({
                   ? 'text-green-600'
                   : line.startsWith('[GEN]')
                   ? 'text-primary'
+                  : line.startsWith('[API]')
+                  ? 'text-amber-500'
                   : 'text-muted-foreground'
               }>
                 {line}
