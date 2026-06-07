@@ -4,7 +4,7 @@ import { Subtopic } from '@/types';
 import { useNavigationStore } from '@/store/navigation-store';
 import {
   Lightbulb, BookOpen, GitBranch, Code2, AlertTriangle,
-  ArrowRight, ChevronRight,
+  ArrowRight, ChevronRight, FlaskConical,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +14,7 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useTheme } from 'next-themes';
+import { PromptPlayground, TokenizerSandbox, TemperatureSandbox, SystemPromptSandbox } from '@/components/sandbox';
 
 function SectionTitle({ icon: Icon, title }: { icon: React.ElementType; title: string }) {
   return (

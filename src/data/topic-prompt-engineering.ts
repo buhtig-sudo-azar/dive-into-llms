@@ -84,6 +84,15 @@ export const promptEngineering: TopicCategory = {
           language: 'typescript',
         },
       ],
+      sandboxes: [
+        {
+          type: 'prompt-playground',
+          title: 'Попробуйте Zero-shot',
+          description: 'Напишите промпт без примеров и посмотрите, как модель справится. Попробуйте сделать инструкцию максимально точной.',
+          defaultPrompt: 'Переведи следующий текст на формальный японский язык: "Привет, как дела?"',
+          defaultSystem: 'Ты профессиональный переводчик. Переводи точно, сохраняя смысл и тон оригинала.',
+        },
+      ],
       commonMistakes: [
         {
           mistake: 'Неопределённые инструкции',
@@ -167,6 +176,15 @@ export const promptEngineering: TopicCategory = {
           language: 'typescript',
         },
       ],
+      sandboxes: [
+        {
+          type: 'prompt-playground',
+          title: 'Попробуйте Few-shot',
+          description: 'Добавьте 2-3 примера в промпт и посмотрите, как модель подстроится под паттерн. Сравните с zero-shot.',
+          defaultPrompt: 'Классифицируй отзыв: "Ужасное качество, курьер опоздал на 2 часа"',
+          defaultSystem: 'Классифицируй отзыв в одну из категорий: качество, логистика, сервис, цена.\n\nПримеры:\nОтзыв: "Телефон сломался через неделю" → качество\nОтзыв: "Доставка за 2 часа, отлично!" → логистика\nОтзыв: "Цена завышена, но товар хороший" → цена',
+        },
+      ],
       commonMistakes: [
         {
           mistake: 'Слишком много примеров',
@@ -243,6 +261,15 @@ export const promptEngineering: TopicCategory = {
 // 4. Вечером купили 12: 19 - 12 = 7
 // Ответ: 7 яблок`,
           language: 'typescript',
+        },
+      ],
+      sandboxes: [
+        {
+          type: 'prompt-playground',
+          title: 'Попробуйте Chain of Thought',
+          description: 'Добавьте фразу "Давай рассуждать пошагово" в конец промпта и сравните качество ответа с прямым вопросом.',
+          defaultPrompt: 'В магазине было 23 яблока. Утром купили 7, днём вернули 3, а вечером купили ещё 12. Сколько яблок осталось? Давай рассуждать пошагово.',
+          defaultSystem: 'Ты математик. Рассуждай пошагово, показывая каждый этап вычислений.',
         },
       ],
       commonMistakes: [
@@ -336,6 +363,15 @@ async function reactAgent(question: string) {
   }
 }`,
           language: 'typescript',
+        },
+      ],
+      sandboxes: [
+        {
+          type: 'system-prompt',
+          title: 'Как системный промпт меняет поведение',
+          description: 'Попробуйте разные роли для модели и увидите, как радикально меняется стиль и содержание ответа при одном и том же вопросе.',
+          defaultPrompt: 'Расскажи о себе.',
+          defaultSystem: 'Ты полезный ассистент.',
         },
       ],
       commonMistakes: [
@@ -433,6 +469,15 @@ async function reactAgent(question: string) {
 const person = JSON.parse(response.choices[0].message.function_call.arguments);
 // { name: "Иван", age: 30, company: "Яндекс", role: "программист" }`,
           language: 'typescript',
+        },
+      ],
+      sandboxes: [
+        {
+          type: 'temperature',
+          title: 'Температура и структурированный вывод',
+          description: 'Попробуйте генерацию при разной температуре. Для структурированных данных нужна низкая температура (0.0-0.2), для творческих задач — высокая.',
+          defaultPrompt: 'Напиши краткое описание продукта: беспроводные наушники с шумоподавлением',
+          defaultTemperature: 0.3,
         },
       ],
       commonMistakes: [
