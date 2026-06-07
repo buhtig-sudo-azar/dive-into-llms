@@ -6,7 +6,7 @@ import { topics } from '@/data/topics';
 import {
   Brain, MessageSquare, Layers, Plug, Database,
   Bot, Laptop, Rocket, CheckCircle2,
-  Circle, ChevronDown, RotateCcw, PanelLeftClose, PanelLeft,
+  Circle, ChevronDown, RotateCcw,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
@@ -29,7 +29,7 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 export function Sidebar() {
-  const { currentView, currentCategory, currentSubtopic, navigateToHome, navigateToCategory, navigateToSubtopic, sidebarOpen, setSidebarOpen, sidebarCollapsed, toggleSidebarCollapse } = useNavigationStore();
+  const { currentView, currentCategory, currentSubtopic, navigateToHome, navigateToCategory, navigateToSubtopic, sidebarOpen, setSidebarOpen, sidebarCollapsed } = useNavigationStore();
   const { getCategoryProgress, isCompleted, isViewed } = useProgressStore();
 
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
@@ -198,17 +198,6 @@ export function Sidebar() {
           isCollapsed ? 'w-72 md:w-14' : 'w-72'
         )}
       >
-        {/* Collapse toggle — desktop only, at the top */}
-        <div className="hidden md:flex items-center justify-end px-2 pt-2 pb-1 shrink-0">
-          <button
-            onClick={toggleSidebarCollapse}
-            className="p-1.5 rounded-md hover:bg-sidebar-accent/50 text-muted-foreground hover:text-sidebar-foreground transition-colors"
-            title={isCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
-          >
-            {isCollapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
-          </button>
-        </div>
-
         {/* Full sidebar content — shown on mobile always, on desktop when expanded */}
         <ScrollArea className={cn('flex-1', isCollapsed && 'hidden md:hidden')}>
           <div className="p-4 space-y-2 pb-8">

@@ -146,17 +146,7 @@ export function HomeView() {
         })}
       </div>
 
-      {/* Quick start hint */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
-        className="mt-12 text-center"
-      >
-        <p className="text-base text-muted-foreground">
-          Нажмите <kbd className="px-1.5 py-0.5 rounded border border-border text-xs bg-muted">⌘K</kbd> для быстрого поиска по платформе
-        </p>
-      </motion.div>
+
     </div>
   );
 }
