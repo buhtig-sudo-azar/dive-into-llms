@@ -27,7 +27,7 @@ function SectionTitle({ icon: Icon, title }: { icon: React.ElementType; title: s
 
 function MarkdownContent({ content }: { content: string }) {
   return (
-    <div className="prose dark:prose-invert max-w-none prose-lg">
+    <div className="prose dark:prose-invert max-w-none prose-xl">
       <ReactMarkdown>{content}</ReactMarkdown>
     </div>
   );
@@ -46,20 +46,20 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <h4 className="font-semibold text-base text-primary mb-1.5">Что это такое?</h4>
-            <p className="text-base text-muted-foreground leading-relaxed">{subtopic.introduction.what}</p>
+            <h4 className="font-semibold text-lg text-primary mb-1.5">Что это такое?</h4>
+            <p className="text-lg text-muted-foreground leading-relaxed">{subtopic.introduction.what}</p>
           </div>
           <div>
-            <h4 className="font-semibold text-base text-primary mb-1.5">Зачем это нужно?</h4>
-            <p className="text-base text-muted-foreground leading-relaxed">{subtopic.introduction.why}</p>
+            <h4 className="font-semibold text-lg text-primary mb-1.5">Зачем это нужно?</h4>
+            <p className="text-lg text-muted-foreground leading-relaxed">{subtopic.introduction.why}</p>
           </div>
           <div>
-            <h4 className="font-semibold text-base text-primary mb-1.5">Где используется?</h4>
-            <p className="text-base text-muted-foreground leading-relaxed">{subtopic.introduction.where}</p>
+            <h4 className="font-semibold text-lg text-primary mb-1.5">Где используется?</h4>
+            <p className="text-lg text-muted-foreground leading-relaxed">{subtopic.introduction.where}</p>
           </div>
           <div>
-            <h4 className="font-semibold text-base text-primary mb-1.5">Какую проблему решает?</h4>
-            <p className="text-base text-muted-foreground leading-relaxed">{subtopic.introduction.problem}</p>
+            <h4 className="font-semibold text-lg text-primary mb-1.5">Какую проблему решает?</h4>
+            <p className="text-lg text-muted-foreground leading-relaxed">{subtopic.introduction.problem}</p>
           </div>
         </CardContent>
       </Card>
@@ -72,12 +72,12 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
         <CardContent className="space-y-6">
           {/* Terms */}
           <div>
-            <h4 className="font-semibold text-lg mb-3">Основные термины</h4>
+            <h4 className="font-semibold text-xl mb-3">Основные термины</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {subtopic.theory.terms.map((term) => (
                 <div key={term.term} className="p-4 rounded-lg border border-border bg-muted/30">
-                  <dt className="font-semibold text-sm text-primary">{term.term}</dt>
-                  <dd className="text-sm text-muted-foreground mt-1 leading-relaxed">{term.definition}</dd>
+                  <dt className="font-semibold text-base text-primary">{term.term}</dt>
+                  <dd className="text-base text-muted-foreground mt-1 leading-relaxed">{term.definition}</dd>
                 </div>
               ))}
             </div>
@@ -87,7 +87,7 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
 
           {/* Principles */}
           <div>
-            <h4 className="font-semibold text-lg mb-3">Принципы работы</h4>
+            <h4 className="font-semibold text-xl mb-3">Принципы работы</h4>
             <MarkdownContent content={subtopic.theory.principles} />
           </div>
 
@@ -95,7 +95,7 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
 
           {/* Architecture */}
           <div>
-            <h4 className="font-semibold text-lg mb-3">Архитектура</h4>
+            <h4 className="font-semibold text-xl mb-3">Архитектура</h4>
             <MarkdownContent content={subtopic.theory.architecture} />
           </div>
 
@@ -103,7 +103,7 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
 
           {/* Connections */}
           <div>
-            <h4 className="font-semibold text-lg mb-3">Связи с другими технологиями</h4>
+            <h4 className="font-semibold text-xl mb-3">Связи с другими технологиями</h4>
             <MarkdownContent content={subtopic.theory.connections} />
           </div>
         </CardContent>
@@ -115,7 +115,7 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
           <SectionTitle icon={GitBranch} title="Визуальная схема" />
         </CardHeader>
         <CardContent>
-          <h4 className="font-semibold text-lg mb-3">{subtopic.diagram.title}</h4>
+          <h4 className="font-semibold text-xl mb-3">{subtopic.diagram.title}</h4>
           <div
             className="w-full overflow-x-auto"
             dangerouslySetInnerHTML={{ __html: subtopic.diagram.svgContent }}
@@ -132,8 +132,8 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
           {subtopic.practicalExamples.map((example, i) => (
             <div key={i} className="border border-border rounded-lg overflow-hidden">
               <div className="p-4 bg-muted/30">
-                <h4 className="font-semibold text-base">{example.title}</h4>
-                <p className="text-sm text-muted-foreground mt-1">{example.description}</p>
+                <h4 className="font-semibold text-lg">{example.title}</h4>
+                <p className="text-base text-muted-foreground mt-1">{example.description}</p>
               </div>
               {example.code && (
                 <div className="relative">
@@ -142,7 +142,7 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
                     style={oneDark}
                     customStyle={{
                       margin: 0,
-                      fontSize: '14px',
+                      fontSize: '15px',
                       borderRadius: 0,
                     }}
                   >
@@ -168,7 +168,7 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
         <div className="space-y-4">
           <div className="flex items-center gap-2 mb-2">
             <FlaskConical className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-semibold">Интерактивные песочницы</h2>
+            <h2 className="text-2xl font-semibold">Интерактивные песочницы</h2>
           </div>
           {subtopic.sandboxes.map((sandbox, i) => {
             switch (sandbox.type) {
@@ -229,10 +229,10 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
         <CardContent className="space-y-4">
           {subtopic.commonMistakes.map((mistake, i) => (
             <div key={i} className="p-4 rounded-lg border border-destructive/20 bg-destructive/5">
-              <h4 className="font-semibold text-base text-destructive mb-2">❌ {mistake.mistake}</h4>
-              <p className="text-base text-muted-foreground mb-2">{mistake.explanation}</p>
+              <h4 className="font-semibold text-lg text-destructive mb-2">❌ {mistake.mistake}</h4>
+              <p className="text-lg text-muted-foreground mb-2">{mistake.explanation}</p>
               <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
-                <p className="text-base"><span className="font-semibold text-primary">✅ Правильный подход:</span> {mistake.correctApproach}</p>
+                <p className="text-lg"><span className="font-semibold text-primary">✅ Правильный подход:</span> {mistake.correctApproach}</p>
               </div>
             </div>
           ))}
@@ -252,10 +252,10 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
                 variant="outline"
                 size="sm"
                 onClick={() => navigateToSubtopic(item.categorySlug, item.slug)}
-                className="gap-1.5 text-sm"
+                className="gap-1.5 text-base"
               >
                 {item.topic}
-                <ChevronRight className="h-3 w-3" />
+                <ChevronRight className="h-4 w-4" />
               </Button>
             ))}
           </div>

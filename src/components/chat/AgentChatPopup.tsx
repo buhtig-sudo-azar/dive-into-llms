@@ -116,8 +116,8 @@ export function AgentChatPopup() {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-bold text-foreground truncate">{agent.name}</h3>
-                <p className="text-xs text-muted-foreground truncate">{agent.role}</p>
+                <h3 className="text-base font-bold text-foreground truncate">{agent.name}</h3>
+                <p className="text-sm text-muted-foreground truncate">{agent.role}</p>
               </div>
               <div className="flex items-center gap-1 flex-shrink-0">
                 <Button
@@ -160,9 +160,9 @@ export function AgentChatPopup() {
                 </div>
                 <div className="flex items-center gap-1.5 mb-2">
                   <Sparkles className="h-3.5 w-3.5 text-primary" />
-                  <p className="text-sm font-semibold">{agent.name}</p>
+                  <p className="text-base font-semibold">{agent.name}</p>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed max-w-[260px]">
+                <p className="text-base text-muted-foreground leading-relaxed max-w-[260px]">
                   {agent.greeting}
                 </p>
               </div>
@@ -182,7 +182,7 @@ export function AgentChatPopup() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <span>Думаю...</span>
+                    <span className="text-base">Думаю...</span>
                   </div>
                 )}
               </div>

@@ -105,34 +105,34 @@ export function PromptPlayground({
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
           <Sparkles className="h-4 w-4 text-primary" />
-          <CardTitle className="text-base font-semibold">{title}</CardTitle>
+          <CardTitle className="text-lg font-semibold">{title}</CardTitle>
           <Badge variant="secondary" className="text-xs">Песочница</Badge>
         </div>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-base text-muted-foreground">{description}</p>
       </CardHeader>
       <CardContent className="space-y-3">
         {/* System prompt */}
         <div>
-          <label className="text-sm font-medium text-muted-foreground mb-1.5 block">
+          <label className="text-base font-medium text-muted-foreground mb-1.5 block">
             Системный промпт
           </label>
           <Textarea
             value={systemPrompt}
             onChange={(e) => setSystemPrompt(e.target.value)}
-            className="text-sm min-h-[60px] resize-y font-mono"
+            className="text-base min-h-[60px] resize-y font-mono"
             placeholder="Системный промпт..."
           />
         </div>
 
         {/* User prompt */}
         <div>
-          <label className="text-sm font-medium text-muted-foreground mb-1.5 block">
+          <label className="text-base font-medium text-muted-foreground mb-1.5 block">
             Ваш запрос
           </label>
           <Textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            className="text-sm min-h-[80px] resize-y"
+            className="text-base min-h-[80px] resize-y"
             placeholder={placeholder}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
@@ -149,7 +149,7 @@ export function PromptPlayground({
             size="sm"
             onClick={handleSubmit}
             disabled={loading || !prompt.trim()}
-            className="gap-1.5 text-sm"
+            className="gap-1.5 text-base"
           >
             {loading ? (
               <Loader2 className="h-3 w-3 animate-spin" />
@@ -162,7 +162,7 @@ export function PromptPlayground({
             size="sm"
             variant="outline"
             onClick={handleReset}
-            className="gap-1.5 text-sm"
+            className="gap-1.5 text-base"
           >
             <RotateCcw className="h-3 w-3" />
             Сбросить
@@ -172,7 +172,7 @@ export function PromptPlayground({
         {/* Response */}
         {response && (
           <div className="rounded-lg border border-border bg-muted/30 p-3">
-            <label className="text-sm font-medium text-muted-foreground mb-1.5 block">
+            <label className="text-base font-medium text-muted-foreground mb-1.5 block">
               Ответ модели
             </label>
             <div className="text-base whitespace-pre-wrap leading-relaxed">
@@ -184,7 +184,7 @@ export function PromptPlayground({
 
         {error && (
           <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-3">
-            <p className="text-sm text-destructive">{error}</p>
+            <p className="text-base text-destructive">{error}</p>
           </div>
         )}
       </CardContent>

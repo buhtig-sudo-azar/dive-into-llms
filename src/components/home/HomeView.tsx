@@ -43,15 +43,15 @@ export function HomeView() {
         transition={{ duration: 0.5 }}
         className="text-center mb-12"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-base font-semibold mb-6">
           <Sparkles className="h-4 w-4" />
           Интерактивная обучающая платформа
         </div>
-        <h1 className="text-5xl sm:text-6xl font-bold tracking-tight mb-5">
+        <h1 className="text-5xl sm:text-7xl font-bold tracking-tight mb-5">
           Dive Into{' '}
           <span className="text-primary">LLMs</span>
         </h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+        <p className="text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
           Структурированное обучение по Large Language Models, Prompt Engineering, RAG, MCP, AI Agents и смежным направлениям
         </p>
       </motion.div>
@@ -65,9 +65,9 @@ export function HomeView() {
           className="mb-10 p-4 rounded-lg border border-border bg-card"
         >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium">Ваш прогресс</span>
+            <span className="text-base font-medium">Ваш прогресс</span>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">
+              <span className="text-base text-muted-foreground">
                 {completedCount} из {totalSubtopics} {pluralize(totalSubtopics, 'тема', 'темы', 'тем')} ({overallProgress}%)
               </span>
               <AlertDialog>
@@ -125,18 +125,18 @@ export function HomeView() {
                       <Icon className="h-6 w-6 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-base truncate">{category.title}</h3>
+                      <h3 className="font-semibold text-lg truncate">{category.title}</h3>
                     </div>
                     <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                  <p className="text-base text-muted-foreground mb-4 line-clamp-2">
                     {category.description}
                   </p>
                   <div className="flex items-center gap-2">
                     <Progress value={progress} className="h-1 flex-1" />
-                    <span className="text-xs text-muted-foreground">{progress}%</span>
+                    <span className="text-sm text-muted-foreground">{progress}%</span>
                   </div>
-                  <div className="text-xs text-muted-foreground mt-2">
+                  <div className="text-sm text-muted-foreground mt-2">
                     {category.subtopics.length} {pluralize(category.subtopics.length, 'тема', 'темы', 'тем')}
                   </div>
                 </CardContent>
@@ -153,7 +153,7 @@ export function HomeView() {
         transition={{ delay: 0.6 }}
         className="mt-12 text-center"
       >
-        <p className="text-sm text-muted-foreground">
+        <p className="text-base text-muted-foreground">
           Нажмите <kbd className="px-1.5 py-0.5 rounded border border-border text-xs bg-muted">⌘K</kbd> для быстрого поиска по платформе
         </p>
       </motion.div>

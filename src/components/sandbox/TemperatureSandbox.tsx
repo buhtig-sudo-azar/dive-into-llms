@@ -94,21 +94,21 @@ export function TemperatureSandbox({
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
           <Thermometer className="h-4 w-4 text-primary" />
-          <CardTitle className="text-base font-semibold">{title}</CardTitle>
+          <CardTitle className="text-lg font-semibold">{title}</CardTitle>
           <Badge variant="secondary" className="text-xs">Песочница</Badge>
         </div>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-base text-muted-foreground">{description}</p>
       </CardHeader>
       <CardContent className="space-y-3">
         {/* Prompt */}
         <div>
-          <label className="text-sm font-medium text-muted-foreground mb-1.5 block">
+          <label className="text-base font-medium text-muted-foreground mb-1.5 block">
             Промпт
           </label>
           <Textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            className="text-sm min-h-[60px] resize-y"
+            className="text-base min-h-[60px] resize-y"
             placeholder={placeholder}
           />
         </div>
@@ -116,11 +116,11 @@ export function TemperatureSandbox({
         {/* Temperature slider */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <label className="text-sm font-medium text-muted-foreground">
+            <label className="text-base font-medium text-muted-foreground">
               Температура
             </label>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-mono font-bold text-primary">
+              <span className="text-base font-mono font-bold text-primary">
                 {temperature.toFixed(1)}
               </span>
               <Badge variant="outline" className="text-xs">{tempLabel}</Badge>
@@ -134,7 +134,7 @@ export function TemperatureSandbox({
             step={0.1}
             className="w-full"
           />
-          <div className="flex justify-between text-xs text-muted-foreground mt-1">
+          <div className="flex justify-between text-sm text-muted-foreground mt-1">
             <span>0 (точный)</span>
             <span>1 (сбалансированный)</span>
             <span>2 (креативный)</span>
@@ -147,7 +147,7 @@ export function TemperatureSandbox({
             size="sm"
             onClick={handleSubmit}
             disabled={loading || !prompt.trim()}
-            className="gap-1.5 text-sm"
+            className="gap-1.5 text-base"
           >
             {loading ? (
               <Loader2 className="h-3 w-3 animate-spin" />
@@ -160,7 +160,7 @@ export function TemperatureSandbox({
             size="sm"
             variant="outline"
             onClick={handleReset}
-            className="gap-1.5 text-sm"
+            className="gap-1.5 text-base"
           >
             <RotateCcw className="h-3 w-3" />
             Сбросить
@@ -170,7 +170,7 @@ export function TemperatureSandbox({
         {/* Responses */}
         {responses.length > 0 && (
           <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">
+            <label className="text-base font-medium text-muted-foreground">
               Результаты при температуре {temperature.toFixed(1)}:
             </label>
             {responses.map((resp, i) => (
@@ -179,16 +179,16 @@ export function TemperatureSandbox({
                 className="rounded-lg border border-border bg-muted/30 p-3"
               >
                 <div className="flex items-center gap-1.5 mb-1">
-                  <span className="text-xs font-bold text-primary">
+                  <span className="text-sm font-bold text-primary">
                     Запрос #{i + 1}
                   </span>
                 </div>
-                <p className="text-sm whitespace-pre-wrap leading-relaxed">{resp}</p>
+                <p className="text-base whitespace-pre-wrap leading-relaxed">{resp}</p>
               </div>
             ))}
             {responses.length > 1 && (
               <div className="p-2 rounded-lg bg-primary/5 border border-primary/10">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-base text-muted-foreground">
                   {responses[0] === responses[1] && responses[1] === responses[2]
                     ? 'Все три ответа идентичны — низкая температура даёт стабильные результаты.'
                     : 'Ответы различаются — высокая температура увеличивает вариативность.'}
@@ -200,7 +200,7 @@ export function TemperatureSandbox({
 
         {error && (
           <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-3">
-            <p className="text-sm text-destructive">{error}</p>
+            <p className="text-base text-destructive">{error}</p>
           </div>
         )}
       </CardContent>

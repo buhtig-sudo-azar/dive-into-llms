@@ -25,7 +25,7 @@ export function Header() {
           <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
             <span className="text-primary-foreground font-bold text-sm">DL</span>
           </div>
-          <span className="font-bold text-base hidden sm:block">Dive Into LLMs</span>
+          <span className="font-bold text-lg hidden sm:block">Dive Into LLMs</span>
         </div>
       </div>
 

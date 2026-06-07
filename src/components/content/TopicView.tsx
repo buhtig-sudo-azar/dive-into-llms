@@ -41,19 +41,19 @@ export function TopicView() {
       <div className="flex items-start gap-4 mb-6">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{subtopic.title}</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">{subtopic.title}</h1>
             <Button
               variant="outline"
               size="sm"
               onClick={openChat}
-              className="gap-1.5 text-sm"
+              className="gap-1.5 text-base"
             >
               <BotIcon className="h-3.5 w-3.5" />
               Спросить AI
             </Button>
           </div>
           {completed && (
-            <div className="flex items-center gap-1.5 text-sm text-primary">
+            <div className="flex items-center gap-1.5 text-base text-primary">
               <CheckCircle2 className="h-4 w-4" />
               <span>Тема изучена</span>
             </div>
@@ -75,7 +75,7 @@ export function TopicView() {
             <CheckCircle2 className="h-4 w-4" />
             {completed ? 'Изучено ✓' : 'Отметить как изученное'}
           </Button>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-base text-muted-foreground">
             {completed ? 'Вы уже изучили эту тему' : 'Нажмите, когда завершите изучение темы'}
           </span>
         </div>
