@@ -2,18 +2,19 @@ import { create } from 'zustand';
 
 const STORAGE_KEY = 'dive-into-llms-model';
 const RATE_LIMIT_KEY = 'dive-into-llms-rate-limits';
+const TOKEN_KEY = 'dive-into-llms-api-token';
 
 const DEFAULT_MODEL = 'moonshotai/kimi-k2.6:free';
 
 // Rate limit info for a single model
 export interface ModelRateLimit {
-  available: boolean;         // true = works, false = rate limited / error
+  available: boolean;
   reason?: 'rate_limited' | 'not_found' | 'error' | null;
-  remaining?: number | null;  // requests remaining (from headers)
-  limit?: number | null;      // total limit (from headers)
-  reset?: string | null;      // when limit resets
-  latency?: number | null;    // response time in ms
-  checkedAt?: number;         // timestamp of last check
+  remaining?: number | null;
+  limit?: number | null;
+  reset?: string | null;
+  latency?: number | null;
+  checkedAt?: number;
 }
 
 export interface FreeModel {
@@ -24,6 +25,7 @@ export interface FreeModel {
 
 interface ModelState {
   currentModel: string;
+  apiToken: string;
   availableModels: FreeModel[];
   isLoadingModels: boolean;
   modelsError: string | null;
@@ -31,12 +33,15 @@ interface ModelState {
   isCheckingAll: boolean;
   rateLimits: Record<string, ModelRateLimit>;
   setCurrentModel: (model: string) => void;
+  setApiToken: (token: string) => void;
+  clearApiToken: () => void;
   fetchAvailableModels: () => Promise<void>;
   checkModel: (modelId: string) => Promise<ModelRateLimit>;
   checkAllModels: () => Promise<void>;
   markModelRateLimited: (modelId: string) => void;
   setIsApplying: (applying: boolean) => void;
   getModelForRequest: () => string;
+  getTokenForRequest: () => string;
   getRateLimit: (modelId: string) => ModelRateLimit | undefined;
   _hydrate: () => void;
 }
@@ -60,13 +65,31 @@ function saveModelToStorage(model: string) {
   } catch {}
 }
 
+function loadTokenFromStorage(): string {
+  if (typeof window === 'undefined') return '';
+  try {
+    return localStorage.getItem(TOKEN_KEY) || '';
+  } catch {}
+  return '';
+}
+
+function saveTokenToStorage(token: string) {
+  if (typeof window === 'undefined') return;
+  try {
+    if (token) {
+      localStorage.setItem(TOKEN_KEY, token);
+    } else {
+      localStorage.removeItem(TOKEN_KEY);
+    }
+  } catch {}
+}
+
 function loadRateLimitsFromStorage(): Record<string, ModelRateLimit> {
   if (typeof window === 'undefined') return {};
   try {
     const data = localStorage.getItem(RATE_LIMIT_KEY);
     if (data) {
       const parsed = JSON.parse(data);
-      // Clean up entries older than 10 minutes
       const now = Date.now();
       const cleaned: Record<string, ModelRateLimit> = {};
       for (const [key, val] of Object.entries(parsed)) {
@@ -90,6 +113,7 @@ function saveRateLimitsToStorage(limits: Record<string, ModelRateLimit>) {
 
 export const useModelStore = create<ModelState>((set, get) => ({
   currentModel: DEFAULT_MODEL,
+  apiToken: '',
   availableModels: [],
   isLoadingModels: false,
   modelsError: null,
@@ -100,6 +124,16 @@ export const useModelStore = create<ModelState>((set, get) => ({
   setCurrentModel: (model) => {
     saveModelToStorage(model);
     set({ currentModel: model });
+  },
+
+  setApiToken: (token) => {
+    saveTokenToStorage(token);
+    set({ apiToken: token });
+  },
+
+  clearApiToken: () => {
+    saveTokenToStorage('');
+    set({ apiToken: '' });
   },
 
   fetchAvailableModels: async () => {
@@ -127,10 +161,15 @@ export const useModelStore = create<ModelState>((set, get) => ({
 
   checkModel: async (modelId: string): Promise<ModelRateLimit> => {
     try {
+      // Pass user's token if available for checking
+      const body: Record<string, string> = { model: modelId };
+      const token = get().apiToken;
+      if (token) body.apiToken = token;
+
       const res = await fetch('/api/models/check', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: modelId }),
+        body: JSON.stringify(body),
       });
 
       if (!res.ok) {
@@ -178,10 +217,8 @@ export const useModelStore = create<ModelState>((set, get) => ({
     set({ isCheckingAll: true });
 
     const models = get().availableModels;
-    // Check models sequentially with a small delay to avoid hammering API
     for (const model of models) {
       await get().checkModel(model.id);
-      // Small delay between checks
       await new Promise((r) => setTimeout(r, 200));
     }
 
@@ -203,11 +240,14 @@ export const useModelStore = create<ModelState>((set, get) => ({
 
   getModelForRequest: () => get().currentModel,
 
+  getTokenForRequest: () => get().apiToken,
+
   getRateLimit: (modelId: string) => get().rateLimits[modelId],
 
   _hydrate: () => {
     const model = loadModelFromStorage();
     const rateLimits = loadRateLimitsFromStorage();
-    set({ currentModel: model, rateLimits });
+    const apiToken = loadTokenFromStorage();
+    set({ currentModel: model, rateLimits, apiToken });
   },
 }));

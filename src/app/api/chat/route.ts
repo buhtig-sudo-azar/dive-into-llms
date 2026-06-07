@@ -13,9 +13,10 @@ const FREE_MODELS = [
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages, systemPrompt, model: clientModel } = await req.json();
+    const { messages, systemPrompt, model: clientModel, apiToken } = await req.json();
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
+    // User's token takes priority over the server's env var
+    const apiKey = apiToken || process.env.OPENROUTER_API_KEY;
     // Client-side model takes priority, then env var, then fallback
     const preferredModel = clientModel || process.env.OPENROUTER_MODEL;
 

@@ -31,10 +31,12 @@ import {
   WifiOff,
   Activity,
   CircleAlert,
+  Key,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { HelpTooltip } from '@/components/ui/help-tooltip';
+import { ApiTokenInput } from './ApiTokenInput';
 
 function RateLimitIndicator({ rateLimit }: { rateLimit?: ModelRateLimit }) {
   if (!rateLimit || !rateLimit.checkedAt) {
@@ -86,6 +88,7 @@ export function ModelSelector() {
     isApplying,
     isCheckingAll,
     rateLimits,
+    apiToken,
     setCurrentModel,
     fetchAvailableModels,
     checkAllModels,
@@ -223,6 +226,13 @@ export function ModelSelector() {
                 <HelpTooltip content="Это пользовательская модель — она не из стандартного списка бесплатных моделей OpenRouter." side="top">
                   <Badge variant="secondary" className="text-[9px] px-1 py-0 h-4 ml-0.5">
                     custom
+                  </Badge>
+                </HelpTooltip>
+              )}
+              {apiToken && (
+                <HelpTooltip content="Активен ваш личный API-токен — запросы идут через ваш аккаунт OpenRouter." side="top">
+                  <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 ml-0.5 border-green-500/50 text-green-600">
+                    <Key className="h-2.5 w-2.5 mr-0.5" />свой
                   </Badge>
                 </HelpTooltip>
               )}
@@ -377,6 +387,11 @@ export function ModelSelector() {
               </p>
             </div>
           )}
+
+          {/* API Token section */}
+          <div className="px-3 py-2 border-t border-border">
+            <ApiTokenInput />
+          </div>
 
           {/* Rate limit legend */}
           <div className="px-3 py-2 border-t border-border">

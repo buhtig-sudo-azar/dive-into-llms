@@ -30,6 +30,7 @@ export function PromptPlayground({
   const [error, setError] = useState('');
   const abortRef = useRef<AbortController | null>(null);
   const currentModel = useModelStore((s) => s.currentModel);
+  const apiToken = useModelStore((s) => s.apiToken);
 
   const handleSubmit = useCallback(async () => {
     if (!prompt.trim() || loading) return;
@@ -47,6 +48,7 @@ export function PromptPlayground({
           messages: [{ role: 'user', content: prompt }],
           systemPrompt,
           model: currentModel,
+          apiToken: apiToken || undefined,
         }),
         signal: abortRef.current.signal,
       });
@@ -92,7 +94,7 @@ export function PromptPlayground({
     } finally {
       setLoading(false);
     }
-  }, [prompt, systemPrompt, loading, currentModel]);
+  }, [prompt, systemPrompt, loading, currentModel, apiToken]);
 
   const handleReset = () => {
     if (abortRef.current) abortRef.current.abort();

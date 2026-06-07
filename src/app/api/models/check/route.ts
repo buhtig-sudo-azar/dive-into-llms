@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { model } = await req.json();
+    const { model, apiToken } = await req.json();
 
     if (!model || typeof model !== 'string') {
       return NextResponse.json({ error: 'Model is required' }, { status: 400 });
     }
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
+    // User's token takes priority over the server's env var
+    const apiKey = apiToken || process.env.OPENROUTER_API_KEY;
 
     if (!apiKey) {
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 });

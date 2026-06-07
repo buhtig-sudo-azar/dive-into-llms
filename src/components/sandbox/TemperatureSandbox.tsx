@@ -31,6 +31,7 @@ export function TemperatureSandbox({
   const [error, setError] = useState('');
   const abortRef = useRef<AbortController | null>(null);
   const currentModel = useModelStore((s) => s.currentModel);
+  const apiToken = useModelStore((s) => s.apiToken);
 
   const handleSubmit = useCallback(async () => {
     if (!prompt.trim() || loading) return;
@@ -54,6 +55,7 @@ export function TemperatureSandbox({
             temperature,
             max_tokens: 256,
             model: currentModel,
+            apiToken: apiToken || undefined,
           }),
           signal: abortRef.current.signal,
         });
@@ -73,7 +75,7 @@ export function TemperatureSandbox({
     } finally {
       setLoading(false);
     }
-  }, [prompt, temperature, loading, currentModel]);
+  }, [prompt, temperature, loading, currentModel, apiToken]);
 
   const handleReset = () => {
     if (abortRef.current) abortRef.current.abort();

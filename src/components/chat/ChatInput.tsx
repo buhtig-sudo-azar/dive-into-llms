@@ -12,6 +12,7 @@ export function ChatInput({ systemPrompt }: { systemPrompt: string }) {
   const { addMessage, appendToLastMessage, setLoading, isLoading, messages } = useChatStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const currentModel = useModelStore((s) => s.currentModel);
+  const apiToken = useModelStore((s) => s.apiToken);
 
   const handleSubmit = async () => {
     const text = input.trim();
@@ -31,7 +32,7 @@ export function ChatInput({ systemPrompt }: { systemPrompt: string }) {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: chatMessages, systemPrompt, model: currentModel }),
+        body: JSON.stringify({ messages: chatMessages, systemPrompt, model: currentModel, apiToken: apiToken || undefined }),
       });
 
       if (!response.ok) {

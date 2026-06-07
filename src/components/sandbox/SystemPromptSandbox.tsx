@@ -30,6 +30,7 @@ export function SystemPromptSandbox({
   const [error, setError] = useState('');
   const abortRef = useRef<AbortController | null>(null);
   const currentModel = useModelStore((s) => s.currentModel);
+  const apiToken = useModelStore((s) => s.apiToken);
 
   const handleAddSystemPrompt = useCallback(async () => {
     if (!prompt.trim() || loading) return;
@@ -48,6 +49,7 @@ export function SystemPromptSandbox({
           temperature: 0.3,
           max_tokens: 256,
           model: currentModel,
+          apiToken: apiToken || undefined,
         }),
         signal: abortRef.current.signal,
       });
@@ -68,7 +70,7 @@ export function SystemPromptSandbox({
     } finally {
       setLoading(false);
     }
-  }, [prompt, systemPrompt, loading, currentModel]);
+  }, [prompt, systemPrompt, loading, currentModel, apiToken]);
 
   const handleReset = () => {
     if (abortRef.current) abortRef.current.abort();
