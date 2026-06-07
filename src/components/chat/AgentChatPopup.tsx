@@ -13,7 +13,7 @@ import Image from 'next/image';
 
 export function AgentChatPopup() {
   const { messages, isLoading, activeCategory, setActiveCategory, clearMessages } = useChatStore();
-  const { chatOpen, setChatOpen, currentCategory } = useNavigationStore();
+  const { chatOpen, setChatOpen, setChatDismissed, currentCategory } = useNavigationStore();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isMinimized, setIsMinimized] = useState(false);
 
@@ -44,7 +44,8 @@ export function AgentChatPopup() {
   const handleClose = useCallback(() => {
     setChatOpen(false);
     setIsMinimized(false);
-  }, [setChatOpen]);
+    setChatDismissed(true);
+  }, [setChatOpen, setChatDismissed]);
 
   const handleMinimize = useCallback(() => {
     setIsMinimized(true);

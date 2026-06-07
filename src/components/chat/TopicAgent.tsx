@@ -10,6 +10,7 @@ export function TopicAgent() {
   const currentView = useNavigationStore(s => s.currentView);
   const currentCategory = useNavigationStore(s => s.currentCategory);
   const chatOpen = useNavigationStore(s => s.chatOpen);
+  const chatDismissed = useNavigationStore(s => s.chatDismissed);
   const { setActiveCategory } = useChatStore();
   const [showTooltip, setShowTooltip] = useState(false);
   const [hasAppeared, setHasAppeared] = useState(false);
@@ -38,7 +39,7 @@ export function TopicAgent() {
     }
   }, [hasAppeared, chatOpen, currentCategory]);
 
-  if (!agent || !hasAppeared || chatOpen) return null;
+  if (!agent || !hasAppeared || chatOpen || chatDismissed) return null;
 
   const handleAgentClick = () => {
     setActiveCategory(currentCategory);
