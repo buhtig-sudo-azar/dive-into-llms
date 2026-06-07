@@ -2,10 +2,11 @@ import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages, systemPrompt, temperature = 0.7, max_tokens = 256 } = await req.json();
+    const { messages, systemPrompt, temperature = 0.7, max_tokens = 256, model: clientModel } = await req.json();
 
     const apiKey = process.env.OPENROUTER_API_KEY;
-    const model = process.env.OPENROUTER_MODEL || 'google/gemma-4-31b-it:free';
+    // Client-side model takes priority, then env var, then fallback
+    const model = clientModel || process.env.OPENROUTER_MODEL || 'google/gemma-4-31b-it:free';
 
     if (!apiKey) {
       return new Response(JSON.stringify({ error: 'API key not configured' }), {

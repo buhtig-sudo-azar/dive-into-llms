@@ -5,11 +5,13 @@ import { Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useChatStore } from '@/store/chat-store';
+import { useModelStore } from '@/store/model-store';
 
 export function ChatInput({ systemPrompt }: { systemPrompt: string }) {
   const [input, setInput] = useState('');
   const { addMessage, appendToLastMessage, setLoading, isLoading, messages } = useChatStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const currentModel = useModelStore((s) => s.currentModel);
 
   const handleSubmit = async () => {
     const text = input.trim();
@@ -29,7 +31,7 @@ export function ChatInput({ systemPrompt }: { systemPrompt: string }) {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: chatMessages, systemPrompt }),
+        body: JSON.stringify({ messages: chatMessages, systemPrompt, model: currentModel }),
       });
 
       if (!response.ok) {

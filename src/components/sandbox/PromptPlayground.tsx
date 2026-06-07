@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Play, Loader2, RotateCcw, Sparkles } from 'lucide-react';
+import { useModelStore } from '@/store/model-store';
 
 interface PromptPlaygroundProps {
   title: string;
@@ -28,6 +29,7 @@ export function PromptPlayground({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const abortRef = useRef<AbortController | null>(null);
+  const currentModel = useModelStore((s) => s.currentModel);
 
   const handleSubmit = useCallback(async () => {
     if (!prompt.trim() || loading) return;
@@ -44,6 +46,7 @@ export function PromptPlayground({
         body: JSON.stringify({
           messages: [{ role: 'user', content: prompt }],
           systemPrompt,
+          model: currentModel,
         }),
         signal: abortRef.current.signal,
       });
@@ -89,7 +92,7 @@ export function PromptPlayground({
     } finally {
       setLoading(false);
     }
-  }, [prompt, systemPrompt, loading]);
+  }, [prompt, systemPrompt, loading, currentModel]);
 
   const handleReset = () => {
     if (abortRef.current) abortRef.current.abort();

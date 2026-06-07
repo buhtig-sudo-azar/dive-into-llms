@@ -4,6 +4,7 @@ import { useTheme } from 'next-themes';
 import { Moon, Sun, Search, Menu, X, PanelLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigationStore } from '@/store/navigation-store';
+import { ModelSelector } from '@/components/settings/ModelSelector';
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -41,7 +42,10 @@ export function Header() {
         </div>
       </div>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1.5">
+        {/* Model selector */}
+        <ModelSelector />
+
         <Button
           variant="ghost"
           size="icon"

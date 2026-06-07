@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Play, Loader2, RotateCcw, Shield } from 'lucide-react';
+import { useModelStore } from '@/store/model-store';
 
 interface SystemPromptSandboxProps {
   title: string;
@@ -28,6 +29,7 @@ export function SystemPromptSandbox({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const abortRef = useRef<AbortController | null>(null);
+  const currentModel = useModelStore((s) => s.currentModel);
 
   const handleAddSystemPrompt = useCallback(async () => {
     if (!prompt.trim() || loading) return;
@@ -45,6 +47,7 @@ export function SystemPromptSandbox({
           systemPrompt,
           temperature: 0.3,
           max_tokens: 256,
+          model: currentModel,
         }),
         signal: abortRef.current.signal,
       });
@@ -65,7 +68,7 @@ export function SystemPromptSandbox({
     } finally {
       setLoading(false);
     }
-  }, [prompt, systemPrompt, loading]);
+  }, [prompt, systemPrompt, loading, currentModel]);
 
   const handleReset = () => {
     if (abortRef.current) abortRef.current.abort();
