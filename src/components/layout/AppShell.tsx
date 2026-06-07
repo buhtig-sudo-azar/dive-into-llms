@@ -8,10 +8,9 @@ import { useNavigationStore } from '@/store/navigation-store';
 import { HomeView } from '@/components/home/HomeView';
 import { CategoryView } from '@/components/content/CategoryView';
 import { TopicView } from '@/components/content/TopicView';
-import { TopicAgent } from '@/components/chat/TopicAgent';
 import { AgentChatPopup } from '@/components/chat/AgentChatPopup';
 import { SearchDialog } from '@/components/search/SearchDialog';
-import { ScrollToTop } from './ScrollToTop';
+import { FloatingDock } from './FloatingDock';
 import { useEffect, useRef } from 'react';
 
 export function AppShell() {
@@ -43,14 +42,13 @@ export function AppShell() {
         </main>
       </div>
 
-      {/* Плавающий AI-агент — появляется в каждой теме */}
-      <TopicAgent />
+      {/* Плавающий док: агент + стрелка «Наверх» — обтекают друг друга */}
+      <FloatingDock />
 
       {/* Всплывающее окно чата с агентом */}
       <AgentChatPopup />
 
       <SearchDialog />
-      <ScrollToTop />
     </div>
   );
 }
