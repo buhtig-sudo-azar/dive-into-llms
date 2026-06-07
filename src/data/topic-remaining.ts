@@ -213,10 +213,31 @@ export const productionAI: TopicCategory = {
 };
 
 // Attach sandboxes to specific subtopics by slug
-const sandboxMap: Record<string, {type:'prompt-playground'|'tokenizer'|'temperature'|'system-prompt';title:string;description:string;defaultPrompt?:string;defaultSystem?:string;defaultTemperature?:number;placeholder?:string}[]> = {
+const SB = {type:'prompt-playground'|'tokenizer'|'temperature'|'system-prompt',title:'',description:''} as const;
+type SBType = {type:'prompt-playground'|'tokenizer'|'temperature'|'system-prompt';title:string;description:string;defaultPrompt?:string;defaultSystem?:string;defaultTemperature?:number;placeholder?:string};
+
+const sandboxMap: Record<string, SBType[]> = {
+  // RAG
   'embeddings': [{type:'prompt-playground',title:'Попробуйте RAG-запрос',description:'Введите запрос и увидите, как модель находит релевантную информацию. Попробуйте разные формулировки одного и того же вопроса.',defaultPrompt:'Как открыть банковский счёт для ИП?',defaultSystem:'Ты банковский ассистент. Отвечай на основе знаний о банковских услугах.'}],
+  'chunking': [{type:'prompt-playground',title:'Спросите про чанкинг',description:'Попробуйте задать вопрос про стратегии разбиения документов и получите ответ от AI.',defaultPrompt:'Какой размер чанков выбрать для FAQ-системы?',defaultSystem:'Ты эксперт по RAG-системам. Отвечай про чанкинг и стратегии разбиения документов.'}],
+  'vector-db': [{type:'prompt-playground',title:'Спросите про векторные БД',description:'Задайте вопрос про векторные базы данных и получите развёрнутый ответ.',defaultPrompt:'В чём разница между Pinecone и Qdrant?',defaultSystem:'Ты эксперт по векторным базам данных. Помогай с выбором и настройкой.'}],
+  'retrieval': [{type:'prompt-playground',title:'Спросите про Retrieval',description:'Попробуйте задать вопрос про пайплайн извлечения данных в RAG.',defaultPrompt:'Как улучшить качество поиска в RAG-системе?',defaultSystem:'Ты эксперт по RAG и retrieval-пайплайнам. Давай практические советы.'}],
+  'reranking': [{type:'prompt-playground',title:'Спросите про Re-ranking',description:'Задайте вопрос про переупорядочивание результатов поиска.',defaultPrompt:'Когда стоит использовать re-ranking в RAG?',defaultSystem:'Ты эксперт по поиску и ранжированию. Объясняй просто и с примерами.'}],
+  // AI Agents
   'agent-loop': [{type:'system-prompt',title:'Настройте роль AI-агента',description:'Попробуйте разные системные промпты и увидьте, как меняется поведение агента при одной и той же задаче.',defaultPrompt:'Помоги мне найти информацию о погоде в Москве',defaultSystem:'Ты полезный ассистент.'}],
-  'context': [{type:'temperature',title:'Температура и контекст',description:'Посмотрите, как температура влияет на качество ответа при работе с контекстом. Низкая температура — точные ответы из контекста, высокая — более творческие.',defaultPrompt:'Объясни простыми словами, что такое контекстное окно LLM',defaultTemperature:0.5}],
+  'planning': [{type:'prompt-playground',title:'Спросите про планирование',description:'Задайте вопрос про стратегии планирования задач AI-агентом.',defaultPrompt:'Как агент разбивает сложную задачу на подзадачи?',defaultSystem:'Ты эксперт по AI-агентам. Объясняй планирование и декомпозицию задач.'}],
+  'tool-use': [{type:'system-prompt',title:'Настройте агента с инструментами',description:'Попробуйте описать агенту, какие инструменты ему доступны, и посмотрите, как он их использует.',defaultPrompt:'Найди прогноз погоды в Санкт-Петербурге',defaultSystem:'Ты AI-агент с доступом к инструментам: search_web(), get_weather(), calculate(). Используй инструменты когда нужно.'}],
+  'multi-agent': [{type:'prompt-playground',title:'Спросите про мультиагентные системы',description:'Задайте вопрос про координацию нескольких AI-агентов.',defaultPrompt:'В каких задачах мультиагентная система лучше одного агента?',defaultSystem:'Ты эксперт по мультиагентным AI-системам. Сравнивай подходы и давай рекомендации.'}],
+  // Local AI
+  'ollama': [{type:'prompt-playground',title:'Спросите про Ollama',description:'Задайте вопрос про локальный запуск LLM через Ollama.',defaultPrompt:'Как установить и запустить Llama 3 через Ollama?',defaultSystem:'Ты эксперт по локальному AI. Помогай с установкой и настройкой Ollama.'}],
+  'lm-studio': [{type:'prompt-playground',title:'Спросите про LM Studio',description:'Задайте вопрос про LM Studio — GUI для локальных моделей.',defaultPrompt:'Какая модель лучше всего подходит для кодинга в LM Studio?',defaultSystem:'Ты эксперт по локальным LLM и LM Studio. Помогай с выбором моделей и настройкой.'}],
+  'open-webui': [{type:'prompt-playground',title:'Спросите про Open WebUI',description:'Задайте вопрос про веб-интерфейс для локальных моделей.',defaultPrompt:'Как настроить RAG в Open WebUI с локальными документами?',defaultSystem:'Ты эксперт по Open WebUI и локальным AI-системам. Давай пошаговые инструкции.'}],
+  'local-models': [{type:'temperature',title:'Сравните модели при разной температуре',description:'Попробуйте один запрос при разной температуре и сравните, как отвечают локальные модели.',defaultPrompt:'Напиши короткую историю о роботе, который научился рисовать',defaultTemperature:0.8}],
+  // Production AI
+  'monitoring': [{type:'prompt-playground',title:'Спросите про мониторинг LLM',description:'Задайте вопрос про мониторинг и метрики LLM в продакшене.',defaultPrompt:'Какие метрики важно отслеживать в продакшен LLM-системе?',defaultSystem:'Ты DevOps-инженер с опытом эксплуатации LLM. Советуй инструменты и подходы.'}],
+  'observability': [{type:'prompt-playground',title:'Спросите про Observability',description:'Задайте вопрос про трейсинг и наблюдаемость LLM-пайплайнов.',defaultPrompt:'Как реализовать трейсинг для RAG-пайплайна?',defaultSystem:'Ты эксперт по observability LLM-систем. Помогай с инструментами и паттернами.'}],
+  'evaluation': [{type:'prompt-playground',title:'Спросите про оценку качества',description:'Задайте вопрос про эвалюацию и метрики качества LLM.',defaultPrompt:'Как оценить, что ответы LLM стали лучше после обновления промпта?',defaultSystem:'Ты эксперт по evaluation LLM. Объясняй метрики и подходы к оценке.'}],
+  'cost-optimization': [{type:'prompt-playground',title:'Спросите про оптимизацию расходов',description:'Задайте вопрос про снижение стоимости LLM-запросов.',defaultPrompt:'Как снизить расходы на API LLM на 50% без потери качества?',defaultSystem:'Ты финтех-эксперт по оптимизации AI-расходов. Давай практические советы по снижению стоимости.'}],
 };
 
 [rag, aiAgents, localAI, productionAI].forEach(cat => {

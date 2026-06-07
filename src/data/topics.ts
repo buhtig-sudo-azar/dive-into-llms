@@ -479,6 +479,15 @@ function selfAttention(Q: number[][], K: number[][], V: number[][]) {
             language: 'typescript',
           },
         ],
+        sandboxes: [
+          {
+            type: 'prompt-playground',
+            title: 'Спросите про Transformer',
+            description: 'Задайте вопрос про архитектуру Transformer и механизм внимания, и получите ответ от AI.',
+            defaultPrompt: 'Как работает механизм self-attention в Transformer?',
+            defaultSystem: 'Ты эксперт по архитектуре нейронных сетей. Объясняй Transformer, attention и механизмы обучения просто и точно.',
+          },
+        ],
         commonMistakes: [
           {
             mistake: 'Путать encoder и decoder Transformer',

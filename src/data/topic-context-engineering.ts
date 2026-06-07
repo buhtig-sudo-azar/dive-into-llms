@@ -376,3 +376,16 @@ export const contextEngineering: TopicCategory = {
     },
   ],
 };
+
+// Add sandboxes to subtopics that don't have them
+const ctxSandboxMap: Record<string, {type:'prompt-playground'|'tokenizer'|'temperature'|'system-prompt';title:string;description:string;defaultPrompt?:string;defaultSystem?:string;defaultTemperature?:number;placeholder?:string}[]> = {
+  'memory': [{type:'prompt-playground',title:'Спросите про память LLM',description:'Задайте вопрос про механизмы памяти в LLM-системах и получите ответ от AI.',defaultPrompt:'Как реализовать долгосрочную память для чат-бота?',defaultSystem:'Ты эксперт по системам памяти LLM. Объясняй краткосрочную и долгосрочную память, RAG-хранилища и паттерны.'}],
+  'compression': [{type:'prompt-playground',title:'Спросите про сжатие контекста',description:'Задайте вопрос про методы сжатия контекста в LLM.',defaultPrompt:'Какие методы сжатия промптов существуют?',defaultSystem:'Ты эксперт по контекстной инженерии. Помогай с методами сжатия: truncation, distillation, LLMLingua.'}],
+  'summarization': [{type:'prompt-playground',title:'Попробуйте суммаризацию',description:'Введите длинный текст и попросите модель создать краткую сводку. Попробуйте разные типы суммаризации.',defaultPrompt:'Суммаризируй: Искусственный интеллект трансформирует индустрии по всему миру. В здравоохранении AI помогает диагностировать болезни на ранних стадиях. В финансах — обнаруживать мошенничество в реальном времени. В образовании — персонализировать обучение для каждого ученика. Однако существуют вызовы: этика, предвзятость моделей и влияние на рынок труда.',defaultSystem:'Ты эксперт по суммаризации. Создавай краткие, точные и информативные сводки на русском языке.'}],
+};
+
+contextEngineering.subtopics.forEach(sub => {
+  if (ctxSandboxMap[sub.slug]) {
+    sub.sandboxes = ctxSandboxMap[sub.slug];
+  }
+});
