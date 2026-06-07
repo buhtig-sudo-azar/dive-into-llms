@@ -5,12 +5,15 @@ interface NavigationState {
   currentCategory: string | null;
   currentSubtopic: string | null;
   sidebarOpen: boolean;
+  sidebarCollapsed: boolean;
   chatOpen: boolean;
   navigateToHome: () => void;
   navigateToCategory: (slug: string) => void;
   navigateToSubtopic: (categorySlug: string, subtopicSlug: string) => void;
   toggleSidebar: () => void;
   setSidebarOpen: (open: boolean) => void;
+  toggleSidebarCollapse: () => void;
+  setSidebarCollapsed: (collapsed: boolean) => void;
   toggleChat: () => void;
   setChatOpen: (open: boolean) => void;
 }
@@ -20,6 +23,7 @@ export const useNavigationStore = create<NavigationState>((set) => ({
   currentCategory: null,
   currentSubtopic: null,
   sidebarOpen: true,
+  sidebarCollapsed: false,
   chatOpen: false,
   navigateToHome: () => set({ currentView: 'home', currentCategory: null, currentSubtopic: null }),
   navigateToCategory: (slug) => set({ currentView: 'category', currentCategory: slug, currentSubtopic: null }),
@@ -27,6 +31,8 @@ export const useNavigationStore = create<NavigationState>((set) => ({
     set({ currentView: 'subtopic', currentCategory: categorySlug, currentSubtopic: subtopicSlug }),
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
   setSidebarOpen: (open) => set({ sidebarOpen: open }),
+  toggleSidebarCollapse: () => set((s) => ({ sidebarCollapsed: !s.sidebarCollapsed })),
+  setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
   toggleChat: () => set((s) => ({ chatOpen: !s.chatOpen })),
   setChatOpen: (open) => set({ chatOpen: open }),
 }));

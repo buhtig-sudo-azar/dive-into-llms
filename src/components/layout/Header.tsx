@@ -1,16 +1,17 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { Moon, Sun, Search, Menu, X } from 'lucide-react';
+import { Moon, Sun, Search, Menu, X, PanelLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigationStore } from '@/store/navigation-store';
 
 export function Header() {
   const { theme, setTheme } = useTheme();
-  const { toggleSidebar, sidebarOpen } = useNavigationStore();
+  const { toggleSidebar, sidebarOpen, toggleSidebarCollapse, sidebarCollapsed } = useNavigationStore();
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center gap-2 border-b border-border bg-background/80 backdrop-blur-md px-4">
+      {/* Mobile menu toggle */}
       <Button
         variant="ghost"
         size="icon"
@@ -18,6 +19,17 @@ export function Header() {
         onClick={toggleSidebar}
       >
         {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </Button>
+
+      {/* Desktop sidebar collapse toggle */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="hidden md:flex"
+        onClick={toggleSidebarCollapse}
+        title={sidebarCollapsed ? 'Развернуть меню' : 'Свернуть меню'}
+      >
+        <PanelLeft className={sidebarCollapsed ? 'h-5 w-5' : 'h-5 w-5'} />
       </Button>
 
       <div className="flex items-center gap-2 flex-1">
