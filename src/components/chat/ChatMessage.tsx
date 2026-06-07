@@ -3,7 +3,6 @@
 import { ChatMessage as ChatMessageType } from '@/types';
 import { User } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import ReactMarkdown from 'react-markdown';
 import { useChatStore } from '@/store/chat-store';
 import { agents } from '@/data/agent-data';
 import Image from 'next/image';
@@ -37,8 +36,8 @@ export function ChatMessage({ message }: { message: ChatMessageType }) {
         'flex-1 min-w-0 rounded-lg px-4 py-2.5 text-base',
         isUser ? 'bg-primary text-primary-foreground' : 'bg-muted'
       )}>
-        <div className="prose dark:prose-invert max-w-none break-words [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-          <ReactMarkdown>{message.content}</ReactMarkdown>
+        <div className="whitespace-pre-wrap break-words leading-relaxed">
+          {message.content}
         </div>
       </div>
     </div>

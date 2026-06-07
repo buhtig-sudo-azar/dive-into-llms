@@ -38,7 +38,8 @@ export type SandboxType =
   | 'mcp-architecture-lab' | 'mcp-server-builder' | 'mcp-client-lifecycle' | 'mcp-tool-simulator' | 'mcp-resource-browser' | 'mcp-sampling-flow'
   | 'embedding-space' | 'chunking-visualizer' | 'vector-search-sim' | 'retrieval-pipeline' | 'reranking-lab'
   | 'agent-loop-sim' | 'planning-lab' | 'tool-use-lab' | 'multi-agent-viz'
-  | 'cost-optimizer' | 'eval-lab' | 'observability-tracer';
+  | 'cost-optimizer' | 'eval-lab' | 'observability-tracer'
+  | 'lm-studio-demo';
 
 export interface Sandbox {
   type: SandboxType;

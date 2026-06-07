@@ -14,7 +14,7 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useTheme } from 'next-themes';
-import { PromptPlayground, TokenizerSandbox, TemperatureSandbox, SystemPromptSandbox } from '@/components/sandbox';
+import { PromptPlayground, TokenizerSandbox, TemperatureSandbox, SystemPromptSandbox, LMStudioSandbox } from '@/components/sandbox';
 
 function SectionTitle({ icon: Icon, title }: { icon: React.ElementType; title: string }) {
   return (
@@ -212,6 +212,16 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
                     defaultPrompt={sandbox.defaultPrompt}
                     defaultSystem={sandbox.defaultSystem}
                     placeholder={sandbox.placeholder}
+                  />
+                );
+              case 'lm-studio-demo':
+                return (
+                  <LMStudioSandbox
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                    defaultPrompt={sandbox.defaultPrompt}
+                    defaultSystem={sandbox.defaultSystem}
                   />
                 );
               default:
