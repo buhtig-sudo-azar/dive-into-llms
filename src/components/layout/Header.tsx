@@ -39,6 +39,7 @@ export function Header() {
             <span className="text-primary-foreground font-bold text-sm">DL</span>
           </div>
           <span className="font-bold text-lg hidden sm:block">Dive Into LLMs</span>
+          <span className="text-[10px] text-muted-foreground/60 hidden lg:block ml-1">СОЗДАТЕЛЬ AZAR</span>
         </div>
       </div>
 

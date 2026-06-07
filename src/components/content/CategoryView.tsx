@@ -70,6 +70,7 @@ export function CategoryView() {
               </Button>
             </div>
             <p className="text-xl text-muted-foreground mt-2">{category.description}</p>
+            <p className="text-[10px] text-muted-foreground/40 mt-1">СОЗДАТЕЛЬ AZAR</p>
             <div className="flex items-center gap-3 mt-3">
               <Progress value={progress} className="h-1.5 flex-1 max-w-xs" />
               <span className="text-base font-medium text-muted-foreground">{progress}% пройдено</span>

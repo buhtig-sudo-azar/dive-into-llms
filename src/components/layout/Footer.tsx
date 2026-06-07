@@ -7,8 +7,8 @@ export function Footer() {
         <p className="text-xs text-muted-foreground/50">
           Dive Into LLMs — интерактивная образовательная платформа
         </p>
-        <p className="text-[10px] text-muted-foreground/30">
-          Модели предоставлены OpenRouter • Бесплатные AI-наставники для каждой темы
+        <p className="text-[10px] text-muted-foreground/40">
+          СОЗДАТЕЛЬ AZAR • Модели предоставлены OpenRouter • Бесплатные AI-наставники для каждой темы
         </p>
       </div>
     </footer>

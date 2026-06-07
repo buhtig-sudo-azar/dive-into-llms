@@ -43,6 +43,7 @@ export function TopicView() {
       <div className="flex items-start gap-4 mb-6">
         <div className="flex-1">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-2">{subtopic.title}</h1>
+          <p className="text-[10px] text-muted-foreground/40 mt-1">СОЗДАТЕЛЬ AZAR</p>
           {completed && (
             <div className="flex items-center gap-1.5 text-base text-primary">
               <CheckCircle2 className="h-4 w-4" />

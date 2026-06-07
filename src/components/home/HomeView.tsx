@@ -55,6 +55,7 @@ export function HomeView() {
         <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
           Структурированное обучение по Large Language Models, Prompt Engineering, RAG, MCP, AI Agents и смежным направлениям
         </p>
+        <p className="text-xs text-muted-foreground/40 mt-3">СОЗДАТЕЛЬ AZAR</p>
       </motion.div>
 
       {/* Progress overview */}
@@ -101,24 +102,26 @@ export function HomeView() {
         </motion.div>
       )}
 
-      {/* How to use */}
+      {/* How to use — подробная инструкция */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
         className="mb-10 p-5 sm:p-6 rounded-xl border border-border bg-card"
       >
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-5">
           <HelpCircle className="h-5 w-5 text-primary" />
-          <h2 className="text-lg font-bold">Как пользоваться</h2>
+          <h2 className="text-lg font-bold">Как пользоваться платформой</h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        {/* Основные шаги */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div className="flex gap-3">
             <div className="p-2 rounded-lg bg-primary/10 shrink-0">
               <BookOpen className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="font-medium text-sm">Выберите тему</p>
+              <p className="font-medium text-sm">1. Выберите тему</p>
               <p className="text-sm text-muted-foreground">Кликните на карточку ниже — откроется список подтем с материалами</p>
             </div>
           </div>
@@ -127,7 +130,7 @@ export function HomeView() {
               <MessageCircle className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="font-medium text-sm">Спросите AI-наставника</p>
+              <p className="font-medium text-sm">2. Спросите AI-наставника</p>
               <p className="text-sm text-muted-foreground">Круглый аватар справа внизу — кликните и задайте вопрос по теме</p>
             </div>
           </div>
@@ -136,7 +139,7 @@ export function HomeView() {
               <Cpu className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="font-medium text-sm">Выберите модель</p>
+              <p className="font-medium text-sm">3. Выберите модель</p>
               <p className="text-sm text-muted-foreground">Кнопка с названием модели в шапке — переключайте между бесплатными</p>
             </div>
           </div>
@@ -145,8 +148,35 @@ export function HomeView() {
               <Key className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="font-medium text-sm">Подставьте свой ключ</p>
+              <p className="font-medium text-sm">4. Подставьте свой ключ</p>
               <p className="text-sm text-muted-foreground">Значок ключа в шапке → получите бесплатный ключ на openrouter.ai/keys</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Подробная инструкция по чат-боту */}
+        <div className="border-t border-border pt-4">
+          <p className="text-sm font-semibold mb-3">Как работает AI-наставник:</p>
+          <div className="space-y-2.5 text-sm text-muted-foreground">
+            <div className="flex gap-2">
+              <span className="text-primary font-bold shrink-0">→</span>
+              <p>Откройте любую тему — в правом нижнем углу появится аватар AI-наставника</p>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-primary font-bold shrink-0">→</span>
+              <p>Нажмите на аватар — откроется окно чата. Наставник уже знает тему и готов отвечать</p>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-primary font-bold shrink-0">→</span>
+              <p>Используйте подсказки-кнопки в чате или пишите свой вопрос свободно</p>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-primary font-bold shrink-0">→</span>
+              <p>Если модель не отвечает — нажмите на кнопку модели в шапке и выберите другую (зелёная точка = доступна, красная = лимит исчерпан)</p>
+            </div>
+            <div className="flex gap-2">
+              <span className="text-primary font-bold shrink-0">→</span>
+              <p>Для стабильной работы получите бесплатный API-ключ на <a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:text-primary/80">openrouter.ai/keys</a> и вставьте через значок ключа в шапке</p>
             </div>
           </div>
         </div>
