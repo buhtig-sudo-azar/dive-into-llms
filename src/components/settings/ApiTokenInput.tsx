@@ -79,10 +79,7 @@ export function ApiTokenInput() {
   return (
     <div className="space-y-2">
       {!isExpanded && !hasToken && (
-        <HelpTooltip
-          content="Добавьте свой OpenRouter API-токен, чтобы использовать собственные лимиты. Без токена используется общий токен платформы с ограничениями."
-          side="bottom"
-        >
+        <div className="space-y-1.5">
           <Button
             variant="outline"
             size="sm"
@@ -93,9 +90,20 @@ export function ApiTokenInput() {
             onClick={() => setIsExpanded(true)}
           >
             <Key className="h-3.5 w-3.5 text-primary" />
-            Добавить свой токен
+            Свой токен OpenRouter
           </Button>
-        </HelpTooltip>
+          <p className="text-[10px] text-muted-foreground text-center">
+            Ключ бесплатно:{' '}
+            <a
+              href="https://openrouter.ai/keys"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              openrouter.ai/keys
+            </a>
+          </p>
+        </div>
       )}
 
       {!isExpanded && hasToken && (
