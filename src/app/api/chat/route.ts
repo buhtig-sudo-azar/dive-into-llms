@@ -85,8 +85,10 @@ export async function POST(req: NextRequest) {
     // Модель с клиента приоритетнее
     const preferredModel = clientModel || process.env.OPENROUTER_MODEL;
     // Параметры от клиента (с fallback-значениями)
-    const maxTokens = clientMaxTokens || 2048;
+    const maxTokens = clientMaxTokens ?? 2048;
     const temperature = clientTemperature !== undefined ? Math.max(0, Math.min(2, clientTemperature)) : 0.7;
+
+    console.log(`[API /chat] max_tokens=${maxTokens} (client: ${clientMaxTokens}), temperature=${temperature} (client: ${clientTemperature}), model=${preferredModel}`);
 
     if (!apiKey) {
       return new Response(JSON.stringify({ error: 'API key not configured' }), {
@@ -179,6 +181,8 @@ export async function POST(req: NextRequest) {
               Connection: 'keep-alive',
               'X-Model-Used': model,
               'X-Rate-Limited-Models': rateLimitedModels.join(','),
+              'X-Max-Tokens': String(maxTokens),
+              'X-Temperature': String(temperature),
             },
           });
         }

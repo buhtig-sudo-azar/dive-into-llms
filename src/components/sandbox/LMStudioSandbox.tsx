@@ -186,6 +186,14 @@ export function LMStudioSandbox({
         throw new Error(err.error || 'Ошибка сервера');
       }
 
+      // Читаем из заголовков реально применённые параметры
+      const appliedMaxTokens = res.headers.get('X-Max-Tokens');
+      const appliedTemperature = res.headers.get('X-Temperature');
+      const appliedModel = res.headers.get('X-Model-Used');
+      if (appliedMaxTokens) {
+        setLogLines((l) => [...l, `[GEN] API применил: max_tokens=${appliedMaxTokens}, temperature=${appliedTemperature}, model=${appliedModel}`]);
+      }
+
       const reader = res.body?.getReader();
       if (!reader) throw new Error('Нет потока ответа');
 
