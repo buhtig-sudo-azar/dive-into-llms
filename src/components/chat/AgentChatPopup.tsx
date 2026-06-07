@@ -179,9 +179,45 @@ export function AgentChatPopup() {
                   <Sparkles className="h-3.5 w-3.5 text-primary" />
                   <p className="text-base font-semibold">{agent.name}</p>
                 </div>
-                <p className="text-base text-muted-foreground leading-relaxed max-w-[260px]">
+                <p className="text-base text-muted-foreground leading-relaxed max-w-[280px] mb-4">
                   {agent.greeting}
                 </p>
+                <div className="w-full max-w-[280px] space-y-1.5">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Попробуйте спросить</p>
+                  {agent.suggestions?.map((s, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        const store = useChatStore.getState();
+                        store.addMessage({ role: 'user', content: s });
+                      }}
+                      className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground"
+                    >
+                      {s}
+                    </button>
+                  )) || (
+                    <>
+                      <button
+                        onClick={() => useChatStore.getState().addMessage({ role: 'user', content: 'Объясни простыми словами' })}
+                        className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground"
+                      >
+                        Объясни простыми словами
+                      </button>
+                      <button
+                        onClick={() => useChatStore.getState().addMessage({ role: 'user', content: 'Приведи пример' })}
+                        className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground"
+                      >
+                        Приведи пример
+                      </button>
+                      <button
+                        onClick={() => useChatStore.getState().addMessage({ role: 'user', content: 'Что это и зачем нужно?' })}
+                        className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground"
+                      >
+                        Что это и зачем нужно?
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             ) : (
               <div className="space-y-3">

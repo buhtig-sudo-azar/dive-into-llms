@@ -246,14 +246,7 @@ export function Sidebar() {
           </ScrollArea>
         )}
 
-        {/* Sidebar bottom: creator label */}
-        {!isCollapsed && (
-          <div className="shrink-0 px-4 py-3 border-t border-border">
-            <div className="text-xs text-muted-foreground/50 text-center tracking-wide">
-              СОЗДАТЕЛЬ <span className="font-semibold text-muted-foreground/70">AZAR</span>
-            </div>
-          </div>
-        )}
+
       </aside>
     </>
   );

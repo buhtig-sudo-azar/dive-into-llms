@@ -6,6 +6,7 @@ import { useProgressStore } from '@/store/progress-store';
 import {
   Brain, MessageSquare, Layers, Plug, Database,
   Bot, Laptop, Rocket, ArrowRight, Sparkles, RotateCcw,
+  BookOpen, MessageCircle, Cpu, Key, HelpCircle,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -99,6 +100,57 @@ export function HomeView() {
           <Progress value={overallProgress} className="h-2" />
         </motion.div>
       )}
+
+      {/* How to use */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.4 }}
+        className="mb-10 p-5 sm:p-6 rounded-xl border border-border bg-card"
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <HelpCircle className="h-5 w-5 text-primary" />
+          <h2 className="text-lg font-bold">Как пользоваться</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="flex gap-3">
+            <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+              <BookOpen className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <p className="font-medium text-sm">Выберите тему</p>
+              <p className="text-sm text-muted-foreground">Кликните на карточку ниже — откроется список подтем с материалами</p>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+              <MessageCircle className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <p className="font-medium text-sm">Спросите AI-наставника</p>
+              <p className="text-sm text-muted-foreground">Круглый аватар справа внизу — кликните и задайте вопрос по теме</p>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+              <Cpu className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <p className="font-medium text-sm">Выберите модель</p>
+              <p className="text-sm text-muted-foreground">Кнопка с названием модели в шапке — переключайте между бесплатными</p>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <div className="p-2 rounded-lg bg-primary/10 shrink-0">
+              <Key className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <p className="font-medium text-sm">Подставьте свой ключ</p>
+              <p className="text-sm text-muted-foreground">Значок ключа в шапке → получите бесплатный ключ на openrouter.ai/keys</p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
       {/* Topic grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
