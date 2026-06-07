@@ -1,5 +1,5 @@
 import { TopicCategory } from '@/types';
-const S = (slug:string,title:string,cat:string,i:{what:string;why:string;where:string;problem:string},t:{term:string;definition:string}[],p:string,a:string,c:string,dt:string,ds:string,ex:{title:string;description:string;code?:string;language?:string}[],m:{mistake:string;explanation:string;correctApproach:string}[],f:{topic:string;slug:string;categorySlug:string}[])=>({slug,title,categorySlug:cat,introduction:i,theory:{terms:t,principles:p,architecture:a,connections:c},diagram:{type:'architecture' as const,title:dt,svgContent:ds},practicalExamples:ex,commonMistakes:m,furtherReading:f});
+const S = (slug:string,title:string,cat:string,i:{what:string;why:string;where:string;problem:string},t:{term:string;definition:string}[],p:string,a:string,c:string,dt:string,ds:string,ex:{title:string;description:string;code?:string;language?:string}[],m:{mistake:string;explanation:string;correctApproach:string}[],f:{topic:string;slug:string;categorySlug:string}[],sb?:{type:'prompt-playground'|'tokenizer'|'temperature'|'system-prompt';title:string;description:string;defaultPrompt?:string;defaultSystem?:string;defaultTemperature?:number;placeholder?:string}[])=>({slug,title,categorySlug:cat,introduction:i,theory:{terms:t,principles:p,architecture:a,connections:c},diagram:{type:'architecture' as const,title:dt,svgContent:ds},practicalExamples:ex,sandboxes:sb,commonMistakes:m,furtherReading:f});
 
 export const rag: TopicCategory = {
   slug:'rag',title:'RAG',description:'Retrieval-Augmented Generation — дополнение ответов LLM релевантными данными из внешних источников',iconName:'Database',
@@ -211,3 +211,18 @@ export const productionAI: TopicCategory = {
     ),
   ],
 };
+
+// Attach sandboxes to specific subtopics by slug
+const sandboxMap: Record<string, {type:'prompt-playground'|'tokenizer'|'temperature'|'system-prompt';title:string;description:string;defaultPrompt?:string;defaultSystem?:string;defaultTemperature?:number;placeholder?:string}[]> = {
+  'embeddings': [{type:'prompt-playground',title:'Попробуйте RAG-запрос',description:'Введите запрос и увидите, как модель находит релевантную информацию. Попробуйте разные формулировки одного и того же вопроса.',defaultPrompt:'Как открыть банковский счёт для ИП?',defaultSystem:'Ты банковский ассистент. Отвечай на основе знаний о банковских услугах.'}],
+  'agent-loop': [{type:'system-prompt',title:'Настройте роль AI-агента',description:'Попробуйте разные системные промпты и увидьте, как меняется поведение агента при одной и той же задаче.',defaultPrompt:'Помоги мне найти информацию о погоде в Москве',defaultSystem:'Ты полезный ассистент.'}],
+  'context': [{type:'temperature',title:'Температура и контекст',description:'Посмотрите, как температура влияет на качество ответа при работе с контекстом. Низкая температура — точные ответы из контекста, высокая — более творческие.',defaultPrompt:'Объясни простыми словами, что такое контекстное окно LLM',defaultTemperature:0.5}],
+};
+
+[rag, aiAgents, localAI, productionAI].forEach(cat => {
+  cat.subtopics.forEach(sub => {
+    if (sandboxMap[sub.slug]) {
+      sub.sandboxes = sandboxMap[sub.slug];
+    }
+  });
+});

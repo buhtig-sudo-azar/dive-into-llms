@@ -163,6 +163,64 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
         </CardContent>
       </Card>
 
+      {/* Interactive Sandboxes */}
+      {subtopic.sandboxes && subtopic.sandboxes.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 mb-2">
+            <FlaskConical className="h-5 w-5 text-primary" />
+            <h2 className="text-xl font-semibold">Интерактивные песочницы</h2>
+          </div>
+          {subtopic.sandboxes.map((sandbox, i) => {
+            switch (sandbox.type) {
+              case 'prompt-playground':
+                return (
+                  <PromptPlayground
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                    defaultPrompt={sandbox.defaultPrompt}
+                    defaultSystem={sandbox.defaultSystem}
+                    placeholder={sandbox.placeholder}
+                  />
+                );
+              case 'tokenizer':
+                return (
+                  <TokenizerSandbox
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                    defaultPrompt={sandbox.defaultPrompt}
+                  />
+                );
+              case 'temperature':
+                return (
+                  <TemperatureSandbox
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                    defaultPrompt={sandbox.defaultPrompt}
+                    defaultTemperature={sandbox.defaultTemperature}
+                    placeholder={sandbox.placeholder}
+                  />
+                );
+              case 'system-prompt':
+                return (
+                  <SystemPromptSandbox
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                    defaultPrompt={sandbox.defaultPrompt}
+                    defaultSystem={sandbox.defaultSystem}
+                    placeholder={sandbox.placeholder}
+                  />
+                );
+              default:
+                return null;
+            }
+          })}
+        </div>
+      )}
+
       {/* Common Mistakes */}
       <Card>
         <CardHeader>

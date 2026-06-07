@@ -85,6 +85,15 @@ export const contextEngineering: TopicCategory = {
           correctApproach: 'Ранжируйте информацию по релевантности. Самое важное — в начало и конец. Менее важное — в середину или удалите.',
         },
       ],
+      sandboxes: [
+        {
+          type: 'temperature',
+          title: 'Температура и контекст',
+          description: 'Посмотрите, как температура влияет на качество ответа при работе с контекстом. Низкая температура — точные ответы из контекста, высокая — более творческие.',
+          defaultPrompt: 'Объясни простыми словами, что такое контекстное окно LLM',
+          defaultTemperature: 0.5,
+        },
+      ],
       furtherReading: [
         { topic: 'Память в LLM', slug: 'memory', categorySlug: 'context-engineering' },
         { topic: 'Сжатие контекста', slug: 'compression', categorySlug: 'context-engineering' },
