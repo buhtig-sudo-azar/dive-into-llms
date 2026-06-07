@@ -110,20 +110,20 @@ export function TokenizerSandbox({
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
           <Hash className="h-4 w-4 text-primary" />
-          <CardTitle className="text-sm font-semibold">{title}</CardTitle>
-          <Badge variant="secondary" className="text-[10px]">Песочница</Badge>
+          <CardTitle className="text-base font-semibold">{title}</CardTitle>
+          <Badge variant="secondary" className="text-xs">Песочница</Badge>
         </div>
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <p className="text-sm text-muted-foreground">{description}</p>
       </CardHeader>
       <CardContent className="space-y-3">
         <div>
-          <label className="text-xs font-medium text-muted-foreground mb-1 block">
+          <label className="text-sm font-medium text-muted-foreground mb-1.5 block">
             Введите текст для токенизации
           </label>
           <Input
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="text-sm"
+            className="text-base"
             placeholder="Привет! Как дела? Hello world!"
           />
         </div>
@@ -131,14 +131,14 @@ export function TokenizerSandbox({
         {/* Token visualization */}
         {tokens.length > 0 && (
           <div>
-            <label className="text-xs font-medium text-muted-foreground mb-2 block">
+            <label className="text-sm font-medium text-muted-foreground mb-2 block">
               Визуализация токенов
             </label>
-            <div className="flex flex-wrap gap-1 p-3 rounded-lg bg-muted/30 border border-border">
+            <div className="flex flex-wrap gap-1.5 p-4 rounded-lg bg-muted/30 border border-border">
               {tokens.map((t, i) => {
                 if (!t.isWord) {
                   return (
-                    <span key={i} className="text-muted-foreground text-xs opacity-50">
+                    <span key={i} className="text-muted-foreground text-sm opacity-50">
                       {t.token}
                     </span>
                   );
@@ -147,7 +147,7 @@ export function TokenizerSandbox({
                 return (
                   <span
                     key={i}
-                    className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium border ${COLORS[colorIdx]}`}
+                    className={`inline-flex items-center px-2 py-1 rounded text-sm font-medium border ${COLORS[colorIdx]}`}
                   >
                     {t.token}
                   </span>
@@ -176,7 +176,7 @@ export function TokenizerSandbox({
         {/* Info */}
         <div className="flex items-start gap-2 p-2 rounded-lg bg-primary/5 border border-primary/10">
           <Languages className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
-          <p className="text-[11px] text-muted-foreground leading-relaxed">
+          <p className="text-sm text-muted-foreground leading-relaxed">
             Английский текст: ~4 символа на токен. Русский текст: ~2-3 символа на токен,
             потому что в обучающих данных LLM меньше русского текста. Реальное количество
             токенов зависит от конкретного токенизатора (BPE, SentencePiece).

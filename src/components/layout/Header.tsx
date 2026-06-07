@@ -10,7 +10,7 @@ export function Header() {
   const { toggleSidebar, sidebarOpen } = useNavigationStore();
 
   return (
-    <header className="sticky top-0 z-50 flex h-14 items-center gap-2 border-b border-border bg-background/80 backdrop-blur-md px-4">
+    <header className="sticky top-0 z-50 flex h-16 items-center gap-2 border-b border-border bg-background/80 backdrop-blur-md px-4">
       <Button
         variant="ghost"
         size="icon"
@@ -22,10 +22,10 @@ export function Header() {
 
       <div className="flex items-center gap-2 flex-1">
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => useNavigationStore.getState().navigateToHome()}>
-          <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-xs">DL</span>
+          <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
+            <span className="text-primary-foreground font-bold text-sm">DL</span>
           </div>
-          <span className="font-semibold text-sm hidden sm:block">Dive Into LLMs</span>
+          <span className="font-bold text-base hidden sm:block">Dive Into LLMs</span>
         </div>
       </div>
 

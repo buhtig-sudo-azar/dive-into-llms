@@ -43,15 +43,15 @@ export function HomeView() {
         transition={{ duration: 0.5 }}
         className="text-center mb-12"
       >
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
           <Sparkles className="h-4 w-4" />
           Интерактивная обучающая платформа
         </div>
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
+        <h1 className="text-5xl sm:text-6xl font-bold tracking-tight mb-5">
           Dive Into{' '}
           <span className="text-primary">LLMs</span>
         </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
           Структурированное обучение по Large Language Models, Prompt Engineering, RAG, MCP, AI Agents и смежным направлениям
         </p>
       </motion.div>
@@ -101,7 +101,7 @@ export function HomeView() {
       )}
 
       {/* Topic grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {topics.map((category, i) => {
           const Icon = iconMap[category.iconName] || Brain;
           const progress = useProgressStore.getState().getCategoryProgress(
@@ -119,24 +119,24 @@ export function HomeView() {
                 className="cursor-pointer group hover:border-primary/50 transition-all hover:shadow-md"
                 onClick={() => navigateToCategory(category.slug)}
               >
-                <CardContent className="p-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <Icon className="h-5 w-5 text-primary" />
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2.5 rounded-lg bg-primary/10">
+                      <Icon className="h-6 w-6 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-sm truncate">{category.title}</h3>
+                      <h3 className="font-semibold text-base truncate">{category.title}</h3>
                     </div>
                     <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
-                  <p className="text-xs text-muted-foreground mb-3 line-clamp-2">
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                     {category.description}
                   </p>
                   <div className="flex items-center gap-2">
                     <Progress value={progress} className="h-1 flex-1" />
-                    <span className="text-[10px] text-muted-foreground">{progress}%</span>
+                    <span className="text-xs text-muted-foreground">{progress}%</span>
                   </div>
-                  <div className="text-[10px] text-muted-foreground mt-1.5">
+                  <div className="text-xs text-muted-foreground mt-2">
                     {category.subtopics.length} {pluralize(category.subtopics.length, 'тема', 'темы', 'тем')}
                   </div>
                 </CardContent>

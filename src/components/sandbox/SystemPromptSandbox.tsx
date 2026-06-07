@@ -81,21 +81,21 @@ export function SystemPromptSandbox({
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
           <Shield className="h-4 w-4 text-primary" />
-          <CardTitle className="text-sm font-semibold">{title}</CardTitle>
-          <Badge variant="secondary" className="text-[10px]">Песочница</Badge>
+          <CardTitle className="text-base font-semibold">{title}</CardTitle>
+          <Badge variant="secondary" className="text-xs">Песочница</Badge>
         </div>
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <p className="text-sm text-muted-foreground">{description}</p>
       </CardHeader>
       <CardContent className="space-y-3">
         {/* System prompt editor */}
         <div>
-          <label className="text-xs font-medium text-muted-foreground mb-1 block">
+          <label className="text-sm font-medium text-muted-foreground mb-1.5 block">
             Системный промпт (определяет поведение модели)
           </label>
           <Textarea
             value={systemPrompt}
             onChange={(e) => setSystemPrompt(e.target.value)}
-            className="text-xs min-h-[80px] resize-y font-mono"
+            className="text-sm min-h-[80px] resize-y font-mono"
             placeholder="Определите роль и поведение модели..."
           />
           {/* Quick presets */}
@@ -111,7 +111,7 @@ export function SystemPromptSandbox({
                 key={preset.label}
                 variant="outline"
                 size="sm"
-                className="text-[10px] h-6"
+                className="text-xs h-7"
                 onClick={() => setSystemPrompt(preset.value)}
               >
                 {preset.label}
@@ -122,13 +122,13 @@ export function SystemPromptSandbox({
 
         {/* User prompt */}
         <div>
-          <label className="text-xs font-medium text-muted-foreground mb-1 block">
+          <label className="text-sm font-medium text-muted-foreground mb-1.5 block">
             Вопрос к модели
           </label>
           <Textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            className="text-xs min-h-[60px] resize-y"
+            className="text-sm min-h-[60px] resize-y"
             placeholder={placeholder}
           />
         </div>
@@ -139,7 +139,7 @@ export function SystemPromptSandbox({
             size="sm"
             onClick={handleAddSystemPrompt}
             disabled={loading || !prompt.trim()}
-            className="gap-1.5 text-xs"
+            className="gap-1.5 text-sm"
           >
             {loading ? (
               <Loader2 className="h-3 w-3 animate-spin" />
@@ -152,7 +152,7 @@ export function SystemPromptSandbox({
             size="sm"
             variant="outline"
             onClick={handleReset}
-            className="gap-1.5 text-xs"
+            className="gap-1.5 text-sm"
           >
             <RotateCcw className="h-3 w-3" />
             Сбросить
@@ -162,7 +162,7 @@ export function SystemPromptSandbox({
         {/* Responses comparison */}
         {responses.length > 0 && (
           <div className="space-y-3">
-            <label className="text-xs font-medium text-muted-foreground">
+            <label className="text-sm font-medium text-muted-foreground">
               Сравнение ответов при разных системных промптах:
             </label>
             {responses.map((item, i) => (
@@ -171,15 +171,15 @@ export function SystemPromptSandbox({
                 className="rounded-lg border border-border overflow-hidden"
               >
                 <div className="px-3 py-1.5 bg-muted/50 border-b border-border">
-                  <span className="text-[10px] font-medium text-muted-foreground">
+                  <span className="text-xs font-medium text-muted-foreground">
                     Системный промпт:
                   </span>
-                  <p className="text-[11px] text-primary font-mono truncate">
+                  <p className="text-sm text-primary font-mono truncate">
                     {item.system}
                   </p>
                 </div>
                 <div className="p-3">
-                  <p className="text-xs whitespace-pre-wrap leading-relaxed">
+                  <p className="text-sm whitespace-pre-wrap leading-relaxed">
                     {item.response}
                   </p>
                 </div>
@@ -190,7 +190,7 @@ export function SystemPromptSandbox({
 
         {error && (
           <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-3">
-            <p className="text-xs text-destructive">{error}</p>
+            <p className="text-sm text-destructive">{error}</p>
           </div>
         )}
       </CardContent>

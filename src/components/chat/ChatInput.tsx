@@ -103,7 +103,7 @@ export function ChatInput({ systemPrompt }: { systemPrompt: string }) {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Задайте вопрос..."
-          className="min-h-[38px] max-h-24 resize-none text-sm"
+          className="min-h-[42px] max-h-24 resize-none text-base"
           rows={1}
           disabled={isLoading}
         />

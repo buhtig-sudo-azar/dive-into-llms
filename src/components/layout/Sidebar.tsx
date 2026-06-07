@@ -61,15 +61,15 @@ export function Sidebar() {
 
       <aside
         className={cn(
-          'fixed md:relative z-40 md:z-auto top-14 md:top-0 left-0 h-[calc(100vh-3.5rem)] md:h-full w-72 shrink-0 border-r border-border bg-sidebar transition-all duration-200',
+          'fixed md:relative z-40 md:z-auto top-16 md:top-0 left-0 h-[calc(100vh-4rem)] md:h-full w-72 shrink-0 border-r border-border bg-sidebar transition-all duration-200',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0 md:w-0 md:border-0 md:overflow-hidden'
         )}
       >
         <ScrollArea className="h-full">
           <div className="p-4 space-y-2">
             {/* Progress */}
-            <div className="mb-4">
-              <div className="flex items-center justify-between text-xs mb-1.5">
+            <div className="mb-5">
+              <div className="flex items-center justify-between text-sm mb-2">
                 <span className="text-muted-foreground">Общий прогресс</span>
                 <div className="flex items-center gap-1">
                   <span className="font-medium">{overallProgress}%</span>
@@ -111,7 +111,7 @@ export function Sidebar() {
             <button
               onClick={navigateToHome}
               className={cn(
-                'w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors',
+                'w-full flex items-center gap-2 px-3 py-2.5 rounded-md text-sm font-medium transition-colors',
                 currentView === 'home'
                   ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
                   : 'text-sidebar-foreground hover:bg-sidebar-accent/50'
@@ -136,7 +136,7 @@ export function Sidebar() {
                       navigateToCategory(category.slug);
                     }}
                     className={cn(
-                      'w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors group',
+                      'w-full flex items-center gap-2 px-3 py-2.5 rounded-md text-sm transition-colors group',
                       isActive && currentView === 'category'
                         ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
                         : 'text-sidebar-foreground hover:bg-sidebar-accent/50'
@@ -144,7 +144,7 @@ export function Sidebar() {
                   >
                     <Icon className="h-4 w-4 shrink-0 text-primary" />
                     <span className="flex-1 text-left truncate">{category.title}</span>
-                    <span className="text-[10px] text-muted-foreground mr-1">{progress}%</span>
+                    <span className="text-xs text-muted-foreground mr-1">{progress}%</span>
                     <ChevronDown
                       className={cn(
                         'h-3.5 w-3.5 text-muted-foreground transition-transform',
@@ -154,7 +154,7 @@ export function Sidebar() {
                   </button>
 
                   {isExpanded && (
-                    <div className="ml-4 mt-0.5 space-y-0.5">
+                    <div className="ml-4 mt-1 space-y-0.5">
                       {category.subtopics.map((sub) => {
                         const completed = isCompleted(sub.slug);
                         const viewed = isViewed(sub.slug);
@@ -168,7 +168,7 @@ export function Sidebar() {
                               if (window.innerWidth < 768) setSidebarOpen(false);
                             }}
                             className={cn(
-                              'w-full flex items-center gap-2 px-2 py-1.5 rounded text-xs transition-colors',
+                              'w-full flex items-center gap-2 px-2 py-2 rounded text-sm transition-colors',
                               isSubActive
                                 ? 'bg-primary/10 text-primary font-medium'
                                 : 'text-muted-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'

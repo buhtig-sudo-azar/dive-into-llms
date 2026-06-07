@@ -162,7 +162,7 @@ export function AgentChatPopup() {
                   <Sparkles className="h-3.5 w-3.5 text-primary" />
                   <p className="text-sm font-semibold">{agent.name}</p>
                 </div>
-                <p className="text-xs text-muted-foreground leading-relaxed max-w-[260px]">
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-[260px]">
                   {agent.greeting}
                 </p>
               </div>

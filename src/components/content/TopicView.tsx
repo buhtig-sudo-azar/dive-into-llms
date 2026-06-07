@@ -41,12 +41,12 @@ export function TopicView() {
       <div className="flex items-start gap-4 mb-6">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-2xl sm:text-3xl font-bold">{subtopic.title}</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{subtopic.title}</h1>
             <Button
               variant="outline"
               size="sm"
               onClick={openChat}
-              className="gap-1.5 text-xs"
+              className="gap-1.5 text-sm"
             >
               <BotIcon className="h-3.5 w-3.5" />
               Спросить AI

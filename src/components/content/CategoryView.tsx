@@ -49,21 +49,21 @@ export function CategoryView() {
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold">{category.title}</h1>
+              <h1 className="text-3xl font-bold tracking-tight">{category.title}</h1>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={openChat}
-                className="gap-1.5 text-xs"
+                className="gap-1.5 text-sm"
               >
-                <BotIcon className="h-3.5 w-3.5" />
+                <BotIcon className="h-4 w-4" />
                 AI-наставник
               </Button>
             </div>
-            <p className="text-muted-foreground mt-1">{category.description}</p>
+            <p className="text-lg text-muted-foreground mt-2">{category.description}</p>
             <div className="flex items-center gap-3 mt-3">
               <Progress value={progress} className="h-1.5 flex-1 max-w-xs" />
-              <span className="text-sm text-muted-foreground">{progress}% пройдено</span>
+              <span className="text-sm font-medium text-muted-foreground">{progress}% пройдено</span>
             </div>
           </div>
         </div>
@@ -85,7 +85,7 @@ export function CategoryView() {
                   className="cursor-pointer group hover:border-primary/50 transition-all"
                   onClick={() => navigateToSubtopic(category.slug, sub.slug)}
                 >
-                  <CardContent className="p-4 flex items-center gap-3">
+                  <CardContent className="p-5 flex items-center gap-4">
                     {completed ? (
                       <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
                     ) : viewed ? (
@@ -94,8 +94,8 @@ export function CategoryView() {
                       <Circle className="h-5 w-5 text-muted-foreground/30 shrink-0" />
                     )}
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-sm">{sub.title}</h3>
-                      <p className="text-xs text-muted-foreground truncate mt-0.5">
+                      <h3 className="font-semibold text-base">{sub.title}</h3>
+                      <p className="text-sm text-muted-foreground truncate mt-0.5">
                         {sub.introduction.what.slice(0, 100)}...
                       </p>
                     </div>
