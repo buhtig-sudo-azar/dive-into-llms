@@ -30,6 +30,16 @@ export interface PracticalExample {
   language?: string;
 }
 
+export interface Sandbox {
+  type: 'prompt-playground' | 'tokenizer' | 'temperature' | 'system-prompt';
+  title: string;
+  description: string;
+  defaultPrompt?: string;
+  defaultSystem?: string;
+  defaultTemperature?: number;
+  placeholder?: string;
+}
+
 export interface CommonMistake {
   mistake: string;
   explanation: string;
@@ -50,6 +60,7 @@ export interface Subtopic {
   theory: SubtopicTheory;
   diagram: DiagramData;
   practicalExamples: PracticalExample[];
+  sandboxes?: Sandbox[];
   commonMistakes: CommonMistake[];
   furtherReading: FurtherReading[];
 }
