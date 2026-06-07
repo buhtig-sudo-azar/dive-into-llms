@@ -5,99 +5,18 @@ import { Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useChatStore } from '@/store/chat-store';
-import { useModelStore } from '@/store/model-store';
 
 export function ChatInput({ systemPrompt }: { systemPrompt: string }) {
   const [input, setInput] = useState('');
-  const { addMessage, appendToLastMessage, setLoading, isLoading, messages } = useChatStore();
+  const { sendMessage, isLoading } = useChatStore();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const currentModel = useModelStore((s) => s.currentModel);
-  const apiToken = useModelStore((s) => s.apiToken);
 
   const handleSubmit = async () => {
     const text = input.trim();
     if (!text || isLoading) return;
 
     setInput('');
-    addMessage({ role: 'user', content: text });
-
-    setLoading(true);
-
-    try {
-      const chatMessages = [...messages, { role: 'user' as const, content: text }].map(m => ({
-        role: m.role,
-        content: m.content,
-      }));
-
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: chatMessages, systemPrompt, model: currentModel, apiToken: apiToken || undefined }),
-      });
-
-      if (!response.ok) {
-        addMessage({ role: 'assistant', content: 'Ошибка при обращении к AI. Попробуйте ещё раз.' });
-        setLoading(false);
-        return;
-      }
-
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-
-      if (!reader) {
-        addMessage({ role: 'assistant', content: 'Ошибка: нет потока данных.' });
-        setLoading(false);
-        return;
-      }
-
-      // Add empty assistant message
-      addMessage({ role: 'assistant', content: '' });
-
-      let fullContent = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const data = line.slice(6).trim();
-            if (data === '[DONE]') continue;
-            try {
-              const parsed = JSON.parse(data);
-              // Handle custom model_info event
-              if (parsed.type === 'model_info') {
-                // Mark rate-limited models in the store
-                if (parsed.rateLimited && Array.isArray(parsed.rateLimited)) {
-                  for (const modelId of parsed.rateLimited) {
-                    useModelStore.getState().markModelRateLimited(modelId);
-                  }
-                }
-                continue;
-              }
-              const content = parsed.choices?.[0]?.delta?.content;
-              if (content) {
-                fullContent += content;
-                appendToLastMessage(content);
-              }
-            } catch {
-              // skip non-JSON lines
-            }
-          }
-        }
-      }
-
-      if (!fullContent) {
-        appendToLastMessage('Не удалось получить ответ. Попробуйте ещё раз.');
-      }
-    } catch (error) {
-      addMessage({ role: 'assistant', content: 'Произошла ошибка сети. Проверьте подключение.' });
-    } finally {
-      setLoading(false);
-    }
+    await sendMessage(text, systemPrompt);
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {

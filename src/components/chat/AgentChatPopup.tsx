@@ -12,7 +12,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 
 export function AgentChatPopup() {
-  const { messages, isLoading, activeCategory, setActiveCategory, clearMessages } = useChatStore();
+  const { messages, isLoading, activeCategory, setActiveCategory, clearMessages, sendMessage } = useChatStore();
   const { chatOpen, setChatOpen, currentCategory } = useNavigationStore();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -187,31 +187,32 @@ export function AgentChatPopup() {
                   {agent.suggestions?.map((s, i) => (
                     <button
                       key={i}
-                      onClick={() => {
-                        const store = useChatStore.getState();
-                        store.addMessage({ role: 'user', content: s });
-                      }}
-                      className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground"
+                      onClick={() => sendMessage(s, systemPrompt)}
+                      disabled={isLoading}
+                      className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {s}
                     </button>
                   )) || (
                     <>
                       <button
-                        onClick={() => useChatStore.getState().addMessage({ role: 'user', content: 'Объясни простыми словами' })}
-                        className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground"
+                        onClick={() => sendMessage('Объясни простыми словами', systemPrompt)}
+                        disabled={isLoading}
+                        className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Объясни простыми словами
                       </button>
                       <button
-                        onClick={() => useChatStore.getState().addMessage({ role: 'user', content: 'Приведи пример' })}
-                        className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground"
+                        onClick={() => sendMessage('Приведи пример', systemPrompt)}
+                        disabled={isLoading}
+                        className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Приведи пример
                       </button>
                       <button
-                        onClick={() => useChatStore.getState().addMessage({ role: 'user', content: 'Что это и зачем нужно?' })}
-                        className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground"
+                        onClick={() => sendMessage('Что это и зачем нужно?', systemPrompt)}
+                        disabled={isLoading}
+                        className="w-full text-left text-sm px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Что это и зачем нужно?
                       </button>

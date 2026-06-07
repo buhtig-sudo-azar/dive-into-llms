@@ -1,23 +1,72 @@
 import { NextRequest } from 'next/server';
 
-const FREE_MODELS = [
-  'moonshotai/kimi-k2.6:free',
-  'nvidia/nemotron-3-ultra-550b-a55b:free',
-  'google/gemma-4-31b-it:free',
-  'nousresearch/hermes-3-llama-3.1-405b:free',
-  'meta-llama/llama-3.3-70b-instruct:free',
-  'qwen/qwen3-next-80b-a3b-instruct:free',
-  'nvidia/nemotron-3-super-120b-a12b:free',
-  'google/gemma-4-26b-a4b-it:free',
-];
+// Кеш бесплатных моделей (обновляется каждые 5 минут)
+let cachedFreeModels: string[] = [];
+let lastFetchTime = 0;
+const CACHE_TTL = 5 * 60 * 1000; // 5 минут
+
+async function getFreeModels(): Promise<string[]> {
+  const now = Date.now();
+  if (cachedFreeModels.length > 0 && now - lastFetchTime < CACHE_TTL) {
+    return cachedFreeModels;
+  }
+
+  try {
+    const res = await fetch('https://openrouter.ai/api/v1/models', {
+      headers: { 'Content-Type': 'application/json' },
+      next: { revalidate: 300 },
+    });
+
+    if (!res.ok) {
+      console.warn('Failed to fetch models, using cache:', res.status);
+      return cachedFreeModels.length > 0 ? cachedFreeModels : getFallbackModels();
+    }
+
+    const data = await res.json();
+    const models = data?.data || [];
+
+    // Фильтруем бесплатные модели, исключаем content-safety
+    cachedFreeModels = models
+      .filter((m: { id: string }) =>
+        m.id.endsWith(':free') && !m.id.includes('content-safety')
+      )
+      .map((m: { id: string }) => m.id);
+
+    lastFetchTime = now;
+
+    if (cachedFreeModels.length === 0) {
+      return getFallbackModels();
+    }
+
+    console.log(`Loaded ${cachedFreeModels.length} free models from OpenRouter`);
+    return cachedFreeModels;
+  } catch (err) {
+    console.warn('Error fetching models:', err);
+    return cachedFreeModels.length > 0 ? cachedFreeModels : getFallbackModels();
+  }
+}
+
+// Fallback-список на случай недоступности API
+function getFallbackModels(): string[] {
+  return [
+    'moonshotai/kimi-k2.6:free',
+    'nvidia/nemotron-3-ultra-550b-a55b:free',
+    'google/gemma-4-31b-it:free',
+    'nousresearch/hermes-3-llama-3.1-405b:free',
+    'meta-llama/llama-3.3-70b-instruct:free',
+    'qwen/qwen3-next-80b-a3b-instruct:free',
+    'nvidia/nemotron-3-super-120b-a12b:free',
+    'google/gemma-4-26b-a4b-it:free',
+  ];
+}
 
 export async function POST(req: NextRequest) {
   try {
     const { messages, systemPrompt, model: clientModel, apiToken } = await req.json();
 
-    // User's token takes priority over the server's env var
+    // Токен пользователя приоритетнее серверного
     const apiKey = apiToken || process.env.OPENROUTER_API_KEY;
-    // Client-side model takes priority, then env var, then fallback
+    // Модель с клиента приоритетнее
     const preferredModel = clientModel || process.env.OPENROUTER_MODEL;
 
     if (!apiKey) {
@@ -32,10 +81,13 @@ export async function POST(req: NextRequest) {
       ...messages,
     ];
 
-    // Build model list: preferred first, then fallbacks
+    // Динамически загружаем бесплатные модели
+    const freeModels = await getFreeModels();
+
+    // Строим список: предпочтительная модель первой, затем остальные
     const modelsToTry = preferredModel
-      ? [preferredModel, ...FREE_MODELS.filter(m => m !== preferredModel)]
-      : FREE_MODELS;
+      ? [preferredModel, ...freeModels.filter(m => m !== preferredModel)]
+      : freeModels;
 
     let lastError = '';
     const rateLimitedModels: string[] = [];
@@ -60,15 +112,13 @@ export async function POST(req: NextRequest) {
         });
 
         if (response.ok) {
-          // Inject a custom SSE event with model info + rate limited models
-          // Then forward the actual stream
+          // Инжектим кастомное SSE-событие с инфо о модели
           const modelInfoEvent = `data: ${JSON.stringify({
             type: 'model_info',
             model,
             rateLimited: rateLimitedModels,
           })}\n\n`;
 
-          // Create a combined stream: model_info event + actual response
           const encoder = new TextEncoder();
           const infoChunk = encoder.encode(modelInfoEvent);
           const originalStream = response.body;
@@ -80,7 +130,7 @@ export async function POST(req: NextRequest) {
             });
           }
 
-          // Combine: prepend model_info, then forward the rest
+          // Комбинируем: сначала model_info, потом стрим
           const combinedStream = new ReadableStream({
             async start(controller) {
               controller.enqueue(infoChunk);
@@ -109,7 +159,7 @@ export async function POST(req: NextRequest) {
           });
         }
 
-        // Track rate limited models
+        // Отслеживаем модели с исчерпанным лимитом
         if (response.status === 429) {
           rateLimitedModels.push(model);
         }
@@ -118,8 +168,7 @@ export async function POST(req: NextRequest) {
         console.warn(`Model ${model} failed (${response.status}):`, errText);
         lastError = errText;
 
-        if (response.status === 429) continue;
-        if (response.status >= 400 && response.status < 500) continue;
+        // Продолжаем со следующей моделью
         continue;
       } catch (fetchError) {
         console.warn(`Model ${model} fetch error:`, fetchError);
@@ -127,7 +176,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // All models failed
+    // Все модели не сработали
     console.error('All models failed. Last error:', lastError);
     return new Response(JSON.stringify({
       error: 'All models unavailable',
