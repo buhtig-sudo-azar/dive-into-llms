@@ -6,7 +6,7 @@ import { chatPrompts } from '@/data/chat-prompts';
 import { agents } from '@/data/agent-data';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
-import { X, Sparkles } from 'lucide-react';
+import { X, Minimize2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
