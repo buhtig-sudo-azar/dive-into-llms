@@ -16,8 +16,11 @@ interface NavigationState {
 }
 
 function scrollToMainTop() {
-  const main = document.querySelector('main');
-  if (main) main.scrollTo({ top: 0, behavior: 'smooth' });
+  // Delay scroll to after React re-render
+  requestAnimationFrame(() => {
+    const main = document.querySelector('main');
+    if (main) main.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 }
 
 export const useNavigationStore = create<NavigationState>((set) => ({
@@ -26,11 +29,11 @@ export const useNavigationStore = create<NavigationState>((set) => ({
   currentSubtopic: null,
   sidebarOpen: true,
   chatOpen: false,
-  navigateToHome: () => { scrollToMainTop(); set({ currentView: 'home', currentCategory: null, currentSubtopic: null }); },
-  navigateToCategory: (slug) => { scrollToMainTop(); set({ currentView: 'category', currentCategory: slug, currentSubtopic: null }); },
+  navigateToHome: () => { set({ currentView: 'home', currentCategory: null, currentSubtopic: null }); scrollToMainTop(); },
+  navigateToCategory: (slug) => { set({ currentView: 'category', currentCategory: slug, currentSubtopic: null }); scrollToMainTop(); },
   navigateToSubtopic: (categorySlug, subtopicSlug) => {
-    scrollToMainTop();
     set({ currentView: 'subtopic', currentCategory: categorySlug, currentSubtopic: subtopicSlug });
+    scrollToMainTop();
   },
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
   setSidebarOpen: (open) => set({ sidebarOpen: open }),
