@@ -22,6 +22,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { motion } from 'framer-motion';
+import { pluralize } from '@/lib/utils';
 
 const iconMap: Record<string, React.ElementType> = {
   Brain, MessageSquare, Layers, Plug, Database, Bot, Laptop, Rocket,
@@ -67,7 +68,7 @@ export function HomeView() {
             <span className="text-sm font-medium">Ваш прогресс</span>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">
-                {completedCount} из {totalSubtopics} тем ({overallProgress}%)
+                {completedCount} из {totalSubtopics} {pluralize(totalSubtopics, 'тема', 'темы', 'тем')} ({overallProgress}%)
               </span>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
@@ -136,7 +137,7 @@ export function HomeView() {
                     <span className="text-[10px] text-muted-foreground">{progress}%</span>
                   </div>
                   <div className="text-[10px] text-muted-foreground mt-1.5">
-                    {category.subtopics.length} тем
+                    {category.subtopics.length} {pluralize(category.subtopics.length, 'тема', 'темы', 'тем')}
                   </div>
                 </CardContent>
               </Card>
