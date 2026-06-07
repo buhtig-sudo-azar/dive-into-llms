@@ -5,14 +5,13 @@ import { useNavigationStore } from '@/store/navigation-store';
 import { useProgressStore } from '@/store/progress-store';
 import { useChatStore } from '@/store/chat-store';
 import { TopicViewContent } from './TopicViewContent';
-import { BotIcon, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 
 export function TopicView() {
-  const { currentCategory, currentSubtopic, setChatOpen } = useNavigationStore();
+  const { currentCategory, currentSubtopic } = useNavigationStore();
   const { markAsViewed, markAsCompleted, isCompleted } = useProgressStore();
-  const { setActiveCategory, clearMessages } = useChatStore();
 
   const category = topics.find(t => t.slug === currentCategory);
   const subtopic = category?.subtopics.find(s => s.slug === currentSubtopic);
@@ -24,12 +23,6 @@ export function TopicView() {
 
   const completed = isCompleted(subtopic.slug);
 
-  const openChat = () => {
-    setActiveCategory(category.slug);
-    clearMessages();
-    setChatOpen(true);
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -40,18 +33,7 @@ export function TopicView() {
       {/* Topic header */}
       <div className="flex items-start gap-4 mb-6">
         <div className="flex-1">
-          <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">{subtopic.title}</h1>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={openChat}
-              className="gap-1.5 text-base"
-            >
-              <BotIcon className="h-3.5 w-3.5" />
-              Спросить AI
-            </Button>
-          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-2">{subtopic.title}</h1>
           {completed && (
             <div className="flex items-center gap-1.5 text-base text-primary">
               <CheckCircle2 className="h-4 w-4" />
