@@ -31,15 +31,11 @@ export interface PracticalExample {
 }
 
 export type SandboxType =
-  | 'prompt-playground' | 'tokenizer' | 'temperature' | 'system-prompt' // old chat-based
-  | 'token-visualizer' | 'probability-explorer' | 'context-window' | 'attention-heatmap' | 'llm-pipeline'
-  | 'few-shot-viz' | 'cot-viz' | 'react-simulator' | 'structured-output-lab'
-  | 'context-priority' | 'memory-hierarchy' | 'compression-lab' | 'summarization-lab'
-  | 'mcp-architecture-lab' | 'mcp-server-builder' | 'mcp-client-lifecycle' | 'mcp-tool-simulator' | 'mcp-resource-browser' | 'mcp-sampling-flow'
-  | 'embedding-space' | 'chunking-visualizer' | 'vector-search-sim' | 'retrieval-pipeline' | 'reranking-lab'
-  | 'agent-loop-sim' | 'planning-lab' | 'tool-use-lab' | 'multi-agent-viz'
-  | 'cost-optimizer' | 'eval-lab' | 'observability-tracer'
-  | 'lm-studio-demo';
+  | 'prompt-playground' | 'tokenizer' | 'temperature' | 'system-prompt'
+  | 'lm-studio-demo' | 'planning-lab' | 'agent-loop-sim' | 'tool-use-lab'
+  | 'chunking-lab' | 'embedding-visualizer' | 'reranking-lab'
+  | 'context-window-sim' | 'few-shot-lab' | 'compression-lab'
+  | 'mcp-server-builder' | 'ollama-demo' | 'cost-optimizer';
 
 export interface Sandbox {
   type: SandboxType;

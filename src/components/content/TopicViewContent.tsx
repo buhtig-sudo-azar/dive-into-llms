@@ -14,7 +14,13 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useTheme } from 'next-themes';
-import { PromptPlayground, TokenizerSandbox, TemperatureSandbox, SystemPromptSandbox, LMStudioSandbox } from '@/components/sandbox';
+import {
+  PromptPlayground, TokenizerSandbox, TemperatureSandbox, SystemPromptSandbox,
+  LMStudioSandbox, PlanningLab, AgentLoopSim, ToolUseLab,
+  ChunkingLab, EmbeddingVisualizer, RerankingLab,
+  ContextWindowSim, FewShotLab, CompressionLab,
+  MCPServerBuilder, OllamaDemo, CostOptimizer,
+} from '@/components/sandbox';
 
 function SectionTitle({ icon: Icon, title }: { icon: React.ElementType; title: string }) {
   return (
@@ -222,6 +228,105 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
                     description={sandbox.description}
                     defaultPrompt={sandbox.defaultPrompt}
                     defaultSystem={sandbox.defaultSystem}
+                  />
+                );
+              case 'planning-lab':
+                return (
+                  <PlanningLab
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                  />
+                );
+              case 'agent-loop-sim':
+                return (
+                  <AgentLoopSim
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                  />
+                );
+              case 'tool-use-lab':
+                return (
+                  <ToolUseLab
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                    defaultSystem={sandbox.defaultSystem}
+                  />
+                );
+              case 'chunking-lab':
+                return (
+                  <ChunkingLab
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                  />
+                );
+              case 'embedding-visualizer':
+                return (
+                  <EmbeddingVisualizer
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                  />
+                );
+              case 'reranking-lab':
+                return (
+                  <RerankingLab
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                  />
+                );
+              case 'context-window-sim':
+                return (
+                  <ContextWindowSim
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                  />
+                );
+              case 'few-shot-lab':
+                return (
+                  <FewShotLab
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                    defaultPrompt={sandbox.defaultPrompt}
+                    defaultSystem={sandbox.defaultSystem}
+                  />
+                );
+              case 'compression-lab':
+                return (
+                  <CompressionLab
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                  />
+                );
+              case 'mcp-server-builder':
+                return (
+                  <MCPServerBuilder
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                  />
+                );
+              case 'ollama-demo':
+                return (
+                  <OllamaDemo
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
+                  />
+                );
+              case 'cost-optimizer':
+                return (
+                  <CostOptimizer
+                    key={i}
+                    title={sandbox.title}
+                    description={sandbox.description}
                   />
                 );
               default:
