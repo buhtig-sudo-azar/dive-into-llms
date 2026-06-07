@@ -78,12 +78,15 @@ function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: number):
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages, systemPrompt, model: clientModel, apiToken } = await req.json();
+    const { messages, systemPrompt, model: clientModel, apiToken, max_tokens: clientMaxTokens, temperature: clientTemperature } = await req.json();
 
     // Токен пользователя приоритетнее серверного
     const apiKey = apiToken || process.env.OPENROUTER_API_KEY;
     // Модель с клиента приоритетнее
     const preferredModel = clientModel || process.env.OPENROUTER_MODEL;
+    // Параметры от клиента (с fallback-значениями)
+    const maxTokens = clientMaxTokens || 2048;
+    const temperature = clientTemperature !== undefined ? Math.max(0, Math.min(2, clientTemperature)) : 0.7;
 
     if (!apiKey) {
       return new Response(JSON.stringify({ error: 'API key not configured' }), {
@@ -124,8 +127,8 @@ export async function POST(req: NextRequest) {
               model,
               messages: allMessages,
               stream: true,
-              max_tokens: 2048,
-              temperature: 0.7,
+              max_tokens: maxTokens,
+              temperature,
             }),
           },
           MODEL_TIMEOUT_MS,

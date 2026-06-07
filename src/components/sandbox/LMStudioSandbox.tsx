@@ -142,6 +142,7 @@ export function LMStudioSandbox({
     abortRef.current = new AbortController();
 
     setLogLines((l) => [...l, `[GEN] Отправка запроса к модели...`]);
+    setLogLines((l) => [...l, `[GEN] Параметры: max_tokens=${maxTokens}, temperature=${temperature.toFixed(1)}`]);
 
     try {
       const res = await fetch('/api/chat', {
@@ -168,7 +169,9 @@ export function LMStudioSandbox({
 
       const decoder = new TextDecoder();
       let fullText = '';
-      let tokenCount = 0;
+
+      // Приблизительная оценка токенов: ~1.3 токена на слово для русского текста
+      const estimateTokens = (text: string) => Math.round(text.split(/\s+/).filter(Boolean).length * 1.3);
 
       while (true) {
         const { done, value } = await reader.read();
@@ -186,12 +189,12 @@ export function LMStudioSandbox({
               const delta = parsed.choices?.[0]?.delta?.content;
               if (delta) {
                 fullText += delta;
-                tokenCount++;
+                const tokenCount = estimateTokens(fullText);
                 setResponse(fullText);
                 setTokensGenerated(tokenCount);
                 const elapsed = (Date.now() - startTimeRef.current) / 1000;
                 setGenTime(elapsed);
-                setTokensPerSec(Math.round(tokenCount / elapsed));
+                setTokensPerSec(elapsed > 0 ? Math.round(tokenCount / elapsed) : 0);
               }
             } catch {
               // skip malformed chunks
@@ -200,9 +203,10 @@ export function LMStudioSandbox({
         }
       }
 
+      const finalTokens = estimateTokens(fullText);
       setLogLines((l) => [
         ...l,
-        `[GEN] Генерация завершена: ${tokenCount} токенов за ${((Date.now() - startTimeRef.current) / 1000).toFixed(1)}с`,
+        `[GEN] Генерация завершена: ~${finalTokens} токенов за ${((Date.now() - startTimeRef.current) / 1000).toFixed(1)}с`,
       ]);
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
@@ -550,7 +554,20 @@ export function LMStudioSandbox({
               </div>
               <div className="rounded-md bg-card border border-border p-2 text-center">
                 <div className="text-[10px] text-muted-foreground">Токены</div>
-                <div className="text-sm font-bold">{tokensGenerated > 0 ? tokensGenerated : '—'}</div>
+                <div className="text-sm font-bold">
+                  {tokensGenerated > 0 ? `~${tokensGenerated}` : '—'}
+                  <span className="text-[10px] font-normal text-muted-foreground"> / {maxTokens}</span>
+                </div>
+                {tokensGenerated > 0 && (
+                  <div className="w-full h-1 bg-muted rounded-full mt-1 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all ${
+                        tokensGenerated / maxTokens > 0.9 ? 'bg-destructive' : 'bg-primary'
+                      }`}
+                      style={{ width: `${Math.min(100, (tokensGenerated / maxTokens) * 100)}%` }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
