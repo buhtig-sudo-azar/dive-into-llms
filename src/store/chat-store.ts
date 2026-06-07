@@ -6,18 +6,28 @@ interface ChatState {
   messages: ChatMessage[];
   isLoading: boolean;
   activeCategory: string | null;
+  showSuggestions: boolean;
   addMessage: (message: Omit<ChatMessage, 'id' | 'timestamp'>) => void;
   appendToLastMessage: (content: string) => void;
   setLoading: (loading: boolean) => void;
   setActiveCategory: (slug: string | null) => void;
   clearMessages: () => void;
   sendMessage: (text: string, systemPrompt: string) => Promise<void>;
+  retryLastMessage: () => Promise<void>;
+  setShowSuggestions: (show: boolean) => void;
 }
+
+// AbortController для отмены текущего запроса
+let currentAbortController: AbortController | null = null;
+// Последние параметры для retry
+let lastSendParams: { text: string; systemPrompt: string } | null = null;
 
 export const useChatStore = create<ChatState>((set, get) => ({
   messages: [],
   isLoading: false,
   activeCategory: null,
+  showSuggestions: true,
+
   addMessage: (message) =>
     set((s) => ({
       messages: [
@@ -35,24 +45,59 @@ export const useChatStore = create<ChatState>((set, get) => ({
       return { messages };
     }),
   setLoading: (loading) => set({ isLoading: loading }),
-  setActiveCategory: (slug) => set({ activeCategory: slug }),
-  clearMessages: () => set({ messages: [] }),
+  setActiveCategory: (slug) => set({ activeCategory: slug, showSuggestions: true }),
+  clearMessages: () => set({ messages: [], showSuggestions: true }),
+  setShowSuggestions: (show) => set({ showSuggestions }),
 
-  sendMessage: async (text: string, systemPrompt: string) => {
+  retryLastMessage: async () => {
+    if (!lastSendParams) return;
+    const { text, systemPrompt } = lastSendParams;
+    // Удаляем последнее сообщение ассистента (ошибка)
+    set((s) => {
+      const messages = [...s.messages];
+      const last = messages[messages.length - 1];
+      if (last && last.role === 'assistant') {
+        messages.pop();
+      }
+      return { messages };
+    });
+    await get().sendMessage(text, systemPrompt, true);
+  },
+
+  sendMessage: async (text: string, systemPrompt: string, isRetry = false) => {
     const trimmed = text.trim();
     if (!trimmed || get().isLoading) return;
 
+    // Отменяем предыдущий запрос если есть
+    if (currentAbortController) {
+      currentAbortController.abort();
+      currentAbortController = null;
+    }
+
     const currentMessages = get().messages;
 
-    // Добавляем сообщение пользователя в UI
-    get().addMessage({ role: 'user', content: trimmed });
+    // Сохраняем параметры для retry (только если не retry)
+    if (!isRetry) {
+      lastSendParams = { text: trimmed, systemPrompt };
+    }
+
+    // Скрываем подсказки при отправке
+    set({ showSuggestions: false });
+
+    // Добавляем сообщение пользователя в UI (только если не retry — при retry пользователь уже добавлен)
+    if (!isRetry) {
+      get().addMessage({ role: 'user', content: trimmed });
+    }
     get().setLoading(true);
+
+    const controller = new AbortController();
+    currentAbortController = controller;
 
     try {
       // Формируем историю для API (включая новое сообщение)
       const chatMessages = [
         ...currentMessages,
-        { role: 'user' as const, content: trimmed },
+        ...(isRetry ? [] : [{ role: 'user' as const, content: trimmed }]),
       ].map(m => ({
         role: m.role,
         content: m.content,
@@ -69,15 +114,19 @@ export const useChatStore = create<ChatState>((set, get) => ({
           model: currentModel,
           apiToken: apiToken || undefined,
         }),
+        signal: controller.signal,
       });
 
       if (!response.ok) {
+        if (controller.signal.aborted) return;
         const errData = await response.json().catch(() => null);
         const errMsg = errData?.error === 'All models unavailable'
-          ? 'Все модели заняты. Попробуйте выбрать другую модель в шапке или подождите пару минут.'
-          : 'Ошибка при обращении к AI. Попробуйте ещё раз.';
+          ? 'Все модели заняты. Попробуйте выбрать другую модель или подождите пару минут.'
+          : `Ошибка сервера (${response.status}). Попробуйте ещё раз.`;
         get().addMessage({ role: 'assistant', content: errMsg });
         get().setLoading(false);
+        // Показываем подсказки снова при ошибке
+        set({ showSuggestions: true });
         return;
       }
 
@@ -85,8 +134,9 @@ export const useChatStore = create<ChatState>((set, get) => ({
       const decoder = new TextDecoder();
 
       if (!reader) {
-        get().addMessage({ role: 'assistant', content: 'Ошибка: нет потока данных.' });
+        get().addMessage({ role: 'assistant', content: 'Ошибка: нет потока данных. Попробуйте ещё раз.' });
         get().setLoading(false);
+        set({ showSuggestions: true });
         return;
       }
 
@@ -94,17 +144,27 @@ export const useChatStore = create<ChatState>((set, get) => ({
       get().addMessage({ role: 'assistant', content: '' });
 
       let fullContent = '';
+      let buffer = ''; // Буфер для обработки разрезанных SSE-строк
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
+        if (controller.signal.aborted) break;
 
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
+        // Добавляем новый чанк к буферу
+        buffer += decoder.decode(value, { stream: true });
+
+        // Обрабатываем только полные строки (заканчивающиеся \n)
+        const lines = buffer.split('\n');
+        // Последний элемент может быть неполным — оставляем в буфере
+        buffer = lines.pop() || '';
 
         for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const data = line.slice(6).trim();
+          const trimmedLine = line.trim();
+          if (!trimmedLine) continue;
+
+          if (trimmedLine.startsWith('data: ')) {
+            const data = trimmedLine.slice(6).trim();
             if (data === '[DONE]') continue;
             try {
               const parsed = JSON.parse(data);
@@ -123,7 +183,29 @@ export const useChatStore = create<ChatState>((set, get) => ({
                 get().appendToLastMessage(content);
               }
             } catch {
-              // пропускаем не-JSON строки
+              // Неполный JSON — пропускаем, данные в следующем чанке
+            }
+          }
+        }
+      }
+
+      // Обрабатываем остаток буфера
+      if (buffer.trim()) {
+        const remainingLine = buffer.trim();
+        if (remainingLine.startsWith('data: ')) {
+          const data = remainingLine.slice(6).trim();
+          if (data !== '[DONE]') {
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.type !== 'model_info') {
+                const content = parsed.choices?.[0]?.delta?.content;
+                if (content) {
+                  fullContent += content;
+                  get().appendToLastMessage(content);
+                }
+              }
+            } catch {
+              // Игнорируем неполный JSON в конце
             }
           }
         }
@@ -132,9 +214,20 @@ export const useChatStore = create<ChatState>((set, get) => ({
       if (!fullContent) {
         get().appendToLastMessage('Не удалось получить ответ. Попробуйте другую модель или повторите запрос.');
       }
+
+      // Показываем подсказки после ответа
+      set({ showSuggestions: true });
     } catch (error) {
+      if (controller.signal.aborted) {
+        // Запрос был отменён (пользователь закрыл чат или начал новый) — тихо выходим
+        return;
+      }
       get().addMessage({ role: 'assistant', content: 'Произошла ошибка сети. Проверьте подключение и попробуйте снова.' });
+      set({ showSuggestions: true });
     } finally {
+      if (currentAbortController === controller) {
+        currentAbortController = null;
+      }
       get().setLoading(false);
     }
   },

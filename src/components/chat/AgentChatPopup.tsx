@@ -6,13 +6,13 @@ import { chatPrompts } from '@/data/chat-prompts';
 import { agents } from '@/data/agent-data';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
-import { X, Minimize2, Maximize2, Shrink, Sparkles } from 'lucide-react';
+import { X, Minimize2, Maximize2, Shrink, Sparkles, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 
 export function AgentChatPopup() {
-  const { messages, isLoading, activeCategory, setActiveCategory, clearMessages, sendMessage } = useChatStore();
+  const { messages, isLoading, activeCategory, setActiveCategory, clearMessages, sendMessage, showSuggestions, setShowSuggestions, retryLastMessage } = useChatStore();
   const { chatOpen, setChatOpen, currentCategory } = useNavigationStore();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -26,7 +26,6 @@ export function AgentChatPopup() {
   // Обновлять activeCategory при смене темы, пока чат открыт
   useEffect(() => {
     if (chatOpen && currentCategory && currentCategory !== activeCategory) {
-      // Используем setTimeout чтобы избежать "Cannot update component during render"
       const timer = setTimeout(() => {
         setActiveCategory(currentCategory);
         clearMessages();
@@ -59,6 +58,17 @@ export function AgentChatPopup() {
   const handleExpand = useCallback(() => {
     setIsExpanded(prev => !prev);
   }, []);
+
+  // Проверяем, содержит ли последнее сообщение ассистента текст ошибки
+  const lastAssistantMessage = messages.length > 0
+    ? [...messages].reverse().find(m => m.role === 'assistant')
+    : null;
+  const lastMessageIsError = lastAssistantMessage
+    ? (lastAssistantMessage.content.includes('Не удалось получить ответ') ||
+       lastAssistantMessage.content.includes('Ошибка') ||
+       lastAssistantMessage.content.includes('Все модели заняты') ||
+       lastAssistantMessage.content.includes('ошибка сети'))
+    : false;
 
   // Ранний return ПОСЛЕ всех хуков
   if (!chatOpen || !agent) return null;
@@ -237,6 +247,37 @@ export function AgentChatPopup() {
                       />
                     </div>
                     <span className="text-base">Думаю...</span>
+                  </div>
+                )}
+
+                {/* Кнопка повтора при ошибке */}
+                {!isLoading && lastMessageIsError && (
+                  <div className="flex justify-center pt-1">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={retryLastMessage}
+                      className="gap-1.5 text-xs"
+                    >
+                      <RefreshCw className="h-3 w-3" />
+                      Попробовать снова
+                    </Button>
+                  </div>
+                )}
+
+                {/* Подсказки после ответа */}
+                {!isLoading && showSuggestions && !lastMessageIsError && agent.suggestions && (
+                  <div className="pt-2 space-y-1.5">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Ещё вопросы</p>
+                    {agent.suggestions.map((s, i) => (
+                      <button
+                        key={`follow-${i}`}
+                        onClick={() => sendMessage(s, systemPrompt)}
+                        className="w-full text-left text-xs px-3 py-1.5 rounded-lg border border-border hover:border-primary/40 hover:bg-primary/5 transition-colors text-muted-foreground hover:text-foreground"
+                      >
+                        {s}
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>

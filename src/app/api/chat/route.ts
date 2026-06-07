@@ -5,6 +5,9 @@ let cachedFreeModels: string[] = [];
 let lastFetchTime = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 минут
 
+// Таймаут для каждой попытки модели (8 секунд на подключение)
+const MODEL_TIMEOUT_MS = 8000;
+
 async function getFreeModels(): Promise<string[]> {
   const now = Date.now();
   if (cachedFreeModels.length > 0 && now - lastFetchTime < CACHE_TTL) {
@@ -60,6 +63,19 @@ function getFallbackModels(): string[] {
   ];
 }
 
+// Fetch с таймаутом
+function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: number): Promise<Response> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+  return fetch(url, {
+    ...options,
+    signal: controller.signal,
+  }).finally(() => {
+    clearTimeout(timeout);
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { messages, systemPrompt, model: clientModel, apiToken } = await req.json();
@@ -77,7 +93,7 @@ export async function POST(req: NextRequest) {
     }
 
     const allMessages = [
-      { role: 'system', content: systemPrompt },
+      { role: 'system', content: systemPrompt || 'Ты — полезный AI-ассистент. Отвечай на русском языке.' },
       ...messages,
     ];
 
@@ -94,22 +110,26 @@ export async function POST(req: NextRequest) {
 
     for (const model of modelsToTry) {
       try {
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-            'HTTP-Referer': 'https://dive-into-llms.app',
-            'X-Title': 'Dive Into LLMs',
+        const response = await fetchWithTimeout(
+          'https://openrouter.ai/api/v1/chat/completions',
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${apiKey}`,
+              'Content-Type': 'application/json',
+              'HTTP-Referer': 'https://dive-into-llms.app',
+              'X-Title': 'Dive Into LLMs',
+            },
+            body: JSON.stringify({
+              model,
+              messages: allMessages,
+              stream: true,
+              max_tokens: 2048,
+              temperature: 0.7,
+            }),
           },
-          body: JSON.stringify({
-            model,
-            messages: allMessages,
-            stream: true,
-            max_tokens: 2048,
-            temperature: 0.7,
-          }),
-        });
+          MODEL_TIMEOUT_MS,
+        );
 
         if (response.ok) {
           // Инжектим кастомное SSE-событие с инфо о модели
@@ -164,14 +184,21 @@ export async function POST(req: NextRequest) {
           rateLimitedModels.push(model);
         }
 
-        const errText = await response.text();
-        console.warn(`Model ${model} failed (${response.status}):`, errText);
+        const errText = await response.text().catch(() => 'unknown error');
+        console.warn(`Model ${model} failed (${response.status}):`, errText.slice(0, 200));
         lastError = errText;
 
         // Продолжаем со следующей моделью
         continue;
-      } catch (fetchError) {
-        console.warn(`Model ${model} fetch error:`, fetchError);
+      } catch (fetchError: unknown) {
+        const errMsg = fetchError instanceof Error ? fetchError.message : 'unknown';
+        if (errMsg.includes('abort')) {
+          console.warn(`Model ${model} timed out after ${MODEL_TIMEOUT_MS}ms`);
+          lastError = `Timeout after ${MODEL_TIMEOUT_MS}ms`;
+        } else {
+          console.warn(`Model ${model} fetch error:`, errMsg);
+          lastError = errMsg;
+        }
         continue;
       }
     }
