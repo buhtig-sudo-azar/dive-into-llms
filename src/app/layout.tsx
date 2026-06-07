@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   keywords: ["LLM", "AI", "Prompt Engineering", "RAG", "MCP", "AI Agents", "обучение"],
   authors: [{ name: "AZAR" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.png",
   },
 };
 
