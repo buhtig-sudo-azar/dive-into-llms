@@ -10,6 +10,7 @@ import { CategoryView } from '@/components/content/CategoryView';
 import { TopicView } from '@/components/content/TopicView';
 import { ChatPanel } from '@/components/chat/ChatPanel';
 import { SearchDialog } from '@/components/search/SearchDialog';
+import { ScrollToTop } from './ScrollToTop';
 
 export function AppShell() {
   const currentView = useNavigationStore(s => s.currentView);
@@ -48,6 +49,7 @@ export function AppShell() {
       )}
 
       <SearchDialog />
+      <ScrollToTop />
     </div>
   );
 }

@@ -15,16 +15,21 @@ interface NavigationState {
   setChatOpen: (open: boolean) => void;
 }
 
+function scrollToMainTop() {
+  const main = document.querySelector('main');
+  if (main) main.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 export const useNavigationStore = create<NavigationState>((set) => ({
   currentView: 'home',
   currentCategory: null,
   currentSubtopic: null,
   sidebarOpen: true,
   chatOpen: false,
-  navigateToHome: () => { window.scrollTo({ top: 0, behavior: 'smooth' }); set({ currentView: 'home', currentCategory: null, currentSubtopic: null }); },
-  navigateToCategory: (slug) => { window.scrollTo({ top: 0, behavior: 'smooth' }); set({ currentView: 'category', currentCategory: slug, currentSubtopic: null }); },
+  navigateToHome: () => { scrollToMainTop(); set({ currentView: 'home', currentCategory: null, currentSubtopic: null }); },
+  navigateToCategory: (slug) => { scrollToMainTop(); set({ currentView: 'category', currentCategory: slug, currentSubtopic: null }); },
   navigateToSubtopic: (categorySlug, subtopicSlug) => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToMainTop();
     set({ currentView: 'subtopic', currentCategory: categorySlug, currentSubtopic: subtopicSlug });
   },
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
