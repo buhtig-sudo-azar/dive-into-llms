@@ -6,7 +6,7 @@ import { chatPrompts } from '@/data/chat-prompts';
 import { agents } from '@/data/agent-data';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
-import { X, Minimize2, Sparkles } from 'lucide-react';
+import { X, Minimize2, Maximize2, Shrink, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRef, useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
@@ -16,6 +16,7 @@ export function AgentChatPopup() {
   const { chatOpen, setChatOpen, currentCategory } = useNavigationStore();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const agent = activeCategory ? agents[activeCategory] : (currentCategory ? agents[currentCategory] : null);
   const systemPrompt = activeCategory ? chatPrompts[activeCategory] || '' : '';
@@ -53,6 +54,10 @@ export function AgentChatPopup() {
 
   const handleRestore = useCallback(() => {
     setIsMinimized(false);
+  }, []);
+
+  const handleExpand = useCallback(() => {
+    setIsExpanded(prev => !prev);
   }, []);
 
   // Ранний return ПОСЛЕ всех хуков
@@ -96,8 +101,11 @@ export function AgentChatPopup() {
           className={`
             fixed z-50 flex flex-col
             bg-background border border-border shadow-2xl rounded-2xl overflow-hidden
-            sm:bottom-24 sm:right-6 sm:w-[380px] sm:max-h-[540px]
-            max-sm:inset-x-3 max-sm:bottom-24 max-sm:top-auto max-sm:max-h-[75vh]
+            transition-all duration-300 ease-in-out
+            ${isExpanded
+              ? 'sm:bottom-6 sm:right-6 sm:top-6 sm:w-[calc(100vw-3rem)] sm:max-h-[calc(100vh-3rem)] max-sm:inset-3 max-sm:max-h-[calc(100vh-1.5rem)]'
+              : 'sm:bottom-24 sm:right-6 sm:w-[420px] sm:max-h-[600px] max-sm:inset-x-3 max-sm:bottom-24 max-sm:top-auto max-sm:max-h-[75vh]'
+            }
             animate-in slide-in-from-bottom-4 fade-in duration-200
           `}
         >
@@ -119,13 +127,22 @@ export function AgentChatPopup() {
                 <h3 className="text-base font-bold text-foreground truncate">{agent.name}</h3>
                 <p className="text-sm text-muted-foreground truncate">{agent.role}</p>
               </div>
-              <div className="flex items-center gap-1 flex-shrink-0">
+              <div className="flex items-center gap-0.5 flex-shrink-0">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7 hover:bg-muted"
+                  onClick={handleExpand}
+                  aria-label={isExpanded ? 'Свернуть окно' : 'Развернуть окно'}
+                >
+                  {isExpanded ? <Shrink className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+                </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="h-7 w-7 hover:bg-muted"
                   onClick={handleMinimize}
-                  aria-label="Свернуть чат"
+                  aria-label="Свернуть в аватар"
                 >
                   <Minimize2 className="h-3.5 w-3.5" />
                 </Button>

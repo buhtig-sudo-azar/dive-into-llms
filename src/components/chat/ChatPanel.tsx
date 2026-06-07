@@ -5,15 +5,16 @@ import { useNavigationStore } from '@/store/navigation-store';
 import { chatPrompts } from '@/data/chat-prompts';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
-import { X, BotIcon, MessageSquare } from 'lucide-react';
+import { X, Minimize2, Maximize2, Shrink, BotIcon, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 export function ChatPanel({ isMobile = false }: { isMobile?: boolean }) {
   const { messages, isLoading, activeCategory } = useChatStore();
   const { setChatOpen } = useNavigationStore();
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -34,16 +35,27 @@ export function ChatPanel({ isMobile = false }: { isMobile?: boolean }) {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className={`flex flex-col h-full transition-all duration-300 ${isExpanded ? '' : ''}`}>
       {/* Chat header */}
       <div className="flex items-center gap-2 p-3 border-b border-border shrink-0">
         <BotIcon className="h-4 w-4 text-primary" />
-        <span className="text-sm font-medium flex-1">
+        <span className="text-base font-medium flex-1">
           {activeCategory ? `${categoryNames[activeCategory] || 'AI'} Наставник` : 'AI Наставник'}
         </span>
-        <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setChatOpen(false)}>
-          <X className="h-4 w-4" />
-        </Button>
+        <div className="flex items-center gap-0.5">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 hover:bg-muted"
+            onClick={() => setIsExpanded(prev => !prev)}
+            aria-label={isExpanded ? 'Свернуть' : 'Развернуть'}
+          >
+            {isExpanded ? <Shrink className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+          </Button>
+          <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-muted" onClick={() => setChatOpen(false)}>
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Messages - using plain div with overflow for reliable scrolling */}
@@ -56,8 +68,8 @@ export function ChatPanel({ isMobile = false }: { isMobile?: boolean }) {
             <div className="p-3 rounded-full bg-primary/10 mb-3">
               <MessageSquare className="h-6 w-6 text-primary" />
             </div>
-            <p className="text-sm font-medium mb-1">AI-наставник</p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-base font-medium mb-1">AI-наставник</p>
+            <p className="text-sm text-muted-foreground">
               Задайте вопрос по теме{' '}
               {activeCategory ? categoryNames[activeCategory] : ''}
             </p>
