@@ -67,6 +67,16 @@ export function ChatInput({ systemPrompt }: { systemPrompt: string }) {
             if (data === '[DONE]') continue;
             try {
               const parsed = JSON.parse(data);
+              // Handle custom model_info event
+              if (parsed.type === 'model_info') {
+                // Mark rate-limited models in the store
+                if (parsed.rateLimited && Array.isArray(parsed.rateLimited)) {
+                  for (const modelId of parsed.rateLimited) {
+                    useModelStore.getState().markModelRateLimited(modelId);
+                  }
+                }
+                continue;
+              }
               const content = parsed.choices?.[0]?.delta?.content;
               if (content) {
                 fullContent += content;

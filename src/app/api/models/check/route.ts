@@ -1,0 +1,81 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function POST(req: NextRequest) {
+  try {
+    const { model } = await req.json();
+
+    if (!model || typeof model !== 'string') {
+      return NextResponse.json({ error: 'Model is required' }, { status: 400 });
+    }
+
+    const apiKey = process.env.OPENROUTER_API_KEY;
+
+    if (!apiKey) {
+      return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
+    }
+
+    // Probe the model with a minimal request
+    const startTime = Date.now();
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://dive-into-llms.app',
+        'X-Title': 'Dive Into LLMs Probe',
+      },
+      body: JSON.stringify({
+        model,
+        messages: [{ role: 'user', content: 'hi' }],
+        max_tokens: 1,
+        stream: false,
+      }),
+    });
+
+    const latency = Date.now() - startTime;
+
+    // Extract rate limit headers if present
+    const rateLimitLimit = response.headers.get('x-ratelimit-limit');
+    const rateLimitRemaining = response.headers.get('x-ratelimit-remaining');
+    const rateLimitReset = response.headers.get('x-ratelimit-reset');
+
+    if (response.ok) {
+      return NextResponse.json({
+        available: true,
+        model,
+        latency,
+        rateLimit: {
+          limit: rateLimitLimit ? parseInt(rateLimitLimit, 10) : null,
+          remaining: rateLimitRemaining ? parseInt(rateLimitRemaining, 10) : null,
+          reset: rateLimitReset || null,
+        },
+      });
+    }
+
+    // Rate limited
+    if (response.status === 429) {
+      return NextResponse.json({
+        available: false,
+        model,
+        reason: 'rate_limited',
+        rateLimit: {
+          limit: rateLimitLimit ? parseInt(rateLimitLimit, 10) : null,
+          remaining: 0,
+          reset: rateLimitReset || null,
+        },
+      });
+    }
+
+    // Other errors (model not found, etc.)
+    const errText = await response.text().catch(() => '');
+    return NextResponse.json({
+      available: false,
+      model,
+      reason: response.status === 404 ? 'not_found' : 'error',
+      details: errText,
+    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}

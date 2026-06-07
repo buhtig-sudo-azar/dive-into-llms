@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
       : FREE_MODELS;
 
     let lastError = '';
+    const rateLimitedModels: string[] = [];
 
     for (const model of modelsToTry) {
       try {
@@ -58,25 +59,66 @@ export async function POST(req: NextRequest) {
         });
 
         if (response.ok) {
-          // Forward the stream
-          return new Response(response.body, {
+          // Inject a custom SSE event with model info + rate limited models
+          // Then forward the actual stream
+          const modelInfoEvent = `data: ${JSON.stringify({
+            type: 'model_info',
+            model,
+            rateLimited: rateLimitedModels,
+          })}\n\n`;
+
+          // Create a combined stream: model_info event + actual response
+          const encoder = new TextEncoder();
+          const infoChunk = encoder.encode(modelInfoEvent);
+          const originalStream = response.body;
+
+          if (!originalStream) {
+            return new Response(JSON.stringify({ error: 'No stream body' }), {
+              status: 500,
+              headers: { 'Content-Type': 'application/json' },
+            });
+          }
+
+          // Combine: prepend model_info, then forward the rest
+          const combinedStream = new ReadableStream({
+            async start(controller) {
+              controller.enqueue(infoChunk);
+              const reader = originalStream.getReader();
+              try {
+                while (true) {
+                  const { done, value } = await reader.read();
+                  if (done) break;
+                  controller.enqueue(value);
+                }
+                controller.close();
+              } catch (err) {
+                controller.error(err);
+              }
+            },
+          });
+
+          return new Response(combinedStream, {
             headers: {
               'Content-Type': 'text/event-stream',
               'Cache-Control': 'no-cache',
               Connection: 'keep-alive',
+              'X-Model-Used': model,
+              'X-Rate-Limited-Models': rateLimitedModels.join(','),
             },
           });
         }
 
-        // If rate limited or server error, try next model
+        // Track rate limited models
+        if (response.status === 429) {
+          rateLimitedModels.push(model);
+        }
+
         const errText = await response.text();
         console.warn(`Model ${model} failed (${response.status}):`, errText);
         lastError = errText;
 
-        // Don't retry on client errors (4xx) except 429 (rate limit)
         if (response.status === 429) continue;
         if (response.status >= 400 && response.status < 500) continue;
-        // Server errors — also try next
         continue;
       } catch (fetchError) {
         console.warn(`Model ${model} fetch error:`, fetchError);
@@ -86,7 +128,11 @@ export async function POST(req: NextRequest) {
 
     // All models failed
     console.error('All models failed. Last error:', lastError);
-    return new Response(JSON.stringify({ error: 'All models unavailable', details: lastError }), {
+    return new Response(JSON.stringify({
+      error: 'All models unavailable',
+      details: lastError,
+      rateLimitedModels,
+    }), {
       status: 503,
       headers: { 'Content-Type': 'application/json' },
     });
