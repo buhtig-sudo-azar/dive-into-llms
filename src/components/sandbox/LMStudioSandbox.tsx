@@ -169,6 +169,7 @@ export function LMStudioSandbox({
 
       const decoder = new TextDecoder();
       let fullText = '';
+      let actualCompletionTokens: number | null = null;
 
       // Приблизительная оценка токенов: ~1.3 токена на слово для русского текста
       const estimateTokens = (text: string) => Math.round(text.split(/\s+/).filter(Boolean).length * 1.3);
@@ -186,10 +187,17 @@ export function LMStudioSandbox({
             if (data === '[DONE]') break;
             try {
               const parsed = JSON.parse(data);
+
+              // Проверяем usage — OpenRouter может прислать реальное число токенов
+              const usage = parsed.usage;
+              if (usage?.completion_tokens) {
+                actualCompletionTokens = usage.completion_tokens;
+              }
+
               const delta = parsed.choices?.[0]?.delta?.content;
               if (delta) {
                 fullText += delta;
-                const tokenCount = estimateTokens(fullText);
+                const tokenCount = actualCompletionTokens || estimateTokens(fullText);
                 setResponse(fullText);
                 setTokensGenerated(tokenCount);
                 const elapsed = (Date.now() - startTimeRef.current) / 1000;
@@ -203,10 +211,14 @@ export function LMStudioSandbox({
         }
       }
 
-      const finalTokens = estimateTokens(fullText);
+      const finalTokens = actualCompletionTokens || estimateTokens(fullText);
+      setTokensGenerated(finalTokens);
+      const finalElapsed = (Date.now() - startTimeRef.current) / 1000;
+      setGenTime(finalElapsed);
+      setTokensPerSec(finalElapsed > 0 ? Math.round(finalTokens / finalElapsed) : 0);
       setLogLines((l) => [
         ...l,
-        `[GEN] Генерация завершена: ~${finalTokens} токенов за ${((Date.now() - startTimeRef.current) / 1000).toFixed(1)}с`,
+        `[GEN] Генерация завершена: ${actualCompletionTokens ? '' : '~'}${finalTokens} токенов за ${finalElapsed.toFixed(1)}с (лимит: ${maxTokens})`,
       ]);
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
