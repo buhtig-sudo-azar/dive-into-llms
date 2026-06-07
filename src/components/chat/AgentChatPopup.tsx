@@ -13,7 +13,7 @@ import Image from 'next/image';
 
 export function AgentChatPopup() {
   const { messages, isLoading, activeCategory, setActiveCategory, clearMessages } = useChatStore();
-  const { chatOpen, setChatOpen, setChatDismissed, currentCategory } = useNavigationStore();
+  const { chatOpen, setChatOpen, currentCategory } = useNavigationStore();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isMinimized, setIsMinimized] = useState(false);
 
@@ -44,8 +44,7 @@ export function AgentChatPopup() {
   const handleClose = useCallback(() => {
     setChatOpen(false);
     setIsMinimized(false);
-    setChatDismissed(true);
-  }, [setChatOpen, setChatDismissed]);
+  }, [setChatOpen]);
 
   const handleMinimize = useCallback(() => {
     setIsMinimized(true);
@@ -63,7 +62,7 @@ export function AgentChatPopup() {
       {/* Минимизированная версия — маленький аватар */}
       {isMinimized && (
         <div
-          className="fixed bottom-6 right-6 z-50 animate-in fade-in zoom-in-95 duration-200"
+          className="fixed bottom-20 right-6 z-50 animate-in fade-in zoom-in-95 duration-200"
         >
           <button
             onClick={handleRestore}
@@ -96,8 +95,8 @@ export function AgentChatPopup() {
           className={`
             fixed z-50 flex flex-col
             bg-background border border-border shadow-2xl rounded-2xl overflow-hidden
-            sm:bottom-6 sm:right-6 sm:w-[380px] sm:max-h-[540px]
-            max-sm:inset-x-3 max-sm:bottom-3 max-sm:top-auto max-sm:max-h-[75vh]
+            sm:bottom-20 sm:right-6 sm:w-[380px] sm:max-h-[540px]
+            max-sm:inset-x-3 max-sm:bottom-20 max-sm:top-auto max-sm:max-h-[75vh]
             animate-in slide-in-from-bottom-4 fade-in duration-200
           `}
         >

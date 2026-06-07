@@ -10,7 +10,6 @@ export function TopicAgent() {
   const currentView = useNavigationStore(s => s.currentView);
   const currentCategory = useNavigationStore(s => s.currentCategory);
   const chatOpen = useNavigationStore(s => s.chatOpen);
-  const chatDismissed = useNavigationStore(s => s.chatDismissed);
   const { setActiveCategory } = useChatStore();
   const [showTooltip, setShowTooltip] = useState(false);
   const [hasAppeared, setHasAppeared] = useState(false);
@@ -39,7 +38,7 @@ export function TopicAgent() {
     }
   }, [hasAppeared, chatOpen, currentCategory]);
 
-  if (!agent || !hasAppeared || chatOpen || chatDismissed) return null;
+  if (!agent || !hasAppeared || chatOpen) return null;
 
   const handleAgentClick = () => {
     setActiveCategory(currentCategory);
@@ -47,7 +46,7 @@ export function TopicAgent() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex items-end gap-3 animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-300">
+    <div className="fixed bottom-20 right-6 z-40 flex items-end gap-3 animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-300">
       {/* Тултип с именем агента */}
       {showTooltip && (
         <div className="hidden sm:block mb-2 bg-popover border border-border rounded-xl px-4 py-3 shadow-lg max-w-[200px] animate-in fade-in slide-in-from-right-2 duration-200">
