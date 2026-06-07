@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { Moon, Sun, Search, Menu, X, PanelLeft } from 'lucide-react';
+import { Moon, Sun, Search, Menu, X, PanelLeft, Key } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigationStore } from '@/store/navigation-store';
 import { ModelSelector } from '@/components/settings/ModelSelector';
@@ -45,6 +45,16 @@ export function Header() {
       <div className="flex items-center gap-1.5">
         {/* Model selector */}
         <ModelSelector />
+
+        <a
+          href="https://openrouter.ai/keys"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Получить API-ключ OpenRouter (бесплатно)"
+          className="flex items-center justify-center h-8 w-8 rounded-md hover:bg-accent transition-colors text-muted-foreground hover:text-primary"
+        >
+          <Key className="h-3.5 w-3.5" />
+        </a>
 
         <Button
           variant="ghost"
