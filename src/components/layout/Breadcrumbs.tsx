@@ -13,21 +13,21 @@ export function Breadcrumbs() {
   const subtopic = category?.subtopics.find(s => s.slug === currentSubtopic);
 
   return (
-    <nav className="flex items-center gap-1.5 text-sm text-muted-foreground px-6 py-3 border-b border-border/50">
+    <nav className="flex items-center gap-1.5 text-base text-muted-foreground px-4 sm:px-6 py-3 border-b border-border/50 overflow-x-auto">
       <button
         onClick={navigateToHome}
-        className="flex items-center gap-1 hover:text-foreground transition-colors"
+        className="flex items-center gap-1 hover:text-foreground transition-colors shrink-0"
       >
-        <Home className="h-3.5 w-3.5" />
-        <span>Обзор</span>
+        <Home className="h-4 w-4" />
+        <span className="hidden sm:inline">Обзор</span>
       </button>
 
       {category && (
         <>
-          <ChevronRight className="h-3 w-3" />
+          <ChevronRight className="h-3.5 w-3.5 shrink-0" />
           <button
             onClick={() => navigateToCategory(category.slug)}
-            className="hover:text-foreground transition-colors"
+            className="hover:text-foreground transition-colors truncate max-w-[140px] sm:max-w-none"
           >
             {category.title}
           </button>
@@ -36,8 +36,8 @@ export function Breadcrumbs() {
 
       {subtopic && (
         <>
-          <ChevronRight className="h-3 w-3" />
-          <span className="text-foreground font-medium">{subtopic.title}</span>
+          <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+          <span className="text-foreground font-medium truncate max-w-[160px] sm:max-w-none">{subtopic.title}</span>
         </>
       )}
     </nav>

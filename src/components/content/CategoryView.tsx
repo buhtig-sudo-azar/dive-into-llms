@@ -6,7 +6,7 @@ import { useProgressStore } from '@/store/progress-store';
 import { useChatStore } from '@/store/chat-store';
 import {
   Brain, MessageSquare, Layers, Plug, Database,
-  Bot, Laptop, Rocket, ChevronRight, CheckCircle2, Circle, BotIcon,
+  Bot, Laptop, Rocket, ChevronRight, CheckCircle2, Circle, BotIcon, ArrowLeft,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -19,7 +19,7 @@ const iconMap: Record<string, React.ElementType> = {
 
 export function CategoryView() {
   const currentCategory = useNavigationStore(s => s.currentCategory);
-  const { navigateToSubtopic, setChatOpen } = useNavigationStore();
+  const { navigateToSubtopic, setChatOpen, navigateToHome } = useNavigationStore();
   const { setActiveCategory, clearMessages } = useChatStore();
   const { isCompleted, isViewed, getCategoryProgress } = useProgressStore();
 
@@ -36,20 +36,29 @@ export function CategoryView() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
+        {/* Back button */}
+        <button
+          onClick={navigateToHome}
+          className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors mb-5 text-base group"
+        >
+          <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+          <span>Обзор</span>
+        </button>
+
         {/* Category header */}
-        <div className="flex items-start gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-start gap-4 mb-8">
           <div className="p-3 rounded-xl bg-primary/10">
             <Icon className="h-8 w-8 text-primary" />
           </div>
           <div className="flex-1">
-            <div className="flex items-center gap-3">
-              <h1 className="text-4xl font-bold tracking-tight">{category.title}</h1>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{category.title}</h1>
               <Button
                 variant="outline"
                 size="sm"
