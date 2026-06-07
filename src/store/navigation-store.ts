@@ -21,10 +21,12 @@ export const useNavigationStore = create<NavigationState>((set) => ({
   currentSubtopic: null,
   sidebarOpen: true,
   chatOpen: false,
-  navigateToHome: () => set({ currentView: 'home', currentCategory: null, currentSubtopic: null }),
-  navigateToCategory: (slug) => set({ currentView: 'category', currentCategory: slug, currentSubtopic: null }),
-  navigateToSubtopic: (categorySlug, subtopicSlug) =>
-    set({ currentView: 'subtopic', currentCategory: categorySlug, currentSubtopic: subtopicSlug }),
+  navigateToHome: () => { window.scrollTo({ top: 0, behavior: 'smooth' }); set({ currentView: 'home', currentCategory: null, currentSubtopic: null }); },
+  navigateToCategory: (slug) => { window.scrollTo({ top: 0, behavior: 'smooth' }); set({ currentView: 'category', currentCategory: slug, currentSubtopic: null }); },
+  navigateToSubtopic: (categorySlug, subtopicSlug) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    set({ currentView: 'subtopic', currentCategory: categorySlug, currentSubtopic: subtopicSlug });
+  },
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
   setSidebarOpen: (open) => set({ sidebarOpen: open }),
   toggleChat: () => set((s) => ({ chatOpen: !s.chatOpen })),
