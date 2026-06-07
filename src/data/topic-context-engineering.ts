@@ -44,7 +44,7 @@ export const contextEngineering: TopicCategory = {
   <text x="335" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">диалога</text>
   <rect x="405" y="55" width="80" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
   <text x="445" y="78" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Запрос</text>
-  <text x="445" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">юзера</text>
+  <text x="445" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">пользователя</text>
   <rect x="120" y="140" width="360" height="40" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
   <text x="300" y="165" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Приоритизация + Сжатие + Форматирование</text>
   <rect x="120" y="205" width="360" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
