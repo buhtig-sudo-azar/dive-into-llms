@@ -38,10 +38,10 @@ export function FloatingDock() {
     return () => main.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Появление агента с задержкой
+  // Появление агента с короткой задержкой
   useEffect(() => {
     if (agentVisible && agent) {
-      const timer = setTimeout(() => setHasAppeared(true), 800);
+      const timer = setTimeout(() => setHasAppeared(true), 300);
       return () => clearTimeout(timer);
     } else {
       setHasAppeared(false);
@@ -53,8 +53,8 @@ export function FloatingDock() {
     if (hasAppeared && !chatOpen) {
       const timer = setTimeout(() => {
         setShowTooltip(true);
-        setTimeout(() => setShowTooltip(false), 4000);
-      }, 1500);
+        setTimeout(() => setShowTooltip(false), 3000);
+      }, 600);
       return () => clearTimeout(timer);
     }
   }, [hasAppeared, chatOpen, currentCategory]);
@@ -81,13 +81,12 @@ export function FloatingDock() {
 
       {/* Агент — сверху */}
       {showAgent && (
-        <div className="pointer-events-auto flex items-end gap-3 animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-300">
-          {/* Тултип */}
+        <div className="pointer-events-auto flex items-end gap-1.5 animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-300">
+          {/* Тултип — вплотную к аватару */}
           {showTooltip && (
-            <div className="hidden sm:block mb-2 bg-popover border border-border rounded-xl px-4 py-3 shadow-lg max-w-[200px] animate-in fade-in slide-in-from-right-2 duration-200">
-              <p className="text-sm font-semibold text-foreground">{agent.name}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{agent.role}</p>
-              <p className="text-xs text-muted-foreground mt-1">Нажми, чтобы спросить!</p>
+            <div className="hidden sm:block mb-3 bg-popover border border-border rounded-lg px-3 py-2 shadow-lg max-w-[180px] animate-in fade-in slide-in-from-right-1 duration-150">
+              <p className="text-xs font-semibold text-foreground">{agent.name}</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">Нажми, чтобы спросить!</p>
             </div>
           )}
 
