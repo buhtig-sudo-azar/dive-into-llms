@@ -44,7 +44,8 @@ export function AgentChatPopup() {
   const handleClose = useCallback(() => {
     setChatOpen(false);
     setIsMinimized(false);
-  }, [setChatOpen]);
+    clearMessages();
+  }, [setChatOpen, clearMessages]);
 
   const handleMinimize = useCallback(() => {
     setIsMinimized(true);
