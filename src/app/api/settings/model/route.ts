@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,50 +13,15 @@ export async function POST(req: NextRequest) {
 
     const trimmedModel = model.trim();
 
-    // Read current .env.local
-    const envPath = join(process.cwd(), '.env.local');
-    let envContent: string;
-
-    try {
-      envContent = readFileSync(envPath, 'utf-8');
-    } catch {
-      // File doesn't exist, create it
-      envContent = '';
-    }
-
-    // Update or add OPENROUTER_MODEL
-    const lines = envContent.split('\n');
-    let found = false;
-    const updatedLines = lines.map((line) => {
-      if (line.startsWith('OPENROUTER_MODEL=')) {
-        found = true;
-        return `OPENROUTER_MODEL=${trimmedModel}`;
-      }
-      return line;
-    });
-
-    if (!found) {
-      // Add OPENROUTER_MODEL if it doesn't exist
-      const apiKeyIndex = updatedLines.findIndex((l) =>
-        l.startsWith('OPENROUTER_API_KEY=')
-      );
-      if (apiKeyIndex >= 0) {
-        updatedLines.splice(apiKeyIndex + 1, 0, `OPENROUTER_MODEL=${trimmedModel}`);
-      } else {
-        updatedLines.push(`OPENROUTER_MODEL=${trimmedModel}`);
-      }
-    }
-
-    const newContent = updatedLines.join('\n');
-    writeFileSync(envPath, newContent, 'utf-8');
-
-    // Update process.env for the current process so it takes effect immediately
+    // Update process.env for the current serverless function invocation
+    // Note: on Vercel, the filesystem is read-only, so we can't write .env.local
+    // The model is persisted client-side in localStorage and sent with each request
     process.env.OPENROUTER_MODEL = trimmedModel;
 
     return NextResponse.json({
       success: true,
       model: trimmedModel,
-      message: `Model updated to ${trimmedModel}. The new model is now active.`,
+      message: `Model set to ${trimmedModel}. Active for this session.`,
     });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error';

@@ -113,52 +113,19 @@ export function ModelSelector() {
     }
   }, [open, availableModels.length, fetchAvailableModels]);
 
-  // Sync current model to server on mount
-  useEffect(() => {
-    const syncModel = async () => {
-      try {
-        await fetch('/api/settings/model', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ model: currentModel }),
-        });
-      } catch {
-        // Silent fail
-      }
-    };
-    syncModel();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const applyModel = async (model: string) => {
     setIsApplying(true);
     setCurrentModel(model);
     setOpen(false);
 
-    try {
-      const res = await fetch('/api/settings/model', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model }),
-      });
+    // Model is stored in localStorage and sent with each API request
+    // No server-side persistence needed (Vercel has read-only filesystem)
+    toast({
+      title: 'Модель применена',
+      description: `Активна: ${model}`,
+    });
 
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: 'Ошибка' }));
-        throw new Error(err.error || 'Ошибка применения модели');
-      }
-
-      toast({
-        title: 'Модель применена',
-        description: `Активна: ${model}`,
-      });
-    } catch (error) {
-      toast({
-        title: 'Ошибка',
-        description: error instanceof Error ? error.message : 'Не удалось применить модель',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsApplying(false);
-    }
+    setIsApplying(false);
   };
 
   const handleCustomSubmit = () => {
