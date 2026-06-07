@@ -11,7 +11,6 @@ import { TopicView } from '@/components/content/TopicView';
 import { AgentChatPopup } from '@/components/chat/AgentChatPopup';
 import { SearchDialog } from '@/components/search/SearchDialog';
 import { FloatingDock } from './FloatingDock';
-import { FloatingHomeButton } from './FloatingHomeButton';
 import { useEffect, useRef } from 'react';
 
 export function AppShell() {
@@ -32,7 +31,7 @@ export function AppShell() {
       <Header />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-        <main ref={mainRef} className="flex-1 overflow-y-auto flex flex-col">
+        <main ref={mainRef} className="flex-1 overflow-y-auto flex flex-col min-w-0">
           <Breadcrumbs />
           <div className="flex-1">
             {currentView === 'home' && <HomeView />}
@@ -42,9 +41,6 @@ export function AppShell() {
           <Footer />
         </main>
       </div>
-
-      {/* Плавающая кнопка «На главную» */}
-      <FloatingHomeButton />
 
       {/* Плавающий док: агент + стрелка «Наверх» — обтекают друг друга */}
       <FloatingDock />
