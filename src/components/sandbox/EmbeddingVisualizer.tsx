@@ -154,6 +154,77 @@ export function EmbeddingVisualizer({ title, description }: { title: string; des
 
   const hasResults = similarities && positions2d;
 
+  // Вычисляем смещения лейблов чтобы избежать перекрытий
+  const labelOffsets = useMemo(() => {
+    if (!positions2d || positions2d.length <= 1) return positions2d?.map(() => 'bottom') || [];
+    const offsets: string[] = [];
+    // 8 возможных направлений: верх, низ, лево, право, и 4 диагонали
+    const dirs = ['bottom', 'top', 'right', 'left', 'bottom-right', 'bottom-left', 'top-right', 'top-left'];
+
+    for (let i = 0; i < positions2d.length; i++) {
+      let bestDir = 'bottom';
+      let bestMinDist = Infinity;
+
+      for (const dir of dirs) {
+        // Примерная позиция лейбла при этом направлении
+        let lx = positions2d[i][0];
+        let ly = positions2d[i][1];
+        const offset = 8; // % отступ
+        if (dir === 'top') ly -= offset;
+        else if (dir === 'bottom') ly += offset;
+        else if (dir === 'left') lx -= offset;
+        else if (dir === 'right') lx += offset;
+        else if (dir === 'bottom-right') { lx += offset * 0.7; ly += offset * 0.7; }
+        else if (dir === 'bottom-left') { lx -= offset * 0.7; ly += offset * 0.7; }
+        else if (dir === 'top-right') { lx += offset * 0.7; ly -= offset * 0.7; }
+        else if (dir === 'top-left') { lx -= offset * 0.7; ly -= offset * 0.7; }
+
+        // Минимальное расстояние от этого лейбла до других точек
+        let minDist = Infinity;
+        for (let j = 0; j < positions2d.length; j++) {
+          if (i === j) continue;
+          const dx = lx - positions2d[j][0];
+          const dy = ly - positions2d[j][1];
+          minDist = Math.min(minDist, Math.sqrt(dx * dx + dy * dy));
+        }
+        // Также штрафуем за выход за границы
+        if (lx < 5 || lx > 95 || ly < 5 || ly > 95) minDist -= 50;
+
+        if (minDist > bestMinDist) {
+          bestMinDist = minDist;
+          bestDir = dir;
+        }
+      }
+      offsets.push(bestDir);
+    }
+    return offsets;
+  }, [positions2d]);
+
+  const labelStyle = (idx: number): React.CSSProperties => {
+    const dir = labelOffsets[idx] || 'bottom';
+    const base: React.CSSProperties = { position: 'absolute' as const };
+    switch (dir) {
+      case 'top':
+        return { ...base, bottom: '100%', left: '50%', transform: 'translateX(-50%)', marginBottom: '4px' };
+      case 'bottom':
+        return { ...base, top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '4px' };
+      case 'left':
+        return { ...base, right: '100%', top: '50%', transform: 'translateY(-50%)', marginRight: '4px' };
+      case 'right':
+        return { ...base, left: '100%', top: '50%', transform: 'translateY(-50%)', marginLeft: '4px' };
+      case 'top-left':
+        return { ...base, bottom: '100%', right: '100%', marginBottom: '2px', marginRight: '2px' };
+      case 'top-right':
+        return { ...base, bottom: '100%', left: '100%', marginBottom: '2px', marginLeft: '2px' };
+      case 'bottom-left':
+        return { ...base, top: '100%', right: '100%', marginTop: '2px', marginRight: '2px' };
+      case 'bottom-right':
+        return { ...base, top: '100%', left: '100%', marginTop: '2px', marginLeft: '2px' };
+      default:
+        return { ...base, top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '4px' };
+    }
+  };
+
   return (
     <Card className="border-primary/20">
       <CardHeader className="pb-3">
@@ -317,10 +388,9 @@ export function EmbeddingVisualizer({ title, description }: { title: string; des
         {hasResults && positions2d && (
           <div>
             <label className="text-sm font-medium mb-2 block">Пространство эмбеддингов (PCA → 2D)</label>
-            <div className="relative w-full h-[280px] rounded-lg border border-border bg-muted/10 overflow-hidden">
-              {/* Сетка */}
+            <div className="relative w-full h-[360px] rounded-lg border border-border bg-muted/10 overflow-hidden">
+              {/* Линии связи */}
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                {/* Линии связи между похожими текстами */}
                 {texts.map((_, i) =>
                   texts.map((_, j) => {
                     if (j <= i || !similarities || similarities[i][j] < 0.3) return null;
@@ -347,20 +417,26 @@ export function EmbeddingVisualizer({ title, description }: { title: string; des
                 return (
                   <div
                     key={t.id}
-                    className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-                      isHighlighted ? 'z-10 scale-125' : 'z-0'
+                    className={`absolute transition-all duration-300 ${
+                      isHighlighted ? 'z-10' : 'z-0'
                     }`}
-                    style={{ left: `${positions2d[i][0]}%`, top: `${positions2d[i][1]}%` }}
+                    style={{
+                      left: `${positions2d[i][0]}%`,
+                      top: `${positions2d[i][1]}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
                     onMouseEnter={() => setHoveredPair([i, i])}
                     onMouseLeave={() => setHoveredPair(null)}
                   >
-                    <div className={`w-4 h-4 rounded-full border-2 border-background shadow-sm ${
-                      isHighlighted ? 'bg-primary' : 'bg-primary/70'
+                    <div className={`w-4 h-4 rounded-full border-2 border-background shadow-sm transition-transform ${
+                      isHighlighted ? 'bg-primary scale-150' : 'bg-primary/70 scale-100'
                     }`} />
-                    <div className={`text-[10px] whitespace-nowrap mt-1 text-center font-medium ${
-                      isHighlighted ? 'text-foreground' : 'text-muted-foreground'
-                    }`} style={{ transform: 'translateX(-25%)' }}>
-                      <span className="bg-background/80 px-1 rounded">{i + 1}. {t.content.slice(0, 30)}{t.content.length > 30 ? '...' : ''}</span>
+                    <div style={labelStyle(i)} className="whitespace-nowrap">
+                      <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded shadow-sm ${
+                        isHighlighted ? 'bg-primary text-primary-foreground' : 'bg-background/90 text-muted-foreground border border-border'
+                      }`}>
+                        {i + 1}. {t.content.slice(0, 25)}{t.content.length > 25 ? '...' : ''}
+                      </span>
                     </div>
                   </div>
                 );
