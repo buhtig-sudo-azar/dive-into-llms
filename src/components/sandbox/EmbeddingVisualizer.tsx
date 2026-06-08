@@ -154,76 +154,104 @@ export function EmbeddingVisualizer({ title, description }: { title: string; des
 
   const hasResults = similarities && positions2d;
 
-  // Вычисляем смещения лейблов чтобы избежать перекрытий
-  const labelOffsets = useMemo(() => {
-    if (!positions2d || positions2d.length <= 1) return positions2d?.map(() => 'bottom') || [];
-    const offsets: string[] = [];
-    // 8 возможных направлений: верх, низ, лево, право, и 4 диагонали
-    const dirs = ['bottom', 'top', 'right', 'left', 'bottom-right', 'bottom-left', 'top-right', 'top-left'];
+  // Вычисляем позиции лейблов с rectangle-based collision avoidance
+  const labelPositions = useMemo(() => {
+    if (!positions2d || positions2d.length <= 1) {
+      return positions2d?.map(() => ({ dir: 'bottom' as const, dx: 0, dy: 12 })) || [];
+    }
 
+    // Приблизительный размер лейбла в % от контейнера (360px height, full width)
+    // text-[10px] + padding ≈ 18px высота, ширина зависит от текста
+    const labelH = 5; // % от высоты контейнера
+    const charW = 1.2; // % ширины на символ
+    const labelWidths = texts.map((t) => Math.min(35, 3 + t.content.slice(0, 25).length * charW + 4));
+
+    // Направления и соответствующие смещения центра лейбла
+    const dirConfigs = [
+      { dir: 'bottom' as const, dx: 0, dy: 5 },
+      { dir: 'top' as const, dx: 0, dy: -5 },
+      { dir: 'right' as const, dx: 5, dy: 0 },
+      { dir: 'left' as const, dx: -5, dy: 0 },
+      { dir: 'bottom-right' as const, dx: 4, dy: 4 },
+      { dir: 'bottom-left' as const, dx: -4, dy: 4 },
+      { dir: 'top-right' as const, dx: 4, dy: -4 },
+      { dir: 'top-left' as const, dx: -4, dy: -4 },
+    ];
+
+    // Функция проверки пересечения двух прямоугольников
+    const rectsOverlap = (
+      ax: number, ay: number, aw: number, ah: number,
+      bx: number, by: number, bw: number, bh: number,
+      padding: number = 1.5
+    ): boolean => {
+      return !(ax + aw + padding < bx || bx + bw + padding < ax ||
+               ay + ah + padding < by || by + bh + padding < ay);
+    };
+
+    const results: { dir: string; dx: number; dy: number }[] = [];
+    // Занятые прямоугольники (уже размещённые лейблы)
+    const placed: { x: number; y: number; w: number; h: number }[] = [];
+
+    // Размещаем лейблы по одному, проверяя столкновения со всеми ранее размещёнными
     for (let i = 0; i < positions2d.length; i++) {
-      let bestDir = 'bottom';
-      let bestMinDist = Infinity;
+      const [px, py] = positions2d[i];
+      const w = labelWidths[i];
+      const h = labelH;
 
-      for (const dir of dirs) {
-        // Примерная позиция лейбла при этом направлении
-        let lx = positions2d[i][0];
-        let ly = positions2d[i][1];
-        const offset = 8; // % отступ
-        if (dir === 'top') ly -= offset;
-        else if (dir === 'bottom') ly += offset;
-        else if (dir === 'left') lx -= offset;
-        else if (dir === 'right') lx += offset;
-        else if (dir === 'bottom-right') { lx += offset * 0.7; ly += offset * 0.7; }
-        else if (dir === 'bottom-left') { lx -= offset * 0.7; ly += offset * 0.7; }
-        else if (dir === 'top-right') { lx += offset * 0.7; ly -= offset * 0.7; }
-        else if (dir === 'top-left') { lx -= offset * 0.7; ly -= offset * 0.7; }
+      let bestDir = dirConfigs[0];
+      let bestScore = -Infinity;
 
-        // Минимальное расстояние от этого лейбла до других точек
-        let minDist = Infinity;
+      for (const cfg of dirConfigs) {
+        // Центр лейбла = позиция точки + смещение направления
+        const cx = px + cfg.dx;
+        const cy = py + cfg.dy;
+        // Прямоугольник лейбла (центр → left/top/width/height)
+        const lx = cx - w / 2;
+        const ly = cy - h / 2;
+
+        // Штраф за выход за границы
+        let penalty = 0;
+        if (lx < 2) penalty += (2 - lx) * 10;
+        if (lx + w > 98) penalty += (lx + w - 98) * 10;
+        if (ly < 2) penalty += (2 - ly) * 10;
+        if (ly + h > 98) penalty += (ly + h - 98) * 10;
+
+        // Считаем количество пересечений с уже размещёнными лейблами
+        let overlaps = 0;
+        for (const rect of placed) {
+          if (rectsOverlap(lx, ly, w, h, rect.x, rect.y, rect.w, rect.h)) {
+            overlaps++;
+          }
+        }
+
+        // Считаем минимальное расстояние до других точек (чтобы лейбл не закрывал чужую точку)
+        let minPointDist = Infinity;
         for (let j = 0; j < positions2d.length; j++) {
           if (i === j) continue;
-          const dx = lx - positions2d[j][0];
-          const dy = ly - positions2d[j][1];
-          minDist = Math.min(minDist, Math.sqrt(dx * dx + dy * dy));
+          const dx = cx - positions2d[j][0];
+          const dy = cy - positions2d[j][1];
+          minPointDist = Math.min(minPointDist, Math.sqrt(dx * dx + dy * dy));
         }
-        // Также штрафуем за выход за границы
-        if (lx < 5 || lx > 95 || ly < 5 || ly > 95) minDist -= 50;
 
-        if (minDist > bestMinDist) {
-          bestMinDist = minDist;
-          bestDir = dir;
+        // Оценка: больше = лучше. Минимизируем overlaps, максимизируем dist, штрафуем за границы
+        const score = minPointDist * 2 - overlaps * 100 - penalty;
+        if (score > bestScore) {
+          bestScore = score;
+          bestDir = cfg;
         }
       }
-      offsets.push(bestDir);
-    }
-    return offsets;
-  }, [positions2d]);
 
-  const labelStyle = (idx: number): React.CSSProperties => {
-    const dir = labelOffsets[idx] || 'bottom';
-    const base: React.CSSProperties = { position: 'absolute' as const };
-    switch (dir) {
-      case 'top':
-        return { ...base, bottom: '100%', left: '50%', transform: 'translateX(-50%)', marginBottom: '4px' };
-      case 'bottom':
-        return { ...base, top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '4px' };
-      case 'left':
-        return { ...base, right: '100%', top: '50%', transform: 'translateY(-50%)', marginRight: '4px' };
-      case 'right':
-        return { ...base, left: '100%', top: '50%', transform: 'translateY(-50%)', marginLeft: '4px' };
-      case 'top-left':
-        return { ...base, bottom: '100%', right: '100%', marginBottom: '2px', marginRight: '2px' };
-      case 'top-right':
-        return { ...base, bottom: '100%', left: '100%', marginBottom: '2px', marginLeft: '2px' };
-      case 'bottom-left':
-        return { ...base, top: '100%', right: '100%', marginTop: '2px', marginRight: '2px' };
-      case 'bottom-right':
-        return { ...base, top: '100%', left: '100%', marginTop: '2px', marginLeft: '2px' };
-      default:
-        return { ...base, top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: '4px' };
+      // Финальная позиция выбранного направления
+      const finalCx = px + bestDir.dx;
+      const finalCy = py + bestDir.dy;
+      const finalLx = finalCx - w / 2;
+      const finalLy = finalCy - h / 2;
+      placed.push({ x: finalLx, y: finalLy, w, h });
+      results.push({ dir: bestDir.dir, dx: bestDir.dx, dy: bestDir.dy });
     }
-  };
+
+    return results;
+  }, [positions2d, texts]);
 
   return (
     <Card className="border-primary/20">
@@ -411,12 +439,12 @@ export function EmbeddingVisualizer({ title, description }: { title: string; des
                 )}
               </svg>
 
-              {/* Точки и подписи */}
+              {/* Точки */}
               {texts.map((t, i) => {
                 const isHighlighted = hoveredPair !== null && (hoveredPair[0] === i || hoveredPair[1] === i);
                 return (
                   <div
-                    key={t.id}
+                    key={`dot-${t.id}`}
                     className={`absolute transition-all duration-300 ${
                       isHighlighted ? 'z-10' : 'z-0'
                     }`}
@@ -431,13 +459,35 @@ export function EmbeddingVisualizer({ title, description }: { title: string; des
                     <div className={`w-4 h-4 rounded-full border-2 border-background shadow-sm transition-transform ${
                       isHighlighted ? 'bg-primary scale-150' : 'bg-primary/70 scale-100'
                     }`} />
-                    <div style={labelStyle(i)} className="whitespace-nowrap">
-                      <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded shadow-sm ${
-                        isHighlighted ? 'bg-primary text-primary-foreground' : 'bg-background/90 text-muted-foreground border border-border'
-                      }`}>
-                        {i + 1}. {t.content.slice(0, 25)}{t.content.length > 25 ? '...' : ''}
-                      </span>
-                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Подписи — отдельный слой для избежания перекрытий */}
+              {texts.map((t, i) => {
+                const pos = labelPositions[i];
+                if (!pos) return null;
+                const isHighlighted = hoveredPair !== null && (hoveredPair[0] === i || hoveredPair[1] === i);
+                // Лейбл позиционируется абсолютно относительно карты
+                const labelLeft = positions2d[i][0] + pos.dx;
+                const labelTop = positions2d[i][1] + pos.dy;
+                return (
+                  <div
+                    key={`label-${t.id}`}
+                    className={`absolute ${isHighlighted ? 'z-20' : 'z-5'}`}
+                    style={{
+                      left: `${labelLeft}%`,
+                      top: `${labelTop}%`,
+                      transform: 'translate(-50%, -50%)',
+                      whiteSpace: 'nowrap',
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded shadow-sm ${
+                      isHighlighted ? 'bg-primary text-primary-foreground' : 'bg-background/90 text-muted-foreground border border-border'
+                    }`}>
+                      {i + 1}. {t.content.slice(0, 25)}{t.content.length > 25 ? '...' : ''}
+                    </span>
                   </div>
                 );
               })}
