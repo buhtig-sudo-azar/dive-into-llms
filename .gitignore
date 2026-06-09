@@ -52,3 +52,4 @@ server.log
 # AI platform artifacts
 Caddyfile
 worklog.md
+upload/

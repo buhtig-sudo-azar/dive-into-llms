@@ -417,27 +417,45 @@ export function EmbeddingVisualizer({ title, description }: { title: string; des
           <div>
             <label className="text-sm font-medium mb-2 block">Пространство эмбеддингов (PCA → 2D)</label>
             <div className="relative w-full h-[360px] rounded-lg border border-border bg-muted/10 overflow-hidden">
-              {/* Линии связи */}
-              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                {texts.map((_, i) =>
-                  texts.map((_, j) => {
-                    if (j <= i || !similarities || similarities[i][j] < 0.3) return null;
-                    return (
-                      <line
-                        key={`${i}-${j}`}
-                        x1={positions2d[i][0]}
-                        y1={positions2d[i][1]}
-                        x2={positions2d[j][0]}
-                        y2={positions2d[j][1]}
-                        stroke="currentColor"
-                        strokeOpacity={Math.min(1, similarities[i][j])}
-                        strokeWidth={similarities[i][j] > 0.7 ? 0.5 : 0.2}
-                        className={similarities[i][j] > 0.7 ? 'text-green-500' : 'text-amber-500'}
-                      />
-                    );
-                  })
-                )}
-              </svg>
+              {/* Подсказка кластеризации — цветные фоновые зоны */}
+              {hasResults && similarities && positions2d && (() => {
+                // Группируем тексты в кластеры по сходству > 0.5
+                const clusters: number[][] = [];
+                const visited = new Set<number>();
+                for (let i = 0; i < texts.length; i++) {
+                  if (visited.has(i)) continue;
+                  const cluster = [i];
+                  visited.add(i);
+                  for (let j = i + 1; j < texts.length; j++) {
+                    if (!visited.has(j) && similarities[i][j] >= 0.5) {
+                      cluster.push(j);
+                      visited.add(j);
+                    }
+                  }
+                  if (cluster.length > 1) clusters.push(cluster);
+                }
+                const clusterColors = ['bg-green-500/8', 'bg-blue-500/8', 'bg-purple-500/8', 'bg-amber-500/8'];
+                return clusters.map((cluster, ci) => {
+                  const xs = cluster.map(idx => positions2d[idx][0]);
+                  const ys = cluster.map(idx => positions2d[idx][1]);
+                  const minX = Math.max(0, Math.min(...xs) - 8);
+                  const maxX = Math.min(100, Math.max(...xs) + 8);
+                  const minY = Math.max(0, Math.min(...ys) - 6);
+                  const maxY = Math.min(100, Math.max(...ys) + 6);
+                  return (
+                    <div
+                      key={`cluster-${ci}`}
+                      className={`absolute rounded-full ${clusterColors[ci % clusterColors.length]}`}
+                      style={{
+                        left: `${minX}%`,
+                        top: `${minY}%`,
+                        width: `${maxX - minX}%`,
+                        height: `${maxY - minY}%`,
+                      }}
+                    />
+                  );
+                });
+              })()}
 
               {/* Точки */}
               {texts.map((t, i) => {

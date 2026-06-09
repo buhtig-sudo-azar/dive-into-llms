@@ -37,35 +37,37 @@ export const topics: TopicCategory[] = [
         diagram: {
           type: 'architecture',
           title: 'Архитектура LLM',
-          svgContent: `<svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <rect x="10" y="10" width="580" height="380" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+          svgContent: `<svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" class="w-full">
+  <rect x="10" y="10" width="580" height="400" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
   <text x="300" y="40" text-anchor="middle" fill="var(--foreground)" font-size="16" font-weight="bold">Архитектура Large Language Model</text>
-  <rect x="40" y="60" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="120" y="90" text-anchor="middle" fill="var(--foreground)" font-size="13">Входной текст</text>
-  <rect x="40" y="130" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="120" y="160" text-anchor="middle" fill="var(--foreground)" font-size="13">Токенизация</text>
-  <rect x="40" y="200" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="120" y="230" text-anchor="middle" fill="var(--foreground)" font-size="13">Embedding + Pos</text>
+  <rect x="40" y="55" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="60" y="75" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">1</text>
+  <text x="120" y="85" text-anchor="middle" fill="var(--foreground)" font-size="13">Входной текст</text>
+  <rect x="40" y="115" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="60" y="135" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">2</text>
+  <text x="120" y="145" text-anchor="middle" fill="var(--foreground)" font-size="13">Токенизация</text>
+  <rect x="40" y="175" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="60" y="195" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">3</text>
+  <text x="120" y="205" text-anchor="middle" fill="var(--foreground)" font-size="13">Embedding + Pos</text>
   <rect x="220" y="140" width="160" height="180" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <text x="240" y="162" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="bold">4</text>
   <text x="300" y="170" text-anchor="middle" fill="var(--foreground)" font-size="13" font-weight="bold">Transformer</text>
   <text x="300" y="195" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">Self-Attention</text>
   <text x="300" y="215" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">Feed-Forward</text>
   <text x="300" y="235" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">Layer Norm</text>
   <text x="300" y="255" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">× N слоёв</text>
   <text x="300" y="275" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">Residual</text>
-  <rect x="400" y="200" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="480" y="225" text-anchor="middle" fill="var(--foreground)" font-size="13">LM Head</text>
-  <rect x="400" y="270" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="480" y="300" text-anchor="middle" fill="var(--foreground)" font-size="13">Softmax</text>
-  <rect x="400" y="340" width="160" height="40" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
-  <text x="480" y="365" text-anchor="middle" fill="var(--foreground)" font-size="13">Следующий токен</text>
-  <line x1="120" y1="110" x2="120" y2="130" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="120" y1="180" x2="120" y2="200" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="200" y1="225" x2="220" y2="225" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="380" y1="225" x2="400" y2="225" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="480" y1="250" x2="480" y2="270" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="480" y1="320" x2="480" y2="340" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/></marker></defs>
+  <rect x="400" y="175" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="420" y="195" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">5</text>
+  <text x="480" y="205" text-anchor="middle" fill="var(--foreground)" font-size="13">LM Head</text>
+  <rect x="400" y="240" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="420" y="260" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">6</text>
+  <text x="480" y="270" text-anchor="middle" fill="var(--foreground)" font-size="13">Softmax</text>
+  <rect x="400" y="305" width="160" height="40" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <text x="420" y="323" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="bold">7</text>
+  <text x="480" y="330" text-anchor="middle" fill="var(--foreground)" font-size="13">Следующий токен</text>
+  <rect x="30" y="365" width="540" height="30" rx="6" fill="var(--muted)" opacity="0.3"/>
+  <text x="300" y="385" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Поток данных: Вход → Токенизация → Embedding → Transformer → LM Head → Softmax → Токен</text>
 </svg>`,
         },
         practicalExamples: [
@@ -190,20 +192,21 @@ enc.free(); // Освобождаем ресурсы`,
   <rect x="10" y="10" width="580" height="280" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
   <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Конвейер токенизации BPE</text>
   <rect x="30" y="60" width="130" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="45" y="78" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">1</text>
   <text x="95" y="78" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Исходный текст</text>
   <text x="95" y="95" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">"Hello world"</text>
   <rect x="195" y="60" width="130" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="210" y="78" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">2</text>
   <text x="260" y="78" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">BPE Tokenizer</text>
   <text x="260" y="95" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Словарь + алгоритм</text>
   <rect x="360" y="60" width="100" height="45" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <text x="375" y="78" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="bold">3</text>
   <text x="410" y="78" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Token IDs</text>
   <text x="410" y="95" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">[15496, 995]</text>
   <rect x="490" y="60" width="80" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="505" y="78" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">4</text>
   <text x="530" y="78" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Embedding</text>
   <text x="530" y="95" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Векторы</text>
-  <line x1="160" y1="82" x2="195" y2="82" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr2)"/>
-  <line x1="325" y1="82" x2="360" y2="82" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr2)"/>
-  <line x1="460" y1="82" x2="490" y2="82" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr2)"/>
   <rect x="30" y="130" width="540" height="60" rx="8" fill="var(--muted)" opacity="0.5"/>
   <text x="300" y="155" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Примеры токенизации</text>
   <text x="300" y="175" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">"неделя" → [неделя] (1 токен) | "сверхдержава" → [сверх, дер, жава] (3 токена)</text>
@@ -213,7 +216,6 @@ enc.free(); // Освобождаем ресурсы`,
   <rect x="310" y="210" width="260" height="65" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.1" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
   <text x="440" y="235" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Русский: ~2-3 символа/токен</text>
   <text x="440" y="255" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">"Привет мир" = 3-4 токена</text>
-  <defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/></marker></defs>
 </svg>`,
         },
         practicalExamples: [
@@ -422,31 +424,31 @@ function trimConversation(messages: Message[], maxTokens: number,
   <rect x="10" y="10" width="580" height="430" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
   <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Блок Transformer-декодера</text>
   <rect x="170" y="55" width="260" height="40" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="185" y="73" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">1</text>
   <text x="300" y="80" text-anchor="middle" fill="var(--foreground)" font-size="12">Input Embedding + Pos Enc</text>
   <rect x="170" y="110" width="260" height="35" rx="6" fill="var(--muted)" opacity="0.6" stroke="var(--border)" stroke-width="1"/>
+  <text x="185" y="130" fill="var(--muted-foreground)" font-size="10" font-weight="bold">2</text>
   <text x="300" y="133" text-anchor="middle" fill="var(--foreground)" font-size="11">Layer Norm</text>
   <rect x="100" y="160" width="400" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <text x="115" y="178" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="bold">3</text>
   <text x="300" y="183" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Masked Multi-Head Self-Attention</text>
   <text x="300" y="200" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Q, K, V проекции → Scaled Dot-Product → Concat → Linear</text>
   <rect x="170" y="225" width="260" height="30" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+  <text x="185" y="245" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">4</text>
   <text x="300" y="245" text-anchor="middle" fill="var(--foreground)" font-size="11">Residual + Add & Norm</text>
   <rect x="170" y="270" width="260" height="35" rx="6" fill="var(--muted)" opacity="0.6" stroke="var(--border)" stroke-width="1"/>
+  <text x="185" y="290" fill="var(--muted-foreground)" font-size="10" font-weight="bold">5</text>
   <text x="300" y="293" text-anchor="middle" fill="var(--foreground)" font-size="11">Layer Norm</text>
   <rect x="100" y="320" width="400" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="115" y="340" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">6</text>
   <text x="300" y="345" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Feed-Forward Network</text>
   <text x="300" y="360" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Linear → GELU → Linear (4x expansion)</text>
   <rect x="170" y="380" width="260" height="30" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+  <text x="185" y="400" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">7</text>
   <text x="300" y="400" text-anchor="middle" fill="var(--foreground)" font-size="11">Residual + Add & Norm</text>
   <rect x="40" y="160" width="45" height="250" rx="4" fill="none" stroke="var(--muted-foreground)" stroke-width="1" stroke-dasharray="4 2"/>
   <text x="62" y="290" text-anchor="middle" fill="var(--muted-foreground)" font-size="9" transform="rotate(-90 62 290)">× N слоёв</text>
-  <line x1="300" y1="95" x2="300" y2="110" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <line x1="300" y1="145" x2="300" y2="160" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <line x1="300" y1="210" x2="300" y2="225" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <line x1="300" y1="255" x2="300" y2="270" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <line x1="300" y1="305" x2="300" y2="320" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <line x1="300" y1="365" x2="300" y2="380" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
   <text x="300" y="430" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Выход → LM Head → Softmax → Вероятности токенов</text>
-  <defs><marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/></marker></defs>
 </svg>`,
         },
         practicalExamples: [

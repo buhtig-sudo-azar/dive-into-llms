@@ -252,7 +252,6 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
                     key={i}
                     title={sandbox.title}
                     description={sandbox.description}
-                    defaultSystem={sandbox.defaultSystem}
                   />
                 );
               case 'chunking-lab':
@@ -293,8 +292,6 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
                     key={i}
                     title={sandbox.title}
                     description={sandbox.description}
-                    defaultPrompt={sandbox.defaultPrompt}
-                    defaultSystem={sandbox.defaultSystem}
                   />
                 );
               case 'compression-lab':

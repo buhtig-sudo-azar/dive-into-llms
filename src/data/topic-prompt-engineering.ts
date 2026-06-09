@@ -32,9 +32,7 @@ export const promptEngineering: TopicCategory = {
         type: 'flowchart',
         title: 'Zero-shot запрос к LLM',
         svgContent: `<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <defs>
-    <marker id="arrowZs" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 1 L 10 5 L 0 9 z" fill="#6b7280"/></marker>
-  </defs>
+  
   <rect x="10" y="10" width="580" height="280" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
   <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Zero-shot Prompting</text>
   <!-- Системный промпт -->
@@ -54,11 +52,9 @@ export const promptEngineering: TopicCategory = {
   <rect x="120" y="255" width="360" height="25" rx="6" fill="var(--muted)" opacity="0.5"/>
   <text x="300" y="272" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Результат: объяснение декораторов на Python</text>
   <!-- Стрелки: промпты → LLM -->
-  <line x1="140" y1="135" x2="210" y2="178" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowZs)"/>
-  <line x1="425" y1="135" x2="390" y2="178" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowZs)"/>
-  <!-- Стрелка: LLM → Результат -->
-  <line x1="300" y1="230" x2="300" y2="253" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowZs)"/>
-  <!-- Подписи к стрелкам -->
+
+<!-- Стрелка: LLM → Результат -->
+<!-- Подписи к стрелкам -->
   <text x="155" y="162" fill="#6b7280" font-size="8" transform="rotate(-13, 155, 162)">роль + формат</text>
   <text x="430" y="162" fill="#6b7280" font-size="8" transform="rotate(12, 430, 162)">задача</text>
 </svg>`,
@@ -146,9 +142,7 @@ export const promptEngineering: TopicCategory = {
         type: 'flowchart',
         title: 'Few-shot Prompting',
         svgContent: `<svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <defs>
-    <marker id="arrowFs" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 1 L 10 5 L 0 9 z" fill="#6b7280"/></marker>
-  </defs>
+  
   <rect x="10" y="10" width="580" height="300" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
   <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Few-shot Prompting</text>
   <!-- Примеры -->
@@ -169,12 +163,9 @@ export const promptEngineering: TopicCategory = {
   <rect x="310" y="175" width="260" height="40" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
   <text x="440" y="200" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Ответ: "позитивная"</text>
   <!-- Стрелки -->
-  <line x1="280" y1="150" x2="308" y2="118" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowFs)"/>
-  <text x="285" y="128" fill="#6b7280" font-size="8">паттерн</text>
-  <line x1="440" y1="145" x2="440" y2="173" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowFs)"/>
-  <text x="450" y="162" fill="#6b7280" font-size="8">вывод</text>
-  <line x1="280" y1="197" x2="308" y2="197" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowFs)"/>
-  <text x="282" y="192" fill="#6b7280" font-size="8">запрос</text>
+<text x="285" y="128" fill="#6b7280" font-size="8">паттерн</text>
+<text x="450" y="162" fill="#6b7280" font-size="8">вывод</text>
+<text x="282" y="192" fill="#6b7280" font-size="8">запрос</text>
   <!-- Итог -->
   <rect x="30" y="240" width="540" height="55" rx="6" fill="var(--muted)" opacity="0.4"/>
   <text x="300" y="262" text-anchor="middle" fill="var(--foreground)" font-size="10">Ключевой принцип: примеры задают паттерн, модель воспроизводит его</text>
@@ -250,9 +241,7 @@ export const promptEngineering: TopicCategory = {
         type: 'flowchart',
         title: 'Chain of Thought vs прямой ответ',
         svgContent: `<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <defs>
-    <marker id="arrowCot" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 1 L 10 5 L 0 9 z" fill="#6b7280"/></marker>
-  </defs>
+  
   <rect x="10" y="10" width="580" height="280" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
   <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Chain of Thought vs Прямой ответ</text>
   <!-- Без CoT -->
@@ -260,8 +249,7 @@ export const promptEngineering: TopicCategory = {
   <text x="155" y="75" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Без CoT (часто неверно)</text>
   <rect x="50" y="95" width="100" height="28" rx="6" fill="var(--muted)" opacity="0.4"/>
   <text x="100" y="113" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Вопрос</text>
-  <line x1="150" y1="109" x2="178" y2="109" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowCot)"/>
-  <rect x="180" y="95" width="80" height="28" rx="6" fill="oklch(0.577 0.245 27)" opacity="0.15" stroke="oklch(0.577 0.245 27)" stroke-width="1"/>
+<rect x="180" y="95" width="80" height="28" rx="6" fill="oklch(0.577 0.245 27)" opacity="0.15" stroke="oklch(0.577 0.245 27)" stroke-width="1"/>
   <text x="220" y="113" text-anchor="middle" fill="oklch(0.577 0.245 27)" font-size="10">Ответ ❌</text>
   <text x="155" y="145" fill="var(--muted-foreground)" font-size="9">"17 × 24?" → "408" (ошибка!)</text>
   <!-- С CoT -->
@@ -269,11 +257,9 @@ export const promptEngineering: TopicCategory = {
   <text x="445" y="75" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">С CoT (точнее)</text>
   <rect x="335" y="95" width="70" height="28" rx="6" fill="var(--muted)" opacity="0.4"/>
   <text x="370" y="113" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Вопрос</text>
-  <line x1="405" y1="109" x2="418" y2="109" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowCot)"/>
-  <rect x="420" y="95" width="70" height="28" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.1" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+<rect x="420" y="95" width="70" height="28" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.1" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
   <text x="455" y="113" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="10">Шаги</text>
-  <line x1="490" y1="109" x2="503" y2="109" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowCot)"/>
-  <rect x="505" y="95" width="55" height="28" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+<rect x="505" y="95" width="55" height="28" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
   <text x="532" y="113" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="10">✓</text>
   <text x="445" y="140" fill="oklch(0.55 0.15 165)" font-size="9">17 × 24 → 17×20 + 17×4 → 340+68 → 408 ✓</text>
   <!-- Почему CoT -->
@@ -348,10 +334,7 @@ export const promptEngineering: TopicCategory = {
         type: 'flowchart',
         title: 'Цикл ReAct',
         svgContent: `<svg viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <defs>
-    <marker id="arrowReact" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 1 L 10 5 L 0 9 z" fill="#6b7280"/></marker>
-    <marker id="arrowReactDash" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 1 L 10 5 L 0 9 z" fill="#9ca3af"/></marker>
-  </defs>
+  
   <rect x="10" y="10" width="580" height="290" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
   <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Цикл ReAct (Reasoning + Acting)</text>
   <!-- Thought -->
@@ -364,17 +347,14 @@ export const promptEngineering: TopicCategory = {
   <rect x="420" y="60" width="140" height="40" rx="20" fill="oklch(0.6 0.2 280)" opacity="0.2" stroke="oklch(0.6 0.2 280)" stroke-width="1.5"/>
   <text x="490" y="85" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Observation</text>
   <!-- Стрелки: Thought → Action → Observation -->
-  <line x1="200" y1="80" x2="238" y2="80" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowReact)"/>
-  <line x1="380" y1="80" x2="418" y2="80" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowReact)"/>
-  <!-- Цикл: Observation → обратно к Thought -->
-  <path d="M 490 100 L 490 130 L 130 130 L 130 100" fill="none" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="6 3" marker-end="url(#arrowReactDash)"/>
-  <text x="310" y="125" text-anchor="middle" fill="#6b7280" font-size="9">цикл повторяется</text>
+
+<!-- Цикл: Observation → обратно к Thought -->
+<text x="310" y="125" text-anchor="middle" fill="#6b7280" font-size="9">цикл повторяется</text>
   <!-- Final Answer -->
   <rect x="150" y="155" width="300" height="40" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
   <text x="300" y="180" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Final Answer</text>
   <!-- Стрелка от цикла к Final Answer -->
-  <line x1="130" y1="130" x2="195" y2="153" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#arrowReactDash)"/>
-  <text x="140" y="148" fill="#9ca3af" font-size="8">данных достаточно</text>
+<text x="140" y="148" fill="#9ca3af" font-size="8">данных достаточно</text>
   <!-- Пример -->
   <rect x="30" y="215" width="540" height="75" rx="8" fill="var(--muted)" opacity="0.3"/>
   <text x="300" y="238" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Пример цикла</text>
@@ -462,9 +442,7 @@ async function reactAgent(question: string) {
         type: 'flowchart',
         title: 'Structured Output',
         svgContent: `<svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <defs>
-    <marker id="arrowSo" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 1 L 10 5 L 0 9 z" fill="#6b7280"/></marker>
-  </defs>
+  
   <rect x="10" y="10" width="580" height="260" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
   <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Structured Output</text>
   <!-- Промпт -->
@@ -474,8 +452,7 @@ async function reactAgent(question: string) {
   <text x="130" y="108" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">в формате JSON:</text>
   <text x="130" y="121" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">{name, age, role}"</text>
   <!-- Стрелка Промпт → Результат -->
-  <line x1="230" y1="100" x2="258" y2="100" stroke="#6b7280" stroke-width="2" marker-end="url(#arrowSo)"/>
-  <text x="238" y="95" fill="#6b7280" font-size="8">→</text>
+<text x="238" y="95" fill="#6b7280" font-size="8">→</text>
   <!-- Результат (JSON) -->
   <rect x="260" y="55" width="310" height="90" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.1" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
   <text x="415" y="75" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Результат (JSON)</text>
