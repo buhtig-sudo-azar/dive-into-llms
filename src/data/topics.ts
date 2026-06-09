@@ -59,13 +59,13 @@ export const topics: TopicCategory[] = [
   <text x="480" y="300" text-anchor="middle" fill="var(--foreground)" font-size="13">Softmax</text>
   <rect x="400" y="340" width="160" height="40" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
   <text x="480" y="365" text-anchor="middle" fill="var(--foreground)" font-size="13">Следующий токен</text>
-  <line x1="120" y1="110" x2="120" y2="130" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="120" y1="180" x2="120" y2="200" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="200" y1="225" x2="220" y2="225" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="380" y1="225" x2="400" y2="225" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="480" y1="250" x2="480" y2="270" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <line x1="480" y1="320" x2="480" y2="340" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted-foreground)"/></marker></defs>
+  <line x1="120" y1="110" x2="120" y2="130" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="120" y1="180" x2="120" y2="200" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="200" y1="225" x2="220" y2="225" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="380" y1="225" x2="400" y2="225" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="480" y1="250" x2="480" y2="270" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="480" y1="320" x2="480" y2="340" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/></marker></defs>
 </svg>`,
         },
         practicalExamples: [
@@ -201,9 +201,9 @@ enc.free(); // Освобождаем ресурсы`,
   <rect x="490" y="60" width="80" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
   <text x="530" y="78" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Embedding</text>
   <text x="530" y="95" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Векторы</text>
-  <line x1="160" y1="82" x2="195" y2="82" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr2)"/>
-  <line x1="325" y1="82" x2="360" y2="82" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr2)"/>
-  <line x1="460" y1="82" x2="490" y2="82" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="160" y1="82" x2="195" y2="82" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="325" y1="82" x2="360" y2="82" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="460" y1="82" x2="490" y2="82" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr2)"/>
   <rect x="30" y="130" width="540" height="60" rx="8" fill="var(--muted)" opacity="0.5"/>
   <text x="300" y="155" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Примеры токенизации</text>
   <text x="300" y="175" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">"неделя" → [неделя] (1 токен) | "сверхдержава" → [сверх, дер, жава] (3 токена)</text>
@@ -213,7 +213,7 @@ enc.free(); // Освобождаем ресурсы`,
   <rect x="310" y="210" width="260" height="65" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.1" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
   <text x="440" y="235" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Русский: ~2-3 символа/токен</text>
   <text x="440" y="255" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">"Привет мир" = 3-4 токена</text>
-  <defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted-foreground)"/></marker></defs>
+  <defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/></marker></defs>
 </svg>`,
         },
         practicalExamples: [
@@ -439,14 +439,14 @@ function trimConversation(messages: Message[], maxTokens: number,
   <text x="300" y="400" text-anchor="middle" fill="var(--foreground)" font-size="11">Residual + Add & Norm</text>
   <rect x="40" y="160" width="45" height="250" rx="4" fill="none" stroke="var(--muted-foreground)" stroke-width="1" stroke-dasharray="4 2"/>
   <text x="62" y="290" text-anchor="middle" fill="var(--muted-foreground)" font-size="9" transform="rotate(-90 62 290)">× N слоёв</text>
-  <line x1="300" y1="95" x2="300" y2="110" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <line x1="300" y1="145" x2="300" y2="160" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <line x1="300" y1="210" x2="300" y2="225" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <line x1="300" y1="255" x2="300" y2="270" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <line x1="300" y1="305" x2="300" y2="320" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr3)"/>
-  <line x1="300" y1="365" x2="300" y2="380" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="300" y1="95" x2="300" y2="110" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="300" y1="145" x2="300" y2="160" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="300" y1="210" x2="300" y2="225" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="300" y1="255" x2="300" y2="270" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="300" y1="305" x2="300" y2="320" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="300" y1="365" x2="300" y2="380" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arr3)"/>
   <text x="300" y="430" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Выход → LM Head → Softmax → Вероятности токенов</text>
-  <defs><marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted-foreground)"/></marker></defs>
+  <defs><marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/></marker></defs>
 </svg>`,
         },
         practicalExamples: [

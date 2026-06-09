@@ -50,12 +50,12 @@ export const contextEngineering: TopicCategory = {
   <rect x="120" y="205" width="360" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
   <text x="300" y="225" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Оптимизированный контекст</text>
   <text x="300" y="245" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Релевантный + Достаточный + Лаконичный</text>
-  <line x1="85" y1="105" x2="180" y2="140" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrCtx)"/>
-  <line x1="210" y1="105" x2="230" y2="140" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrCtx)"/>
-  <line x1="335" y1="105" x2="310" y2="140" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrCtx)"/>
-  <line x1="445" y1="105" x2="410" y2="140" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrCtx)"/>
-  <line x1="300" y1="180" x2="300" y2="205" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrCtx)"/>
-  <defs><marker id="arrCtx" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted-foreground)"/></marker></defs>
+  <line x1="85" y1="105" x2="180" y2="140" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrCtx)"/>
+  <line x1="210" y1="105" x2="230" y2="140" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrCtx)"/>
+  <line x1="335" y1="105" x2="310" y2="140" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrCtx)"/>
+  <line x1="445" y1="105" x2="410" y2="140" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrCtx)"/>
+  <line x1="300" y1="180" x2="300" y2="205" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrCtx)"/>
+  <defs><marker id="arrCtx" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/></marker></defs>
 </svg>`,
       },
       practicalExamples: [
@@ -224,9 +224,9 @@ export const contextEngineering: TopicCategory = {
   <rect x="465" y="55" width="100" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.35" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
   <text x="515" y="78" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Сжатый</text>
   <text x="515" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">контекст</text>
-  <line x1="150" y1="80" x2="175" y2="80" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrCmp)"/>
-  <line x1="295" y1="80" x2="320" y2="80" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrCmp)"/>
-  <line x1="440" y1="80" x2="465" y2="80" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrCmp)"/>
+  <line x1="150" y1="80" x2="175" y2="80" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrCmp)"/>
+  <line x1="295" y1="80" x2="320" y2="80" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrCmp)"/>
+  <line x1="440" y1="80" x2="465" y2="80" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrCmp)"/>
   <rect x="30" y="125" width="540" height="35" rx="6" fill="var(--muted)" opacity="0.3"/>
   <text x="300" y="147" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Методы: Truncation | Distillation | Selective Context | LLMLingua</text>
   <rect x="30" y="175" width="260" height="50" rx="6" fill="oklch(0.577 0.245 27)" opacity="0.1" stroke="oklch(0.577 0.245 27)" stroke-width="1"/>
@@ -235,7 +235,7 @@ export const contextEngineering: TopicCategory = {
   <rect x="310" y="175" width="260" height="50" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.1" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
   <text x="440" y="197" text-anchor="middle" fill="var(--foreground)" font-size="10">После: 3000 токенов (сжатый)</text>
   <text x="440" y="212" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9">Качество сохранено на 95%+</text>
-  <defs><marker id="arrCmp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted-foreground)"/></marker></defs>
+  <defs><marker id="arrCmp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/></marker></defs>
 </svg>`,
       },
       practicalExamples: [
@@ -322,14 +322,14 @@ export const contextEngineering: TopicCategory = {
   <line x1="340" y1="90" x2="510" y2="115" stroke="var(--muted-foreground)" stroke-width="1.5"/>
   <rect x="120" y="175" width="360" height="35" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
   <text x="300" y="197" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Sum1 + Sum2 + Sum3 + ... → Reduce</text>
-  <line x1="90" y1="150" x2="180" y2="175" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrSum)"/>
-  <line x1="230" y1="150" x2="250" y2="175" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrSum)"/>
-  <line x1="370" y1="150" x2="350" y2="175" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrSum)"/>
-  <line x1="510" y1="150" x2="420" y2="175" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrSum)"/>
+  <line x1="90" y1="150" x2="180" y2="175" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrSum)"/>
+  <line x1="230" y1="150" x2="250" y2="175" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrSum)"/>
+  <line x1="370" y1="150" x2="350" y2="175" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrSum)"/>
+  <line x1="510" y1="150" x2="420" y2="175" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrSum)"/>
   <rect x="180" y="230" width="240" height="30" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
   <text x="300" y="250" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Финальная сводка</text>
-  <line x1="300" y1="210" x2="300" y2="230" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arrSum)"/>
-  <defs><marker id="arrSum" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted-foreground)"/></marker></defs>
+  <line x1="300" y1="210" x2="300" y2="230" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrSum)"/>
+  <defs><marker id="arrSum" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/></marker></defs>
 </svg>`,
       },
       practicalExamples: [
