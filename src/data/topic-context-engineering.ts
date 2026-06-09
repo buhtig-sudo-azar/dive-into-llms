@@ -30,27 +30,92 @@ export const contextEngineering: TopicCategory = {
       diagram: {
         type: 'architecture',
         title: 'Конвейер управления контекстом',
-        svgContent: `<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <rect x="10" y="10" width="580" height="280" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Конвейер управления контекстом</text>
-  <rect x="30" y="55" width="110" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="85" y="78" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Системный</text>
-  <text x="85" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">промпт</text>
-  <rect x="155" y="55" width="110" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="210" y="78" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">RAG</text>
-  <text x="210" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">документы</text>
-  <rect x="280" y="55" width="110" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="335" y="78" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">История</text>
-  <text x="335" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">диалога</text>
-  <rect x="405" y="55" width="80" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
-  <text x="445" y="78" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Запрос</text>
-  <text x="445" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">пользователя</text>
-  <rect x="120" y="140" width="360" height="40" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="300" y="165" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Приоритизация + Сжатие + Форматирование</text>
-  <rect x="120" y="205" width="360" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
-  <text x="300" y="225" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Оптимизированный контекст</text>
-  <text x="300" y="245" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Релевантный + Достаточный + Лаконичный</text>
+        svgContent: `<svg viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg" class="w-full">
+  <rect width="600" height="460" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="14" font-weight="bold">Фильтр-кофе: Управление контекстом</text>
 
+  <!-- Coffee ingredient sacks at top -->
+  <rect x="28" y="44" width="118" height="44" rx="7" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.2"/>
+  <text x="87" y="62" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">Системный промпт</text>
+  <ellipse cx="58" cy="80" rx="5" ry="3" transform="rotate(-20,58,80)" fill="oklch(0.4 0.08 90)" opacity="0.5"/>
+  <ellipse cx="87" cy="82" rx="4" ry="2.5" transform="rotate(15,87,82)" fill="oklch(0.4 0.08 90)" opacity="0.45"/>
+  <ellipse cx="116" cy="79" rx="5" ry="3" transform="rotate(-8,116,79)" fill="oklch(0.4 0.08 90)" opacity="0.5"/>
+
+  <rect x="156" y="44" width="118" height="44" rx="7" fill="oklch(0.55 0.15 165)" opacity="0.22" stroke="oklch(0.55 0.15 165)" stroke-width="1.2"/>
+  <text x="215" y="62" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">RAG документы</text>
+  <ellipse cx="186" cy="80" rx="5" ry="3" transform="rotate(-25,186,80)" fill="oklch(0.45 0.1 120)" opacity="0.5"/>
+  <ellipse cx="215" cy="82" rx="4" ry="2.5" transform="rotate(10,215,82)" fill="oklch(0.45 0.1 120)" opacity="0.45"/>
+  <ellipse cx="244" cy="79" rx="5" ry="3" transform="rotate(-12,244,79)" fill="oklch(0.45 0.1 120)" opacity="0.5"/>
+
+  <rect x="284" y="44" width="118" height="44" rx="7" fill="oklch(0.55 0.15 165)" opacity="0.28" stroke="oklch(0.55 0.15 165)" stroke-width="1.2"/>
+  <text x="343" y="62" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">История диалога</text>
+  <ellipse cx="314" cy="80" rx="5" ry="3" transform="rotate(-18,314,80)" fill="oklch(0.5 0.08 140)" opacity="0.5"/>
+  <ellipse cx="343" cy="82" rx="4" ry="2.5" transform="rotate(18,343,82)" fill="oklch(0.5 0.08 140)" opacity="0.45"/>
+  <ellipse cx="372" cy="79" rx="5" ry="3" transform="rotate(-5,372,79)" fill="oklch(0.5 0.08 140)" opacity="0.5"/>
+
+  <rect x="412" y="44" width="160" height="44" rx="7" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.2"/>
+  <text x="492" y="62" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">Запрос пользователя</text>
+  <ellipse cx="442" cy="80" rx="5" ry="3" transform="rotate(-20,442,80)" fill="oklch(0.65 0.12 55)" opacity="0.5"/>
+  <ellipse cx="472" cy="82" rx="4" ry="2.5" transform="rotate(12,472,82)" fill="oklch(0.65 0.12 55)" opacity="0.45"/>
+  <ellipse cx="502" cy="79" rx="5" ry="3" transform="rotate(-8,502,79)" fill="oklch(0.65 0.12 55)" opacity="0.5"/>
+  <ellipse cx="530" cy="81" rx="4" ry="2.5" transform="rotate(5,530,81)" fill="oklch(0.65 0.12 55)" opacity="0.45"/>
+
+  <!-- Coffee grounds falling -->
+  <circle cx="87" cy="100" r="2" fill="oklch(0.4 0.08 90)" opacity="0.3"/>
+  <circle cx="130" cy="106" r="1.5" fill="oklch(0.4 0.08 90)" opacity="0.22"/>
+  <circle cx="215" cy="100" r="2" fill="oklch(0.45 0.1 120)" opacity="0.3"/>
+  <circle cx="258" cy="106" r="1.5" fill="oklch(0.45 0.1 120)" opacity="0.22"/>
+  <circle cx="343" cy="100" r="2" fill="oklch(0.5 0.08 140)" opacity="0.3"/>
+  <circle cx="386" cy="106" r="1.5" fill="oklch(0.5 0.08 140)" opacity="0.22"/>
+  <circle cx="492" cy="100" r="2" fill="oklch(0.65 0.12 55)" opacity="0.3"/>
+  <circle cx="458" cy="106" r="1.5" fill="oklch(0.65 0.12 55)" opacity="0.22"/>
+
+  <!-- Pour-over stand -->
+  <line x1="178" y1="120" x2="178" y2="280" stroke="oklch(0.55 0.15 165)" stroke-width="1.8" opacity="0.25"/>
+  <line x1="422" y1="120" x2="422" y2="280" stroke="oklch(0.55 0.15 165)" stroke-width="1.8" opacity="0.25"/>
+  <line x1="168" y1="280" x2="432" y2="280" stroke="oklch(0.55 0.15 165)" stroke-width="1.8" opacity="0.25"/>
+
+  <!-- V60 dripper body -->
+  <path d="M178,120 L300,238 L422,120" fill="oklch(0.55 0.15 165)" opacity="0.06" stroke="oklch(0.55 0.15 165)" stroke-width="2"/>
+  <!-- Dripper rim ellipse -->
+  <ellipse cx="300" cy="120" rx="122" ry="11" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" stroke-opacity="0.5"/>
+  <!-- Dripper inner ridges -->
+  <line x1="208" y1="148" x2="392" y2="148" stroke="oklch(0.55 0.15 165)" stroke-width="0.6" opacity="0.15"/>
+  <line x1="228" y1="172" x2="372" y2="172" stroke="oklch(0.55 0.15 165)" stroke-width="0.6" opacity="0.15"/>
+  <line x1="248" y1="196" x2="352" y2="196" stroke="oklch(0.55 0.15 165)" stroke-width="0.6" opacity="0.15"/>
+
+  <!-- Filter text inside dripper -->
+  <text x="300" y="152" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Приоритизация</text>
+  <text x="300" y="172" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">+ Сжатие</text>
+  <text x="300" y="192" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">+ Форматирование</text>
+
+  <!-- Drip drops from filter -->
+  <ellipse cx="298" cy="248" rx="2" ry="5" fill="oklch(0.45 0.1 75)" opacity="0.45"/>
+  <ellipse cx="302" cy="264" rx="1.5" ry="4" fill="oklch(0.45 0.1 75)" opacity="0.35"/>
+  <ellipse cx="300" cy="278" rx="2" ry="4" fill="oklch(0.45 0.1 75)" opacity="0.25"/>
+
+  <!-- Coffee cup body -->
+  <path d="M200,300 L212,390 C212,406 388,406 388,390 L400,300 Z" fill="oklch(0.75 0.15 75)" opacity="0.1" stroke="oklch(0.75 0.15 75)" stroke-width="2" stroke-opacity="0.6"/>
+  <!-- Cup rim -->
+  <ellipse cx="300" cy="300" rx="100" ry="12" fill="oklch(0.75 0.15 75)" opacity="0.05" stroke="oklch(0.75 0.15 75)" stroke-width="1.5" stroke-opacity="0.5"/>
+  <!-- Coffee liquid inside -->
+  <path d="M207,312 L215,385 C215,398 385,398 385,385 L393,312 Z" fill="oklch(0.35 0.08 75)" opacity="0.12"/>
+  <!-- Cup handle -->
+  <path d="M400,322 C432,322 436,372 400,376" fill="none" stroke="oklch(0.75 0.15 75)" stroke-width="3.5" stroke-opacity="0.4"/>
+  <!-- Cup saucer -->
+  <ellipse cx="300" cy="406" rx="118" ry="14" fill="oklch(0.75 0.15 75)" opacity="0.04" stroke="oklch(0.75 0.15 75)" stroke-width="1" stroke-opacity="0.25"/>
+
+  <!-- Cup label -->
+  <text x="300" y="350" text-anchor="middle" fill="var(--foreground)" font-size="13" font-weight="bold">Оптимизированный</text>
+  <text x="300" y="370" text-anchor="middle" fill="var(--foreground)" font-size="13" font-weight="bold">контекст</text>
+
+  <!-- Quality badge on saucer -->
+  <text x="300" y="442" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="600">Релевантный + Достаточный + Лаконичный</text>
+
+  <!-- Steam wisps -->
+  <path d="M265,292 C262,274 270,266 267,248" fill="none" stroke="var(--muted-foreground)" stroke-width="1.5" opacity="0.28" stroke-linecap="round"/>
+  <path d="M300,288 C297,270 305,262 302,244" fill="none" stroke="var(--muted-foreground)" stroke-width="1.5" opacity="0.22" stroke-linecap="round"/>
+  <path d="M335,292 C332,274 340,266 337,248" fill="none" stroke="var(--muted-foreground)" stroke-width="1.5" opacity="0.28" stroke-linecap="round"/>
 </svg>`,
       },
       practicalExamples: [
@@ -119,24 +184,65 @@ export const contextEngineering: TopicCategory = {
       diagram: {
         type: 'architecture',
         title: 'Иерархия памяти LLM',
-        svgContent: `<svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <rect x="10" y="10" width="580" height="260" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Иерархия памяти LLM</text>
-  <rect x="200" y="55" width="200" height="35" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.4" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="300" y="77" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Рабочая память (контекст)</text>
-  <text x="300" y="93" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Мгновенный доступ, ограничена окном</text>
-  <rect x="150" y="110" width="300" height="35" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="300" y="132" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Краткосрочная (история сессии)</text>
-  <text x="300" y="148" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Последние N сообщений, БД сессии</text>
-  <rect x="100" y="165" width="400" height="35" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.12" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="300" y="187" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Долгосрочная (векторная БД)</text>
-  <text x="300" y="203" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Безграничная, извлечение через RAG</text>
-  <rect x="30" y="220" width="180" height="35" rx="6" fill="var(--muted)" opacity="0.4"/>
-  <text x="120" y="242" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Episodic: события</text>
-  <rect x="220" y="220" width="160" height="35" rx="6" fill="var(--muted)" opacity="0.4"/>
-  <text x="300" y="242" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Semantic: факты</text>
-  <rect x="390" y="220" width="180" height="35" rx="6" fill="var(--muted)" opacity="0.4"/>
-  <text x="480" y="242" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Procedural: навыки</text>
+        svgContent: `<svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" class="w-full">
+  <rect width="600" height="420" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="14" font-weight="bold">Матрёшка памяти: Иерархия памяти LLM</text>
+
+  <!-- Doll 1: Долгосрочная (largest, back) -->
+  <path d="M25,335 C25,275 18,215 50,170 C62,150 65,115 110,78 C155,115 158,150 170,170 C202,215 195,275 195,335 Z"
+        fill="oklch(0.55 0.15 165)" fill-opacity="0.1" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <path d="M65,153 C80,170 140,170 155,153" fill="none" stroke="oklch(0.65 0.2 350)" stroke-width="3" opacity="0.4"/>
+  <circle cx="97" cy="103" r="3" fill="var(--foreground)" opacity="0.4"/>
+  <circle cx="123" cy="103" r="3" fill="var(--foreground)" opacity="0.4"/>
+  <path d="M100,115 C110,121 120,121 130,115" fill="none" stroke="var(--foreground)" stroke-width="1.5" opacity="0.3"/>
+  <circle cx="110" cy="218" r="20" fill="none" stroke="oklch(0.65 0.2 350)" stroke-width="1.5" opacity="0.25"/>
+  <circle cx="110" cy="218" r="8" fill="oklch(0.65 0.2 350)" opacity="0.15"/>
+  <circle cx="75" cy="258" r="10" fill="none" stroke="oklch(0.65 0.2 350)" stroke-width="1" opacity="0.18"/>
+  <circle cx="145" cy="258" r="10" fill="none" stroke="oklch(0.65 0.2 350)" stroke-width="1" opacity="0.18"/>
+  <circle cx="110" cy="285" r="5" fill="oklch(0.65 0.2 350)" opacity="0.12"/>
+  <text x="110" y="186" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Долгосрочная</text>
+  <text x="110" y="200" text-anchor="middle" fill="var(--foreground)" font-size="9">(векторная БД)</text>
+  <text x="110" y="312" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5">Безграничная, извлечение через RAG</text>
+
+  <!-- Doll 2: Краткосрочная (medium) -->
+  <path d="M235,335 C235,285 228,240 255,202 C265,186 268,158 300,128 C332,158 335,186 345,202 C372,240 365,285 365,335 Z"
+        fill="oklch(0.55 0.15 165)" fill-opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <path d="M265,192 C278,206 322,206 335,192" fill="none" stroke="oklch(0.65 0.2 350)" stroke-width="2.5" opacity="0.45"/>
+  <circle cx="290" cy="150" r="2.5" fill="var(--foreground)" opacity="0.4"/>
+  <circle cx="310" cy="150" r="2.5" fill="var(--foreground)" opacity="0.4"/>
+  <path d="M293,161 C300,166 307,166 314,161" fill="none" stroke="var(--foreground)" stroke-width="1.2" opacity="0.3"/>
+  <circle cx="300" cy="248" r="14" fill="none" stroke="oklch(0.65 0.2 350)" stroke-width="1.2" opacity="0.3"/>
+  <circle cx="300" cy="248" r="5" fill="oklch(0.65 0.2 350)" opacity="0.2"/>
+  <circle cx="278" cy="275" r="8" fill="none" stroke="oklch(0.65 0.2 350)" stroke-width="0.8" opacity="0.2"/>
+  <circle cx="322" cy="275" r="8" fill="none" stroke="oklch(0.65 0.2 350)" stroke-width="0.8" opacity="0.2"/>
+  <text x="300" y="222" text-anchor="middle" fill="var(--foreground)" font-size="9" font-weight="bold">Краткосрочная</text>
+  <text x="300" y="235" text-anchor="middle" fill="var(--foreground)" font-size="8">(история сессии)</text>
+  <text x="300" y="312" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5">Последние N сообщений, БД сессии</text>
+
+  <!-- Doll 3: Рабочая память (smallest, front) -->
+  <path d="M445,335 C445,298 440,268 458,242 C466,230 470,212 490,192 C510,212 514,230 522,242 C540,268 535,298 535,335 Z"
+        fill="oklch(0.55 0.15 165)" fill-opacity="0.32" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <path d="M470,233 C478,243 502,243 510,233" fill="none" stroke="oklch(0.65 0.2 350)" stroke-width="2" opacity="0.5"/>
+  <circle cx="483" cy="210" r="2" fill="var(--foreground)" opacity="0.4"/>
+  <circle cx="497" cy="210" r="2" fill="var(--foreground)" opacity="0.4"/>
+  <path d="M486,218 C490,222 494,222 498,218" fill="none" stroke="var(--foreground)" stroke-width="1" opacity="0.3"/>
+  <circle cx="490" cy="272" r="9" fill="none" stroke="oklch(0.65 0.2 350)" stroke-width="1" opacity="0.35"/>
+  <circle cx="490" cy="272" r="3.5" fill="oklch(0.65 0.2 350)" opacity="0.22"/>
+  <text x="490" y="252" text-anchor="middle" fill="var(--foreground)" font-size="7.5" font-weight="bold">Рабочая память</text>
+  <text x="490" y="263" text-anchor="middle" fill="var(--foreground)" font-size="7">(контекст)</text>
+  <text x="490" y="312" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5">Мгновенный доступ, ограничена окном</text>
+
+  <!-- Nesting hint -->
+  <text x="200" y="50" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5" font-style="italic">Каждая вложена в предыдущую</text>
+
+  <!-- Base items: memory types -->
+  <rect x="30" y="358" width="170" height="26" rx="5" fill="var(--muted)" opacity="0.4"/>
+  <text x="115" y="375" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Episodic: события</text>
+  <rect x="215" y="358" width="170" height="26" rx="5" fill="var(--muted)" opacity="0.4"/>
+  <text x="300" y="375" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Semantic: факты</text>
+  <rect x="400" y="358" width="170" height="26" rx="5" fill="var(--muted)" opacity="0.4"/>
+  <text x="485" y="375" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Procedural: навыки</text>
+  <text x="300" y="405" text-anchor="middle" fill="var(--muted-foreground)" font-size="8" font-style="italic">Типы памяти внутри матрёшки</text>
 </svg>`,
       },
       practicalExamples: [
@@ -204,31 +310,89 @@ export const contextEngineering: TopicCategory = {
       diagram: {
         type: 'pipeline',
         title: 'Конвейер сжатия контекста',
-        svgContent: `<svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <rect x="10" y="10" width="580" height="230" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Конвейер сжатия контекста</text>
-  <rect x="30" y="55" width="120" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="90" y="78" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Полный</text>
-  <text x="90" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">контекст</text>
-  <rect x="175" y="55" width="120" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
-  <text x="235" y="78" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Оценка</text>
-  <text x="235" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">важности</text>
-  <rect x="320" y="55" width="120" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="380" y="78" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Компрессия</text>
-  <text x="380" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">+ Валидация</text>
-  <rect x="465" y="55" width="100" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.35" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="515" y="78" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Сжатый</text>
-  <text x="515" y="93" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">контекст</text>
+        svgContent: `<svg viewBox="0 0 600 440" xmlns="http://www.w3.org/2000/svg" class="w-full">
+  <rect width="600" height="440" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="14" font-weight="bold">Сборы в поездку: Сжатие контекста</text>
 
-<rect x="30" y="125" width="540" height="35" rx="6" fill="var(--muted)" opacity="0.3"/>
-  <text x="300" y="147" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Методы: Truncation | Distillation | Selective Context | LLMLingua</text>
-  <rect x="30" y="175" width="260" height="50" rx="6" fill="oklch(0.577 0.245 27)" opacity="0.1" stroke="oklch(0.577 0.245 27)" stroke-width="1"/>
-  <text x="160" y="197" text-anchor="middle" fill="var(--foreground)" font-size="10">До: 8000 токенов (полный)</text>
-  <text x="160" y="212" text-anchor="middle" fill="oklch(0.577 0.245 27)" font-size="9">Не помещается в контекст</text>
-  <rect x="310" y="175" width="260" height="50" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.1" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <text x="440" y="197" text-anchor="middle" fill="var(--foreground)" font-size="10">После: 3000 токенов (сжатый)</text>
-  <text x="440" y="212" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9">Качество сохранено на 95%+</text>
-  
+  <!-- LEFT: Overstuffed open suitcase -->
+  <rect x="30" y="120" width="190" height="130" rx="6" fill="oklch(0.577 0.245 27)" opacity="0.08" stroke="oklch(0.577 0.245 27)" stroke-width="1.5"/>
+  <!-- Open lid (tilted back) -->
+  <path d="M30,120 L40,68 L230,68 L220,120" fill="oklch(0.577 0.245 27)" opacity="0.05" stroke="oklch(0.577 0.245 27)" stroke-width="1.5"/>
+  <!-- Handle on lid -->
+  <path d="M100,68 C100,52 170,52 170,68" fill="none" stroke="oklch(0.577 0.245 27)" stroke-width="2.5" opacity="0.3"/>
+  <!-- Items overflowing from suitcase -->
+  <rect x="45" y="100" width="55" height="28" rx="3" fill="oklch(0.55 0.15 165)" opacity="0.18"/>
+  <rect x="50" y="88" width="48" height="22" rx="3" fill="oklch(0.55 0.15 165)" opacity="0.12" transform="rotate(5,74,99)"/>
+  <rect x="110" y="92" width="42" height="52" rx="2" fill="oklch(0.75 0.15 75)" opacity="0.18"/>
+  <rect x="115" y="86" width="36" height="46" rx="2" fill="oklch(0.75 0.15 75)" opacity="0.12" transform="rotate(-3,133,109)"/>
+  <rect x="155" y="98" width="50" height="24" rx="3" fill="oklch(0.55 0.15 165)" opacity="0.15"/>
+  <!-- Items spilling above suitcase -->
+  <rect x="65" y="62" width="40" height="18" rx="2" fill="oklch(0.55 0.15 165)" opacity="0.1" transform="rotate(8,85,71)"/>
+  <rect x="135" y="58" width="32" height="16" rx="2" fill="oklch(0.75 0.15 75)" opacity="0.1" transform="rotate(-6,151,66)"/>
+  <!-- "Cannot close" wavy zipper line -->
+  <path d="M35,122 Q55,114 75,122 Q95,130 115,122 Q135,114 155,122 Q175,130 195,122 Q215,114 220,122" fill="none" stroke="oklch(0.577 0.245 27)" stroke-width="1.8" opacity="0.35" stroke-linecap="round"/>
+  <!-- Suitcase wheels -->
+  <circle cx="55" cy="253" r="5" fill="oklch(0.577 0.245 27)" opacity="0.2"/>
+  <circle cx="195" cy="253" r="5" fill="oklch(0.577 0.245 27)" opacity="0.2"/>
+  <!-- Label -->
+  <text x="125" y="278" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Полный контекст</text>
+  <text x="125" y="296" text-anchor="middle" fill="oklch(0.577 0.245 27)" font-size="10" font-weight="bold">8000 токенов</text>
+  <text x="125" y="312" text-anchor="middle" fill="oklch(0.577 0.245 27)" font-size="8">Не закрывается!</text>
+
+  <!-- CENTER: Processing steps -->
+  <!-- Step 1: Оценка важности (checklist) -->
+  <rect x="255" y="100" width="90" height="55" rx="7" fill="oklch(0.75 0.15 75)" opacity="0.12" stroke="oklch(0.75 0.15 75)" stroke-width="1.2"/>
+  <text x="300" y="118" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">Оценка</text>
+  <text x="300" y="131" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">важности</text>
+  <!-- Checklist items -->
+  <rect x="268" y="138" width="8" height="8" rx="1" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="1" opacity="0.4"/>
+  <rect x="280" y="138" width="8" height="8" rx="1" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="1" opacity="0.4"/>
+  <rect x="292" y="138" width="8" height="8" rx="1" fill="none" stroke="oklch(0.577 0.245 27)" stroke-width="1" opacity="0.4"/>
+  <line x1="268" y1="142" x2="276" y2="142" stroke="oklch(0.55 0.15 165)" stroke-width="1" opacity="0.3"/>
+  <line x1="280" y1="142" x2="288" y2="142" stroke="oklch(0.55 0.15 165)" stroke-width="1" opacity="0.3"/>
+  <line x1="292" y1="142" x2="300" y2="142" stroke="oklch(0.577 0.245 27)" stroke-width="1" opacity="0.3"/>
+
+  <!-- Step 2: Компрессия + Валидация (vacuum bag) -->
+  <rect x="255" y="170" width="90" height="55" rx="7" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.2"/>
+  <text x="300" y="188" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">Компрессия</text>
+  <text x="300" y="201" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">+ Валидация</text>
+  <!-- Compression lines (getting narrower = compression) -->
+  <line x1="265" y1="212" x2="335" y2="212" stroke="oklch(0.55 0.15 165)" stroke-width="1" opacity="0.3"/>
+  <line x1="275" y1="217" x2="325" y2="217" stroke="oklch(0.55 0.15 165)" stroke-width="1" opacity="0.3"/>
+
+  <!-- RIGHT: Neatly packed closed suitcase -->
+  <rect x="375" y="120" width="190" height="130" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.12" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <!-- Handle on top -->
+  <path d="M445,120 C445,100 505,100 505,120" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5" opacity="0.4"/>
+  <!-- Center divider line -->
+  <line x1="375" y1="185" x2="565" y2="185" stroke="oklch(0.55 0.15 165)" stroke-width="0.8" opacity="0.2"/>
+  <!-- Clasps/locks -->
+  <rect x="455" y="178" width="30" height="10" rx="2" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="0.8"/>
+  <!-- Neatly packed items inside (barely visible through outline) -->
+  <rect x="390" y="135" width="52" height="28" rx="2" fill="oklch(0.55 0.15 165)" opacity="0.08"/>
+  <rect x="450" y="135" width="38" height="28" rx="2" fill="oklch(0.75 0.15 75)" opacity="0.08"/>
+  <rect x="390" y="195" width="75" height="22" rx="2" fill="oklch(0.55 0.15 165)" opacity="0.06"/>
+  <rect x="475" y="195" width="55" height="22" rx="2" fill="oklch(0.75 0.15 75)" opacity="0.06"/>
+  <!-- Success checkmark on suitcase -->
+  <circle cx="520" cy="150" r="14" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1" stroke-opacity="0.3"/>
+  <path d="M512,150 L518,157 L530,143" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5" opacity="0.35" stroke-linecap="round"/>
+  <!-- Suitcase wheels -->
+  <circle cx="400" cy="253" r="5" fill="oklch(0.55 0.15 165)" opacity="0.15"/>
+  <circle cx="540" cy="253" r="5" fill="oklch(0.55 0.15 165)" opacity="0.15"/>
+  <!-- Label -->
+  <text x="470" y="278" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Сжатый контекст</text>
+  <text x="470" y="296" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">3000 токенов</text>
+  <text x="470" y="312" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="8">Всё на месте, качество 95%+</text>
+
+  <!-- Bottom: Before/After comparison bar -->
+  <rect x="30" y="332" width="540" height="28" rx="5" fill="oklch(0.577 0.245 27)" opacity="0.06" stroke="oklch(0.577 0.245 27)" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="300" y="351" text-anchor="middle" fill="var(--foreground)" font-size="9">До: 8000 токенов (полный контекст — не помещается)</text>
+  <rect x="30" y="366" width="202" height="28" rx="5" fill="oklch(0.55 0.15 165)" opacity="0.06" stroke="oklch(0.55 0.15 165)" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="131" y="385" text-anchor="middle" fill="var(--foreground)" font-size="9">После: 3000 токенов (качество 95%+)</text>
+
+  <!-- Methods as packing tips -->
+  <rect x="30" y="406" width="540" height="24" rx="4" fill="var(--muted)" opacity="0.3"/>
+  <text x="300" y="422" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Методы-советы: Truncation | Distillation | Selective Context | LLMLingua</text>
 </svg>`,
       },
       practicalExamples: [
@@ -296,25 +460,78 @@ export const contextEngineering: TopicCategory = {
       diagram: {
         type: 'pipeline',
         title: 'Map-Reduce суммаризация',
-        svgContent: `<svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <rect x="10" y="10" width="580" height="260" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Map-Reduce суммаризация</text>
-  <rect x="220" y="55" width="160" height="35" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="300" y="77" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Длинный текст</text>
-  <rect x="30" y="115" width="120" height="35" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="90" y="137" text-anchor="middle" fill="var(--foreground)" font-size="10">Чанк 1 → Sum1</text>
-  <rect x="170" y="115" width="120" height="35" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="230" y="137" text-anchor="middle" fill="var(--foreground)" font-size="10">Чанк 2 → Sum2</text>
-  <rect x="310" y="115" width="120" height="35" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.25" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="370" y="137" text-anchor="middle" fill="var(--foreground)" font-size="10">Чанк 3 → Sum3</text>
-  <rect x="450" y="115" width="120" height="35" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.3" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="510" y="137" text-anchor="middle" fill="var(--foreground)" font-size="10">Чанк N → SumN</text>
+        svgContent: `<svg viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg" class="w-full">
+  <rect width="600" height="380" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="14" font-weight="bold">Конвейер суммаризации: Map-Reduce</text>
 
-<rect x="120" y="175" width="360" height="35" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="300" y="197" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Sum1 + Sum2 + Sum3 + ... → Reduce</text>
+  <!-- Long document at top center -->
+  <rect x="215" y="42" width="170" height="38" rx="5" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="300" y="66" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Длинный текст</text>
+  <!-- Split lines on document -->
+  <line x1="258" y1="42" x2="258" y2="80" stroke="oklch(0.55 0.15 165)" stroke-width="1" stroke-dasharray="2,2" opacity="0.2"/>
+  <line x1="300" y1="42" x2="300" y2="80" stroke="oklch(0.55 0.15 165)" stroke-width="1" stroke-dasharray="2,2" opacity="0.2"/>
+  <line x1="342" y1="42" x2="342" y2="80" stroke="oklch(0.55 0.15 165)" stroke-width="1" stroke-dasharray="2,2" opacity="0.2"/>
+  <text x="300" y="96" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5" font-style="italic">Разбивается на части</text>
 
-<rect x="180" y="230" width="240" height="30" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
-  <text x="300" y="250" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Финальная сводка</text>
+  <!-- MAP phase label -->
+  <text x="300" y="116" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="bold">MAP: Параллельная обработка</text>
+
+  <!-- Conveyor belt background -->
+  <rect x="20" y="122" width="560" height="72" rx="5" fill="oklch(0.55 0.15 165)" opacity="0.03" stroke="oklch(0.55 0.15 165)" stroke-width="1" stroke-dasharray="8,4" stroke-opacity="0.1"/>
+  <!-- Conveyor rollers -->
+  <circle cx="50" cy="199" r="7" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.1"/>
+  <circle cx="50" cy="199" r="2.5" fill="oklch(0.55 0.15 165)" opacity="0.08"/>
+  <circle cx="190" cy="199" r="7" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.1"/>
+  <circle cx="190" cy="199" r="2.5" fill="oklch(0.55 0.15 165)" opacity="0.08"/>
+  <circle cx="410" cy="199" r="7" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.1"/>
+  <circle cx="410" cy="199" r="2.5" fill="oklch(0.55 0.15 165)" opacity="0.08"/>
+  <circle cx="550" cy="199" r="7" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.1"/>
+  <circle cx="550" cy="199" r="2.5" fill="oklch(0.55 0.15 165)" opacity="0.08"/>
+
+  <!-- Worker Station 1 -->
+  <rect x="28" y="128" width="120" height="58" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.12" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
+  <circle cx="52" cy="146" r="8" fill="none" stroke="oklch(0.75 0.15 75)" stroke-width="1.5" opacity="0.25"/>
+  <circle cx="52" cy="146" r="3" fill="oklch(0.75 0.15 75)" opacity="0.15"/>
+  <text x="100" y="145" text-anchor="middle" fill="var(--foreground)" font-size="9" font-weight="bold">Чанк 1</text>
+  <text x="100" y="160" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">Sum1</text>
+  <text x="88" y="180" text-anchor="middle" fill="var(--muted-foreground)" font-size="6.5">Рабочий 1</text>
+
+  <!-- Worker Station 2 -->
+  <rect x="163" y="128" width="120" height="58" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.17" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
+  <circle cx="187" cy="146" r="8" fill="none" stroke="oklch(0.75 0.15 75)" stroke-width="1.5" opacity="0.3"/>
+  <circle cx="187" cy="146" r="3" fill="oklch(0.75 0.15 75)" opacity="0.18"/>
+  <text x="235" y="145" text-anchor="middle" fill="var(--foreground)" font-size="9" font-weight="bold">Чанк 2</text>
+  <text x="235" y="160" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">Sum2</text>
+  <text x="223" y="180" text-anchor="middle" fill="var(--muted-foreground)" font-size="6.5">Рабочий 2</text>
+
+  <!-- Worker Station 3 -->
+  <rect x="298" y="128" width="120" height="58" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.22" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
+  <circle cx="322" cy="146" r="8" fill="none" stroke="oklch(0.75 0.15 75)" stroke-width="1.5" opacity="0.35"/>
+  <circle cx="322" cy="146" r="3" fill="oklch(0.75 0.15 75)" opacity="0.2"/>
+  <text x="370" y="145" text-anchor="middle" fill="var(--foreground)" font-size="9" font-weight="bold">Чанк 3</text>
+  <text x="370" y="160" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">Sum3</text>
+  <text x="358" y="180" text-anchor="middle" fill="var(--muted-foreground)" font-size="6.5">Рабочий 3</text>
+
+  <!-- Worker Station N -->
+  <rect x="433" y="128" width="120" height="58" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.27" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
+  <circle cx="457" cy="146" r="8" fill="none" stroke="oklch(0.75 0.15 75)" stroke-width="1.5" opacity="0.4"/>
+  <circle cx="457" cy="146" r="3" fill="oklch(0.75 0.15 75)" opacity="0.22"/>
+  <text x="505" y="145" text-anchor="middle" fill="var(--foreground)" font-size="9" font-weight="bold">Чанк N</text>
+  <text x="505" y="160" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">SumN</text>
+  <text x="493" y="180" text-anchor="middle" fill="var(--muted-foreground)" font-size="6.5">Рабочий N</text>
+
+  <!-- REDUCE station -->
+  <rect x="110" y="220" width="380" height="48" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="300" y="241" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">REDUCE: Sum1 + Sum2 + Sum3 + ... + SumN</text>
+  <text x="300" y="259" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">Объединение промежуточных сводок</text>
+
+  <!-- Final output -->
+  <rect x="185" y="300" width="230" height="45" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <rect x="198" y="310" width="16" height="20" rx="2" fill="oklch(0.75 0.15 75)" opacity="0.15"/>
+  <line x1="201" y1="316" x2="211" y2="316" stroke="var(--muted-foreground)" stroke-width="0.7" opacity="0.3"/>
+  <line x1="201" y1="321" x2="211" y2="321" stroke="var(--muted-foreground)" stroke-width="0.7" opacity="0.3"/>
+  <line x1="201" y1="326" x2="208" y2="326" stroke="var(--muted-foreground)" stroke-width="0.7" opacity="0.3"/>
+  <text x="310" y="328" text-anchor="middle" fill="var(--foreground)" font-size="13" font-weight="bold">Финальная сводка</text>
 </svg>`,
       },
       practicalExamples: [

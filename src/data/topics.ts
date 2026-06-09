@@ -37,37 +37,56 @@ export const topics: TopicCategory[] = [
         diagram: {
           type: 'architecture',
           title: 'Архитектура LLM',
-          svgContent: `<svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <rect x="10" y="10" width="580" height="400" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-  <text x="300" y="40" text-anchor="middle" fill="var(--foreground)" font-size="16" font-weight="bold">Архитектура Large Language Model</text>
-  <rect x="40" y="55" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="60" y="75" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">1</text>
-  <text x="120" y="85" text-anchor="middle" fill="var(--foreground)" font-size="13">Входной текст</text>
-  <rect x="40" y="115" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="60" y="135" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">2</text>
-  <text x="120" y="145" text-anchor="middle" fill="var(--foreground)" font-size="13">Токенизация</text>
-  <rect x="40" y="175" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="60" y="195" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">3</text>
-  <text x="120" y="205" text-anchor="middle" fill="var(--foreground)" font-size="13">Embedding + Pos</text>
-  <rect x="220" y="140" width="160" height="180" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
-  <text x="240" y="162" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="bold">4</text>
-  <text x="300" y="170" text-anchor="middle" fill="var(--foreground)" font-size="13" font-weight="bold">Transformer</text>
-  <text x="300" y="195" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">Self-Attention</text>
-  <text x="300" y="215" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">Feed-Forward</text>
-  <text x="300" y="235" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">Layer Norm</text>
-  <text x="300" y="255" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">× N слоёв</text>
-  <text x="300" y="275" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">Residual</text>
-  <rect x="400" y="175" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="420" y="195" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">5</text>
-  <text x="480" y="205" text-anchor="middle" fill="var(--foreground)" font-size="13">LM Head</text>
-  <rect x="400" y="240" width="160" height="50" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="420" y="260" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">6</text>
-  <text x="480" y="270" text-anchor="middle" fill="var(--foreground)" font-size="13">Softmax</text>
-  <rect x="400" y="305" width="160" height="40" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
-  <text x="420" y="323" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="bold">7</text>
-  <text x="480" y="330" text-anchor="middle" fill="var(--foreground)" font-size="13">Следующий токен</text>
-  <rect x="30" y="365" width="540" height="30" rx="6" fill="var(--muted)" opacity="0.3"/>
-  <text x="300" y="385" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Поток данных: Вход → Токенизация → Embedding → Transformer → LM Head → Softmax → Токен</text>
+          svgContent: `<svg viewBox="0 0 600 440" xmlns="http://www.w3.org/2000/svg" class="w-full">
+  <rect x="10" y="10" width="580" height="420" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Фабрика по производству текста</text>
+  <!-- Фабричное здание -->
+  <rect x="80" y="55" width="440" height="330" rx="6" fill="none" stroke="var(--border)" stroke-width="2" stroke-dasharray="6 3"/>
+  <text x="300" y="72" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">LLM FACTORY</text>
+  <!-- Приёмная -->
+  <rect x="95" y="80" width="130" height="55" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="105" y="96" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">Цех 1</text>
+  <text x="160" y="112" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Приёмная</text>
+  <text x="160" y="128" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Входной текст</text>
+  <!-- Нарезка -->
+  <rect x="95" y="145" width="130" height="55" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.22" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="105" y="161" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">Цех 2</text>
+  <text x="160" y="177" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Нарезка</text>
+  <text x="160" y="193" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Токенизация</text>
+  <!-- Окраска -->
+  <rect x="95" y="210" width="130" height="55" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="105" y="226" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">Цех 3</text>
+  <text x="160" y="242" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Окраска</text>
+  <text x="160" y="258" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Embedding + Pos</text>
+  <!-- Главный цех -->
+  <rect x="240" y="145" width="190" height="165" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="2"/>
+  <text x="255" y="166" fill="oklch(0.75 0.15 75)" font-size="9" font-weight="bold">Цех 4</text>
+  <text x="335" y="182" text-anchor="middle" fill="var(--foreground)" font-size="13" font-weight="bold">Главный цех</text>
+  <text x="335" y="200" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Transformer</text>
+  <rect x="255" y="210" width="160" height="22" rx="4" fill="oklch(0.75 0.15 75)" opacity="0.1"/>
+  <text x="335" y="226" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Self-Attention</text>
+  <rect x="255" y="236" width="160" height="22" rx="4" fill="oklch(0.75 0.15 75)" opacity="0.1"/>
+  <text x="335" y="252" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Feed-Forward</text>
+  <rect x="255" y="262" width="160" height="22" rx="4" fill="oklch(0.75 0.15 75)" opacity="0.1"/>
+  <text x="335" y="278" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Layer Norm × N слоёв</text>
+  <text x="335" y="300" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="9">+ Residual</text>
+  <!-- ОТК -->
+  <rect x="445" y="175" width="120" height="55" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="455" y="191" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">Цех 5</text>
+  <text x="505" y="207" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">ОТК</text>
+  <text x="505" y="223" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">LM Head + Softmax</text>
+  <!-- Отгрузка -->
+  <rect x="445" y="245" width="120" height="50" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <text x="455" y="261" fill="oklch(0.75 0.15 75)" font-size="9" font-weight="bold">Цех 6</text>
+  <text x="505" y="277" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Отгрузка</text>
+  <text x="505" y="293" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Следующий токен</text>
+  <!-- Конвейерная лента -->
+  <rect x="30" y="330" width="540" height="28" rx="14" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+  <text x="300" y="349" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">Конвейер: Приём | Нарезка | Окраска | Главный цех | ОТК | Отгрузка</text>
+  <!-- Подпись -->
+  <rect x="30" y="375" width="540" height="45" rx="6" fill="var(--muted)" opacity="0.3"/>
+  <text x="300" y="396" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Аналогия: LLM = фабрика, перерабатывающая текст</text>
+  <text x="300" y="413" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Каждый цех выполняет свою операцию, главный цех повторяет процесс N раз</text>
 </svg>`,
         },
         practicalExamples: [
@@ -188,34 +207,42 @@ enc.free(); // Освобождаем ресурсы`,
         diagram: {
           type: 'pipeline',
           title: 'Конвейер токенизации',
-          svgContent: `<svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <rect x="10" y="10" width="580" height="280" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Конвейер токенизации BPE</text>
-  <rect x="30" y="60" width="130" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="45" y="78" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">1</text>
-  <text x="95" y="78" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Исходный текст</text>
-  <text x="95" y="95" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">"Hello world"</text>
-  <rect x="195" y="60" width="130" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="210" y="78" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">2</text>
-  <text x="260" y="78" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">BPE Tokenizer</text>
-  <text x="260" y="95" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Словарь + алгоритм</text>
-  <rect x="360" y="60" width="100" height="45" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
-  <text x="375" y="78" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="bold">3</text>
-  <text x="410" y="78" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Token IDs</text>
-  <text x="410" y="95" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">[15496, 995]</text>
-  <rect x="490" y="60" width="80" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="505" y="78" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">4</text>
-  <text x="530" y="78" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Embedding</text>
-  <text x="530" y="95" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Векторы</text>
-  <rect x="30" y="130" width="540" height="60" rx="8" fill="var(--muted)" opacity="0.5"/>
-  <text x="300" y="155" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Примеры токенизации</text>
-  <text x="300" y="175" text-anchor="middle" fill="var(--muted-foreground)" font-size="11">"неделя" → [неделя] (1 токен) | "сверхдержава" → [сверх, дер, жава] (3 токена)</text>
-  <rect x="30" y="210" width="260" height="65" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.1" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <text x="160" y="235" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Английский: ~4 символа/токен</text>
-  <text x="160" y="255" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">"Hello world" = 2 токена</text>
-  <rect x="310" y="210" width="260" height="65" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.1" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="440" y="235" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Русский: ~2-3 символа/токен</text>
-  <text x="440" y="255" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">"Привет мир" = 3-4 токена</text>
+          svgContent: `<svg viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg" class="w-full">
+  <rect x="10" y="10" width="580" height="290" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Бюро переводов: текст в числа</text>
+  <!-- Стойка приёма -->
+  <rect x="30" y="55" width="130" height="60" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <rect x="42" y="63" width="14" height="14" rx="2" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <text x="95" y="82" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Приёмная</text>
+  <text x="95" y="100" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">"Hello world"</text>
+  <!-- Кабинет переводчика -->
+  <rect x="185" y="55" width="140" height="60" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <rect x="197" y="63" width="14" height="14" rx="2" fill="oklch(0.75 0.15 75)" opacity="0.3"/>
+  <text x="255" y="82" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Переводчик</text>
+  <text x="255" y="100" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">BPE: словарь + алгоритм</text>
+  <!-- Выдача справок -->
+  <rect x="350" y="55" width="100" height="60" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <rect x="362" y="63" width="14" height="14" rx="2" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <text x="400" y="82" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Справка</text>
+  <text x="400" y="100" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">[15496, 995]</text>
+  <!-- Архив -->
+  <rect x="475" y="55" width="95" height="60" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.3" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <rect x="487" y="63" width="14" height="14" rx="2" fill="oklch(0.55 0.15 165)" opacity="0.4"/>
+  <text x="522" y="82" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Архив</text>
+  <text x="522" y="100" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Векторы</text>
+  <!-- Доска объявлений -->
+  <rect x="30" y="135" width="540" height="55" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.08" stroke="oklch(0.75 0.15 75)" stroke-width="1" stroke-dasharray="4 2"/>
+  <text x="300" y="155" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="bold">Доска примеров</text>
+  <text x="300" y="175" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">"неделя" = 1 токен | "сверхдержава" = 3 токена [сверх, дер, жава]</text>
+  <!-- Два языка -->
+  <rect x="30" y="205" width="260" height="75" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+  <text x="160" y="228" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Английский: ~4 символа/токен</text>
+  <text x="160" y="248" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">"Hello world" = 2 токена</text>
+  <text x="160" y="265" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9">Эффективно!</text>
+  <rect x="310" y="205" width="260" height="75" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.08" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
+  <text x="440" y="228" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Русский: ~2-3 символа/токен</text>
+  <text x="440" y="248" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">"Привет мир" = 3-4 токена</text>
+  <text x="440" y="265" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="9">Менее эффективно</text>
 </svg>`,
         },
         practicalExamples: [
@@ -309,32 +336,62 @@ console.log(\`Стоимость: $\${cost.toFixed(4)}\`);`,
         diagram: {
           type: 'comparison',
           title: 'Сравнение контекстных окон моделей',
-          svgContent: `<svg viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <rect x="10" y="10" width="580" height="330" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Контекстные окна популярных LLM</text>
-  <text x="80" y="75" fill="var(--muted-foreground)" font-size="11">GPT-3.5</text>
-  <rect x="160" y="62" width="60" height="20" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
-  <text x="190" y="77" text-anchor="middle" fill="var(--foreground)" font-size="10">4K</text>
-  <text x="80" y="110" fill="var(--muted-foreground)" font-size="11">GPT-4</text>
-  <rect x="160" y="97" width="240" height="20" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.4"/>
-  <text x="280" y="112" text-anchor="middle" fill="var(--foreground)" font-size="10">128K</text>
-  <text x="80" y="145" fill="var(--muted-foreground)" font-size="11">Claude 3</text>
-  <rect x="160" y="132" width="320" height="20" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.5"/>
-  <text x="320" y="147" text-anchor="middle" fill="var(--foreground)" font-size="10">200K</text>
-  <text x="80" y="180" fill="var(--muted-foreground)" font-size="11">Gemini</text>
-  <rect x="160" y="167" width="420" height="20" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.6"/>
-  <text x="370" y="182" text-anchor="middle" fill="var(--foreground)" font-size="10">1M</text>
-  <text x="300" y="220" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Стратегии работы с ограничениями</text>
-  <rect x="30" y="235" width="130" height="40" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="95" y="258" text-anchor="middle" fill="var(--foreground)" font-size="10">RAG: выбрать нужное</text>
-  <rect x="170" y="235" width="130" height="40" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="235" y="258" text-anchor="middle" fill="var(--foreground)" font-size="10">Суммаризация</text>
-  <rect x="310" y="235" width="130" height="40" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="375" y="258" text-anchor="middle" fill="var(--foreground)" font-size="10">Sliding Window</text>
-  <rect x="450" y="235" width="120" height="40" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="510" y="258" text-anchor="middle" fill="var(--foreground)" font-size="10">Компрессия</text>
-  <rect x="30" y="290" width="540" height="35" rx="6" fill="var(--muted)" opacity="0.5"/>
-  <text x="300" y="312" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Пример: 128K токенов ≈ 300 страниц текста ≈ 1 книга</text>
+          svgContent: `<svg viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" class="w-full">
+  <rect x="10" y="10" width="580" height="340" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Комнаты памяти: чем больше — тем больше вмещает</text>
+  <!-- GPT-3.5: каморка -->
+  <rect x="30" y="55" width="80" height="70" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.1" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <rect x="38" y="63" width="12" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <rect x="55" y="63" width="12" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <text x="70" y="92" text-anchor="middle" fill="var(--foreground)" font-size="9" font-weight="bold">4K</text>
+  <text x="70" y="115" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">GPT-3.5</text>
+  <!-- GPT-4: квартира -->
+  <rect x="120" y="55" width="160" height="70" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <rect x="128" y="63" width="30" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <rect x="163" y="63" width="30" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <rect x="198" y="63" width="30" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <rect x="233" y="63" width="30" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <text x="200" y="92" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">128K</text>
+  <text x="200" y="115" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">GPT-4</text>
+  <!-- Claude 3: дом -->
+  <rect x="290" y="55" width="120" height="70" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <polygon points="350,48 298,58 402,58" fill="oklch(0.55 0.15 165)" opacity="0.1"/>
+  <rect x="298" y="63" width="25" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <rect x="328" y="63" width="25" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <rect x="358" y="63" width="25" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <text x="350" y="92" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">200K</text>
+  <text x="350" y="115" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Claude 3</text>
+  <!-- Gemini: особняк -->
+  <rect x="420" y="55" width="150" height="70" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <polygon points="495,42 428,58 562,58" fill="oklch(0.55 0.15 165)" opacity="0.12"/>
+  <rect x="430" y="63" width="20" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <rect x="455" y="63" width="20" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <rect x="480" y="63" width="20" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <rect x="505" y="63" width="20" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <rect x="530" y="63" width="20" height="10" rx="1" fill="oklch(0.55 0.15 165)" opacity="0.3"/>
+  <text x="495" y="92" text-anchor="middle" fill="var(--foreground)" font-size="13" font-weight="bold">1M</text>
+  <text x="495" y="115" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Gemini</text>
+  <!-- Чем вмещает -->
+  <rect x="30" y="140" width="540" height="35" rx="6" fill="var(--muted)" opacity="0.3"/>
+  <text x="300" y="162" text-anchor="middle" fill="var(--foreground)" font-size="10">128K токенов = 300 страниц = 1 книга | 1M = 2500 страниц = целая библиотека</text>
+  <!-- Инструменты -->
+  <text x="300" y="198" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Инструменты расширения памяти</text>
+  <rect x="30" y="210" width="125" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.12" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
+  <text x="92" y="232" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">RAG</text>
+  <text x="92" y="248" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">выбрать нужное</text>
+  <rect x="165" y="210" width="125" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.12" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
+  <text x="227" y="232" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Суммаризация</text>
+  <text x="227" y="248" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">сжать суть</text>
+  <rect x="300" y="210" width="125" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.12" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
+  <text x="362" y="232" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Sliding Window</text>
+  <text x="362" y="248" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">скользящее окно</text>
+  <rect x="435" y="210" width="135" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.12" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
+  <text x="502" y="232" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Компрессия</text>
+  <text x="502" y="248" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">убрать лишнее</text>
+  <!-- Аналогия -->
+  <rect x="30" y="275" width="540" height="55" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.06" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+  <text x="300" y="298" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Аналогия: контекстное окно = комната для работы</text>
+  <text x="300" y="316" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Маленькая комната = мало материалов поместится | Большой зал = можно разложить всё</text>
 </svg>`,
         },
         practicalExamples: [
@@ -420,35 +477,48 @@ function trimConversation(messages: Message[], maxTokens: number,
         diagram: {
           type: 'architecture',
           title: 'Блок Transformer-декодера',
-          svgContent: `<svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <rect x="10" y="10" width="580" height="430" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Блок Transformer-декодера</text>
-  <rect x="170" y="55" width="260" height="40" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="185" y="73" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">1</text>
-  <text x="300" y="80" text-anchor="middle" fill="var(--foreground)" font-size="12">Input Embedding + Pos Enc</text>
-  <rect x="170" y="110" width="260" height="35" rx="6" fill="var(--muted)" opacity="0.6" stroke="var(--border)" stroke-width="1"/>
-  <text x="185" y="130" fill="var(--muted-foreground)" font-size="10" font-weight="bold">2</text>
-  <text x="300" y="133" text-anchor="middle" fill="var(--foreground)" font-size="11">Layer Norm</text>
-  <rect x="100" y="160" width="400" height="50" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
-  <text x="115" y="178" fill="oklch(0.75 0.15 75)" font-size="10" font-weight="bold">3</text>
-  <text x="300" y="183" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Masked Multi-Head Self-Attention</text>
-  <text x="300" y="200" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Q, K, V проекции → Scaled Dot-Product → Concat → Linear</text>
-  <rect x="170" y="225" width="260" height="30" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <text x="185" y="245" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">4</text>
-  <text x="300" y="245" text-anchor="middle" fill="var(--foreground)" font-size="11">Residual + Add & Norm</text>
-  <rect x="170" y="270" width="260" height="35" rx="6" fill="var(--muted)" opacity="0.6" stroke="var(--border)" stroke-width="1"/>
-  <text x="185" y="290" fill="var(--muted-foreground)" font-size="10" font-weight="bold">5</text>
-  <text x="300" y="293" text-anchor="middle" fill="var(--foreground)" font-size="11">Layer Norm</text>
-  <rect x="100" y="320" width="400" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.25" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="115" y="340" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">6</text>
-  <text x="300" y="345" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Feed-Forward Network</text>
-  <text x="300" y="360" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Linear → GELU → Linear (4x expansion)</text>
-  <rect x="170" y="380" width="260" height="30" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <text x="185" y="400" fill="oklch(0.55 0.15 165)" font-size="10" font-weight="bold">7</text>
-  <text x="300" y="400" text-anchor="middle" fill="var(--foreground)" font-size="11">Residual + Add & Norm</text>
-  <rect x="40" y="160" width="45" height="250" rx="4" fill="none" stroke="var(--muted-foreground)" stroke-width="1" stroke-dasharray="4 2"/>
-  <text x="62" y="290" text-anchor="middle" fill="var(--muted-foreground)" font-size="9" transform="rotate(-90 62 290)">× N слоёв</text>
-  <text x="300" y="430" text-anchor="middle" fill="var(--muted-foreground)" font-size="10">Выход → LM Head → Softmax → Вероятности токенов</text>
+          svgContent: `<svg viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg" class="w-full">
+  <rect x="10" y="10" width="580" height="440" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Симфонический оркестр Transformer</text>
+  <!-- Сцена -->
+  <rect x="60" y="55" width="480" height="350" rx="10" fill="oklch(0.75 0.15 75)" opacity="0.05" stroke="oklch(0.75 0.15 75)" stroke-width="1" stroke-dasharray="6 3"/>
+  <text x="300" y="72" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="9">КОНЦЕРТНЫЙ ЗАЛ</text>
+  <!-- Ноты = Input -->
+  <rect x="80" y="80" width="200" height="35" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="95" y="97" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">1</text>
+  <text x="180" y="102" text-anchor="middle" fill="var(--foreground)" font-size="10">Ноты: Embedding + Pos Enc</text>
+  <!-- Дирижёр = Self-Attention -->
+  <rect x="80" y="125" width="440" height="60" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.2" stroke="oklch(0.75 0.15 75)" stroke-width="2"/>
+  <text x="95" y="145" fill="oklch(0.75 0.15 75)" font-size="9" font-weight="bold">2</text>
+  <text x="300" y="148" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Дирижёр: Multi-Head Self-Attention</text>
+  <text x="300" y="168" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Q, K, V проекции | Scaled Dot-Product | Concat | Linear</text>
+  <!-- Секция струнных = Layer Norm + Residual -->
+  <rect x="80" y="195" width="210" height="35" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.12" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+  <text x="95" y="210" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">3</text>
+  <text x="185" y="217" text-anchor="middle" fill="var(--foreground)" font-size="10">Струнные: Add & Norm</text>
+  <!-- Ударные = Layer Norm -->
+  <rect x="310" y="195" width="210" height="35" rx="6" fill="var(--muted)" opacity="0.4" stroke="var(--border)" stroke-width="1"/>
+  <text x="325" y="210" fill="var(--muted-foreground)" font-size="9" font-weight="bold">4</text>
+  <text x="415" y="217" text-anchor="middle" fill="var(--foreground)" font-size="10">Ритм: Layer Norm</text>
+  <!-- Духовые = Feed-Forward -->
+  <rect x="80" y="240" width="440" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <text x="95" y="260" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">5</text>
+  <text x="300" y="263" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Духовые: Feed-Forward Network</text>
+  <text x="300" y="283" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Linear | GELU | Linear (4x расширение)</text>
+  <!-- Эхо = Residual -->
+  <rect x="80" y="305" width="440" height="30" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.12" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+  <text x="95" y="318" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">6</text>
+  <text x="300" y="325" text-anchor="middle" fill="var(--foreground)" font-size="10">Эхо: Residual + Add & Norm (прямой путь для градиента)</text>
+  <!-- Повтор = N слоёв -->
+  <rect x="30" y="80" width="22" height="260" rx="4" fill="none" stroke="var(--muted-foreground)" stroke-width="1" stroke-dasharray="4 2"/>
+  <text x="41" y="220" text-anchor="middle" fill="var(--muted-foreground)" font-size="9" transform="rotate(-90 41 220)">× N частей симфонии</text>
+  <!-- Результат = Аплодисменты -->
+  <rect x="80" y="350" width="440" height="35" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <text x="300" y="372" text-anchor="middle" fill="var(--foreground)" font-size="10">Финал: LM Head + Softmax = Вероятности токенов</text>
+  <!-- Аналогия -->
+  <rect x="30" y="400" width="540" height="40" rx="6" fill="var(--muted)" opacity="0.3"/>
+  <text x="300" y="418" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Аналогия: дирижёр координирует всех музыкантов</text>
+  <text x="300" y="434" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Self-Attention позволяет каждому токену «слышать» все остальные</text>
 </svg>`,
         },
         practicalExamples: [
