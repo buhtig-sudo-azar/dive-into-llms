@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Slider } from '@/components/ui/slider';
 import { Play, Loader2, RotateCcw, Thermometer } from 'lucide-react';
 import { useModelStore } from '@/store/model-store';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 
 interface TemperatureSandboxProps {
   title: string;
@@ -188,7 +189,7 @@ export function TemperatureSandbox({
                     Запрос #{i + 1}
                   </span>
                 </div>
-                <p className="text-base whitespace-pre-wrap leading-relaxed">{resp}</p>
+                <MarkdownRenderer content={resp} />
               </div>
             ))}
             {responses.length > 1 && (

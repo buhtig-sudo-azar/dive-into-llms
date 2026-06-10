@@ -11,6 +11,7 @@ import {
   Zap, Activity, Download, ChevronDown, ChevronUp, Wifi, Info,
 } from 'lucide-react';
 import { useModelStore } from '@/store/model-store';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 
 /* ─── Mock data: локальные модели LM Studio ─── */
 interface LocalModel {
@@ -815,10 +816,7 @@ export function LMStudioSandbox({
           {response && (
             <div className="rounded-lg border border-border bg-card p-3">
               <label className="text-xs font-medium text-muted-foreground mb-1 block">Ответ модели</label>
-              <div className="text-sm whitespace-pre-wrap leading-relaxed">
-                {response}
-                {generating && <span className="streaming-cursor" />}
-              </div>
+              <MarkdownRenderer content={response} streaming={generating} />
             </div>
           )}
 

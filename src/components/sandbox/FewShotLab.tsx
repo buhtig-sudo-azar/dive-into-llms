@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Layers, Plus, Trash2, Play, Loader2, RotateCcw } from 'lucide-react';
 import { useModelStore } from '@/store/model-store';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 
 interface Example { id: number; input: string; output: string; }
 
@@ -140,11 +141,11 @@ export function FewShotLab({ title, description }: { title: string; description:
           <div className="grid grid-cols-2 gap-2">
             <div className="rounded-lg border border-border p-3">
               <Badge variant="outline" className="text-[10px] mb-2">Zero-shot</Badge>
-              <p className="text-sm whitespace-pre-wrap">{zeroResponse || '...'}</p>
+              <MarkdownRenderer content={zeroResponse || '...'} />
             </div>
             <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
               <Badge className="text-[10px] mb-2">Few-shot</Badge>
-              <p className="text-sm whitespace-pre-wrap">{fewResponse || '...'}</p>
+              <MarkdownRenderer content={fewResponse || '...'} />
             </div>
           </div>
         )}

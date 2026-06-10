@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Play, Loader2, RotateCcw, Sparkles } from 'lucide-react';
 import { useModelStore } from '@/store/model-store';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 
 interface PromptPlaygroundProps {
   title: string;
@@ -180,10 +181,7 @@ export function PromptPlayground({
             <label className="text-base font-medium text-muted-foreground mb-1.5 block">
               Ответ модели
             </label>
-            <div className="text-base whitespace-pre-wrap leading-relaxed">
-              {response}
-              {loading && <span className="streaming-cursor" />}
-            </div>
+            <MarkdownRenderer content={response} streaming={loading} />
           </div>
         )}
 

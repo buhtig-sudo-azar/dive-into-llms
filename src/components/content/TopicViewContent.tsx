@@ -10,10 +10,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { useTheme } from 'next-themes';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import {
   PromptPlayground, TokenizerSandbox, TemperatureSandbox, SystemPromptSandbox,
   LMStudioSandbox, PlanningLab, AgentLoopSim, ToolUseLab,
@@ -31,17 +30,8 @@ function SectionTitle({ icon: Icon, title }: { icon: React.ElementType; title: s
   );
 }
 
-function MarkdownContent({ content }: { content: string }) {
-  return (
-    <div className="prose dark:prose-invert max-w-none prose-xl">
-      <ReactMarkdown>{content}</ReactMarkdown>
-    </div>
-  );
-}
-
 export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
   const { navigateToSubtopic } = useNavigationStore();
-  const { theme } = useTheme();
 
   return (
     <div className="space-y-8">
@@ -94,7 +84,7 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
           {/* Principles */}
           <div>
             <h4 className="font-semibold text-xl mb-3">Принципы работы</h4>
-            <MarkdownContent content={subtopic.theory.principles} />
+            <MarkdownRenderer content={subtopic.theory.principles} />
           </div>
 
           <Separator />
@@ -102,7 +92,7 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
           {/* Architecture */}
           <div>
             <h4 className="font-semibold text-xl mb-3">Архитектура</h4>
-            <MarkdownContent content={subtopic.theory.architecture} />
+            <MarkdownRenderer content={subtopic.theory.architecture} />
           </div>
 
           <Separator />
@@ -110,7 +100,7 @@ export function TopicViewContent({ subtopic }: { subtopic: Subtopic }) {
           {/* Connections */}
           <div>
             <h4 className="font-semibold text-xl mb-3">Связи с другими технологиями</h4>
-            <MarkdownContent content={subtopic.theory.connections} />
+            <MarkdownRenderer content={subtopic.theory.connections} />
           </div>
         </CardContent>
       </Card>

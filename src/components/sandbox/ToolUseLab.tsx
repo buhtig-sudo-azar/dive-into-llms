@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Wrench, Plus, Trash2, Play, Loader2, RotateCcw } from 'lucide-react';
 import { useModelStore } from '@/store/model-store';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 
 interface ToolParam { name: string; type: string; }
 interface Tool { id: number; name: string; description: string; params: ToolParam[]; }
@@ -149,7 +150,7 @@ export function ToolUseLab({ title, description }: { title: string; description:
         {result && (
           <div className="rounded-lg border border-border bg-card p-3">
             <label className="text-xs font-medium text-muted-foreground mb-1 block">Выбор агента</label>
-            <div className="text-sm whitespace-pre-wrap">{result}</div>
+            <MarkdownRenderer content={result} />
           </div>
         )}
 

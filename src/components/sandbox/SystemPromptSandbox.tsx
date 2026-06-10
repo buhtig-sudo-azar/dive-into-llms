@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Play, Loader2, RotateCcw, Shield } from 'lucide-react';
 import { useModelStore } from '@/store/model-store';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 
 interface SystemPromptSandboxProps {
   title: string;
@@ -184,9 +185,7 @@ export function SystemPromptSandbox({
                   </p>
                 </div>
                 <div className="p-3">
-                  <p className="text-base whitespace-pre-wrap leading-relaxed">
-                    {item.response}
-                  </p>
+                  <MarkdownRenderer content={item.response} />
                 </div>
               </div>
             ))}
