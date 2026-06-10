@@ -31,94 +31,45 @@ export const promptEngineering: TopicCategory = {
       diagram: {
         type: 'flowchart',
         title: 'Zero-shot запрос к LLM',
-        svgContent: `<svg viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <defs>
-    <radialGradient id="mindGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="oklch(0.75 0.15 165)" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="oklch(0.75 0.15 165)" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="ballGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="oklch(0.8 0.12 200)" stop-opacity="0.5"/>
-      <stop offset="60%" stop-color="oklch(0.5 0.15 200)" stop-opacity="0.3"/>
-      <stop offset="100%" stop-color="oklch(0.4 0.1 200)" stop-opacity="0.05"/>
-    </radialGradient>
-    <filter id="float"><feGaussianBlur stdDeviation="2"/></filter>
-  </defs>
-
+        svgContent: `<svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg" class="w-full">
   <!-- Background -->
-  <rect x="0" y="0" width="600" height="380" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-
-  <!-- Stars / sparkles -->
-  <circle cx="80" cy="50" r="1.5" fill="oklch(0.85 0.1 200)" opacity="0.5"/>
-  <circle cx="520" cy="65" r="1.5" fill="oklch(0.85 0.1 200)" opacity="0.5"/>
-  <circle cx="450" cy="35" r="1" fill="oklch(0.85 0.1 200)" opacity="0.4"/>
-  <circle cx="150" cy="30" r="1" fill="oklch(0.85 0.1 200)" opacity="0.4"/>
-  <circle cx="350" cy="45" r="1.2" fill="oklch(0.85 0.1 200)" opacity="0.3"/>
-  <circle cx="560" cy="100" r="1.2" fill="oklch(0.85 0.1 200)" opacity="0.3"/>
+  <rect x="0" y="0" width="600" height="340" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
 
   <!-- Title -->
-  <text x="300" y="32" text-anchor="middle" fill="var(--foreground)" font-size="16" font-weight="bold">Телепат (Zero-shot)</text>
-  <text x="300" y="48" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Модель знает ответ без примеров — как телепат, которому нужен лишь вопрос</text>
+  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Zero-shot Prompting</text>
+  <text x="300" y="44" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Модель отвечает без примеров, опираясь только на инструкцию</text>
 
-  <!-- Telepath character - body -->
-  <ellipse cx="130" cy="260" rx="45" ry="55" fill="oklch(0.35 0.08 260)" opacity="0.3"/>
-  <!-- Head -->
-  <circle cx="130" cy="185" r="32" fill="oklch(0.55 0.08 60)" opacity="0.25" stroke="oklch(0.55 0.08 60)" stroke-width="1"/>
-  <!-- Mind glow -->
-  <circle cx="130" cy="170" r="45" fill="url(#mindGlow)" opacity="0.6"/>
-  <!-- Eyes -->
-  <ellipse cx="122" cy="182" rx="4" ry="3" fill="oklch(0.85 0.15 165)"/>
-  <ellipse cx="138" cy="182" rx="4" ry="3" fill="oklch(0.85 0.15 165)"/>
-  <!-- Third eye / glowing mind -->
-  <circle cx="130" cy="168" r="5" fill="oklch(0.75 0.15 165)" opacity="0.7"/>
-  <circle cx="130" cy="168" r="3" fill="oklch(0.9 0.1 165)" opacity="0.9"/>
+  <!-- Step 1 -->
+  <rect x="30" y="58" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="85" r="14" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
+  <text x="55" y="90" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">1</text>
+  <text x="80" y="80" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 1: Системный промпт</text>
+  <text x="80" y="98" fill="var(--muted-foreground)" font-size="10">Задаёт роль и формат: «Ты эксперт по Python»</text>
 
-  <!-- Badge on the telepath (System Prompt) -->
-  <rect x="85" y="240" width="90" height="40" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1.2"/>
-  <text x="130" y="255" text-anchor="middle" fill="var(--foreground)" font-size="8" font-weight="bold">Специальность</text>
-  <text x="130" y="269" text-anchor="middle" fill="oklch(0.65 0.15 165)" font-size="7.5">Эксперт по Python</text>
+  <!-- Connector 1-2 -->
+  <line x1="55" y1="113" x2="55" y2="128" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- Label: System Prompt -->
-  <rect x="68" y="285" width="124" height="18" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.12"/>
-  <text x="130" y="297" text-anchor="middle" fill="oklch(0.65 0.15 165)" font-size="7.5" font-weight="bold">Системный промпт</text>
+  <!-- Step 2 -->
+  <rect x="30" y="128" width="540" height="55" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.08" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <circle cx="55" cy="155" r="14" fill="oklch(0.75 0.15 75)" opacity="0.2"/>
+  <text x="55" y="160" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="12" font-weight="bold">2</text>
+  <text x="80" y="150" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 2: Пользовательский запрос</text>
+  <text x="80" y="168" fill="var(--muted-foreground)" font-size="10">Вопрос без примеров: «Объясни декораторы»</text>
 
-  <!-- Floating question (User Prompt) - in the air -->
-  <rect x="210" y="70" width="160" height="55" rx="10" fill="oklch(0.75 0.15 75)" opacity="0.12" stroke="oklch(0.75 0.15 75)" stroke-width="1.2"/>
-  <!-- Wavy float effect -->
-  <text x="290" y="90" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="8" font-weight="bold">Вопрос в воздухе</text>
-  <text x="290" y="105" text-anchor="middle" fill="var(--foreground)" font-size="9" font-style="italic">"Объясни декораторы"</text>
-  <text x="290" y="118" text-anchor="middle" fill="var(--muted-foreground)" font-size="7">Пользовательский промпт</text>
-  <!-- Sparkles around question -->
-  <circle cx="215" cy="78" r="2" fill="oklch(0.75 0.15 75)" opacity="0.4"/>
-  <circle cx="367" cy="95" r="1.5" fill="oklch(0.75 0.15 75)" opacity="0.3"/>
+  <!-- Connector 2-3 -->
+  <line x1="55" y1="183" x2="55" y2="198" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- Crystal Ball -->
-  <ellipse cx="420" cy="268" rx="70" ry="14" fill="oklch(0.3 0.05 260)" opacity="0.2"/>
-  <!-- Ball stand -->
-  <path d="M395 260 Q420 280 445 260" fill="none" stroke="oklch(0.45 0.06 260)" stroke-width="2"/>
-  <line x1="400" y1="262" x2="395" y2="272" stroke="oklch(0.45 0.06 260)" stroke-width="1.5"/>
-  <line x1="440" y1="262" x2="445" y2="272" stroke="oklch(0.45 0.06 260)" stroke-width="1.5"/>
-  <!-- Ball itself -->
-  <circle cx="420" cy="200" r="60" fill="url(#ballGlow)" stroke="oklch(0.55 0.12 200)" stroke-width="1.5"/>
-  <!-- Reflection highlight -->
-  <ellipse cx="405" cy="178" rx="18" ry="10" fill="oklch(0.95 0.02 200)" opacity="0.15" transform="rotate(-20,405,178)"/>
-  <!-- Answer emerging from the ball -->
-  <text x="420" y="195" text-anchor="middle" fill="oklch(0.85 0.12 165)" font-size="9" font-weight="bold">Декоратор —</text>
-  <text x="420" y="208" text-anchor="middle" fill="oklch(0.85 0.12 165)" font-size="9">функция-обёртка,</text>
-  <text x="420" y="221" text-anchor="middle" fill="oklch(0.85 0.12 165)" font-size="9">расширяющая...</text>
+  <!-- Step 3 -->
+  <rect x="30" y="198" width="540" height="55" rx="8" fill="oklch(0.6 0.2 280)" opacity="0.08" stroke="oklch(0.6 0.2 280)" stroke-width="1.5"/>
+  <circle cx="55" cy="225" r="14" fill="oklch(0.6 0.2 280)" opacity="0.2"/>
+  <text x="55" y="230" text-anchor="middle" fill="oklch(0.6 0.2 280)" font-size="12" font-weight="bold">3</text>
+  <text x="80" y="220" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 3: Ответ LLM</text>
+  <text x="80" y="238" fill="var(--muted-foreground)" font-size="10">Модель отвечает, опираясь на знания из обучения</text>
 
-  <!-- Label: Result -->
-  <rect x="365" y="290" width="110" height="18" rx="4" fill="oklch(0.65 0.12 165)" opacity="0.15"/>
-  <text x="420" y="302" text-anchor="middle" fill="oklch(0.65 0.12 165)" font-size="7.5" font-weight="bold">Результат из шара</text>
-
-  <!-- LLM label on telepath -->
-  <rect x="96" y="220" width="68" height="16" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.35"/>
-  <text x="130" y="231" text-anchor="middle" fill="oklch(0.9 0.1 165)" font-size="8" font-weight="bold">LLM</text>
-
-  <!-- Key insight box at bottom -->
-  <rect x="30" y="330" width="540" height="38" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <text x="300" y="347" text-anchor="middle" fill="var(--foreground)" font-size="9" font-weight="bold">Без примеров — телепат просто ЗНАЕТ из опыта</text>
-  <text x="300" y="361" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">Системный промпт задаёт роль, пользовательский — задачу. Примеры не нужны!</text>
+  <!-- Bottom insight bar -->
+  <rect x="30" y="275" width="540" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+  <text x="300" y="295" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Без примеров — модель просто ЗНАЕТ из опыта обучения</text>
+  <text x="300" y="311" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Инструкция должна быть точной!</text>
 </svg>`,
       },
       practicalExamples: [
@@ -203,112 +154,65 @@ export const promptEngineering: TopicCategory = {
       diagram: {
         type: 'flowchart',
         title: 'Few-shot Prompting',
-        svgContent: `<svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <defs>
-    <linearGradient id="deskGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="oklch(0.55 0.06 75)" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="oklch(0.55 0.06 75)" stop-opacity="0.05"/>
-    </linearGradient>
-  </defs>
-
+        svgContent: `<svg viewBox="0 0 600 510" xmlns="http://www.w3.org/2000/svg" class="w-full">
   <!-- Background -->
-  <rect x="0" y="0" width="600" height="400" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <rect x="0" y="0" width="600" height="510" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
 
   <!-- Title -->
-  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="16" font-weight="bold">Шпаргалка (Few-shot)</text>
-  <text x="300" y="44" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Пара примеров — и модель понимает паттерн, как студент со шпаргалкой</text>
+  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Few-shot Prompting</text>
+  <text x="300" y="44" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Показываем паттерн через примеры, модель подстраивается</text>
 
-  <!-- Desk surface -->
-  <rect x="20" y="55" width="560" height="340" rx="8" fill="url(#deskGrad)"/>
+  <!-- Step 1 -->
+  <rect x="30" y="58" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="85" r="14" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
+  <text x="55" y="90" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">1</text>
+  <text x="80" y="80" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 1: Пример 1</text>
+  <text x="80" y="98" fill="var(--muted-foreground)" font-size="10">«отлично» — позитивная (показываем формат)</text>
 
-  <!-- Student character - simplified sitting figure -->
-  <!-- Head -->
-  <circle cx="85" cy="145" r="22" fill="oklch(0.55 0.08 60)" opacity="0.2" stroke="oklch(0.55 0.08 60)" stroke-width="1"/>
-  <!-- Eyes looking down at cheat sheet -->
-  <circle cx="79" cy="143" r="2.5" fill="var(--foreground)" opacity="0.6"/>
-  <circle cx="91" cy="143" r="2.5" fill="var(--foreground)" opacity="0.6"/>
-  <!-- Smile -->
-  <path d="M80 151 Q85 156 90 151" fill="none" stroke="var(--foreground)" stroke-width="1" opacity="0.5"/>
-  <!-- Body / hunched over desk -->
-  <path d="M65 167 Q70 200 80 210 L90 210 Q100 200 105 167" fill="oklch(0.45 0.1 250)" opacity="0.2"/>
-  <!-- Arms on desk -->
-  <path d="M70 195 Q90 205 115 195" fill="none" stroke="oklch(0.45 0.08 60)" stroke-width="3" opacity="0.3"/>
+  <!-- Connector 1-2 -->
+  <line x1="55" y1="113" x2="55" y2="128" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- Brain (In-Context Learning) -->
-  <ellipse cx="85" cy="130" rx="16" ry="12" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <text x="85" y="128" text-anchor="middle" fill="oklch(0.65 0.15 165)" font-size="5.5" font-weight="bold">In-Context</text>
-  <text x="85" y="136" text-anchor="middle" fill="oklch(0.65 0.15 165)" font-size="5.5" font-weight="bold">Learning</text>
-  <!-- Brain sparks -->
-  <circle cx="72" cy="122" r="2" fill="oklch(0.65 0.15 165)" opacity="0.5"/>
-  <circle cx="98" cy="120" r="1.5" fill="oklch(0.65 0.15 165)" opacity="0.4"/>
+  <!-- Step 2 -->
+  <rect x="30" y="128" width="540" height="55" rx="8" fill="oklch(0.577 0.245 27)" opacity="0.08" stroke="oklch(0.577 0.245 27)" stroke-width="1.5"/>
+  <circle cx="55" cy="155" r="14" fill="oklch(0.577 0.245 27)" opacity="0.2"/>
+  <text x="55" y="160" text-anchor="middle" fill="oklch(0.577 0.245 27)" font-size="12" font-weight="bold">2</text>
+  <text x="80" y="150" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 2: Пример 2</text>
+  <text x="80" y="168" fill="var(--muted-foreground)" font-size="10">«ужасно» — негативная (закрепляем паттерн)</text>
 
-  <!-- Cheat Sheet - folded paper with examples -->
-  <rect x="145" y="70" width="200" height="145" rx="4" fill="oklch(0.95 0.02 90)" opacity="0.9" stroke="oklch(0.7 0.06 75)" stroke-width="1"/>
-  <!-- Folded corner -->
-  <path d="M315 70 L345 70 L345 100 Z" fill="oklch(0.85 0.04 75)" opacity="0.5"/>
-  <path d="M315 70 L315 100 L345 100 Z" fill="oklch(0.9 0.03 75)" opacity="0.6"/>
-  <!-- Header -->
-  <text x="245" y="90" text-anchor="middle" fill="oklch(0.5 0.08 75)" font-size="10" font-weight="bold">ШПАРГАЛКА</text>
-  <line x1="160" y1="96" x2="330" y2="96" stroke="oklch(0.7 0.06 75)" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <!-- Connector 2-3 -->
+  <line x1="55" y1="183" x2="55" y2="198" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- Example 1 -->
-  <rect x="155" y="104" width="180" height="26" rx="3" fill="oklch(0.55 0.15 165)" opacity="0.1"/>
-  <text x="165" y="118" fill="var(--foreground)" font-size="8.5">"отлично"</text>
-  <text x="245" y="118" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">позитивная</text>
-  <circle cx="330" cy="115" r="4" fill="oklch(0.65 0.18 145)" opacity="0.5"/>
+  <!-- Step 3 -->
+  <rect x="30" y="198" width="540" height="55" rx="8" fill="oklch(0.6 0.06 90)" opacity="0.08" stroke="oklch(0.6 0.06 90)" stroke-width="1.5"/>
+  <circle cx="55" cy="225" r="14" fill="oklch(0.6 0.06 90)" opacity="0.2"/>
+  <text x="55" y="230" text-anchor="middle" fill="oklch(0.6 0.06 90)" font-size="12" font-weight="bold">3</text>
+  <text x="80" y="220" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 3: Пример 3</text>
+  <text x="80" y="238" fill="var(--muted-foreground)" font-size="10">«нормально» — нейтральная (показываем все классы)</text>
 
-  <!-- Example 2 -->
-  <rect x="155" y="134" width="180" height="26" rx="3" fill="oklch(0.577 0.245 27)" opacity="0.08"/>
-  <text x="165" y="148" fill="var(--foreground)" font-size="8.5">"ужасно"</text>
-  <text x="245" y="148" fill="oklch(0.577 0.245 27)" font-size="9" font-weight="bold">негативная</text>
-  <circle cx="330" cy="145" r="4" fill="oklch(0.577 0.245 27)" opacity="0.5"/>
+  <!-- Connector 3-4 -->
+  <line x1="55" y1="253" x2="55" y2="268" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- Example 3 -->
-  <rect x="155" y="164" width="180" height="26" rx="3" fill="oklch(0.6 0.06 90)" opacity="0.12"/>
-  <text x="165" y="178" fill="var(--foreground)" font-size="8.5">"нормально"</text>
-  <text x="245" y="178" fill="oklch(0.5 0.05 90)" font-size="9" font-weight="bold">нейтральная</text>
-  <circle cx="330" cy="175" r="4" fill="oklch(0.6 0.06 90)" opacity="0.5"/>
+  <!-- Step 4 -->
+  <rect x="30" y="268" width="540" height="55" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.08" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <circle cx="55" cy="295" r="14" fill="oklch(0.75 0.15 75)" opacity="0.2"/>
+  <text x="55" y="300" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="12" font-weight="bold">4</text>
+  <text x="80" y="290" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 4: Новый запрос</text>
+  <text x="80" y="308" fill="var(--muted-foreground)" font-size="10">«превосходно» — ??? (модель применяет паттерн)</text>
 
-  <!-- Pattern detected label -->
-  <text x="245" y="206" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="7.5" font-style="italic">паттерн распознан!</text>
+  <!-- Connector 4-5 -->
+  <line x1="55" y1="323" x2="55" y2="338" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- Exam paper / question sheet -->
-  <rect x="370" y="70" width="195" height="145" rx="4" fill="oklch(0.95 0.02 60)" opacity="0.9" stroke="oklch(0.7 0.08 75)" stroke-width="1"/>
-  <!-- Header -->
-  <text x="467" y="90" text-anchor="middle" fill="oklch(0.5 0.08 75)" font-size="10" font-weight="bold">ЭКЗАМЕН</text>
-  <line x1="380" y1="96" x2="555" y2="96" stroke="oklch(0.7 0.06 75)" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <!-- Step 5 -->
+  <rect x="30" y="338" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.12" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="365" r="14" fill="oklch(0.55 0.15 165)" opacity="0.25"/>
+  <text x="55" y="370" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">5</text>
+  <text x="80" y="360" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 5: In-Context Learning</text>
+  <text x="80" y="378" fill="var(--muted-foreground)" font-size="10">Модель «обучается» на примерах в промпте без изменения весов</text>
 
-  <!-- Question on exam -->
-  <text x="467" y="120" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">Вопрос:</text>
-  <rect x="385" y="128" width="165" height="30" rx="4" fill="oklch(0.75 0.15 75)" opacity="0.1" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="467" y="142" text-anchor="middle" fill="var(--foreground)" font-size="9.5" font-weight="bold">"превосходно"</text>
-  <text x="467" y="154" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="9">= ???</text>
-
-  <!-- Answer box - filled in -->
-  <text x="467" y="178" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">Ответ:</text>
-  <rect x="410" y="184" width="115" height="22" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.2"/>
-  <text x="467" y="199" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="11" font-weight="bold">позитивная</text>
-
-  <!-- Pencil on desk -->
-  <rect x="135" y="220" width="60" height="6" rx="1" fill="oklch(0.75 0.15 75)" opacity="0.4" transform="rotate(-15,165,223)"/>
-  <polygon points="133,224 127,222 127,226" fill="oklch(0.55 0.08 60)" opacity="0.4" transform="rotate(-15,165,223)"/>
-
-  <!-- In-Context Learning brain box -->
-  <rect x="30" y="260" width="540" height="52" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <!-- Brain icon -->
-  <ellipse cx="60" cy="286" rx="16" ry="14" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <path d="M52 286 Q56 278 60 282 Q64 278 68 286 Q64 294 60 290 Q56 294 52 286" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
-  <text x="90" y="281" fill="var(--foreground)" font-size="10" font-weight="bold">In-Context Learning: Мозг подстраивается под паттерн</text>
-  <text x="90" y="298" fill="var(--muted-foreground)" font-size="8.5">Модель «обучается» на примерах прямо в промпте — без изменения весов</text>
-
-  <!-- Key insight at bottom -->
-  <rect x="30" y="325" width="260" height="55" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.06" stroke="oklch(0.55 0.15 165)" stroke-width="0.8"/>
-  <text x="160" y="348" text-anchor="middle" fill="var(--foreground)" font-size="9" font-weight="bold">3-5 примеров достаточно</text>
-  <text x="160" y="365" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">Больше примеров не значит лучше</text>
-
-  <rect x="310" y="325" width="260" height="55" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.06" stroke="oklch(0.75 0.15 75)" stroke-width="0.8"/>
-  <text x="440" y="348" text-anchor="middle" fill="var(--foreground)" font-size="9" font-weight="bold">Качество важнее количества</text>
-  <text x="440" y="365" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">Репрезентативные и разнообразные</text>
+  <!-- Bottom insight bar -->
+  <rect x="30" y="415" width="540" height="45" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.08" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
+  <text x="300" y="435" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">3-5 примеров достаточно</text>
+  <text x="300" y="451" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Качество примеров важнее количества!</text>
 </svg>`,
       },
       practicalExamples: [
@@ -379,139 +283,65 @@ export const promptEngineering: TopicCategory = {
       diagram: {
         type: 'flowchart',
         title: 'Chain of Thought vs прямой ответ',
-        svgContent: `<svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  <defs>
-    <filter id="scribble"><feGaussianBlur stdDeviation="0.3"/></filter>
-  </defs>
-
+        svgContent: `<svg viewBox="0 0 600 510" xmlns="http://www.w3.org/2000/svg" class="w-full">
   <!-- Background -->
-  <rect x="0" y="0" width="600" height="420" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <rect x="0" y="0" width="600" height="510" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
 
   <!-- Title -->
-  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Черновик vs Ответ навскидку</text>
-  <text x="300" y="44" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Рассуждения пошагово помогают модели — как черновик помогает человеку</text>
+  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Chain of Thought</text>
+  <text x="300" y="44" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Пошаговые рассуждения снижают ошибки на сложных задачах</text>
 
-  <!-- LEFT SIDE: Quick Guess (Bad) -->
-  <!-- Torn/scrap paper - messy -->
-  <rect x="20" y="58" width="270" height="215" rx="4" fill="oklch(0.95 0.03 75)" opacity="0.85" stroke="oklch(0.7 0.08 75)" stroke-width="1" stroke-dasharray="4,2"/>
-  <!-- Header band -->
-  <rect x="20" y="58" width="270" height="28" rx="4" fill="oklch(0.577 0.245 27)" opacity="0.15"/>
-  <text x="155" y="77" text-anchor="middle" fill="oklch(0.577 0.245 27)" font-size="11" font-weight="bold">Ответ навскидку</text>
+  <!-- Step 1 -->
+  <rect x="30" y="58" width="540" height="55" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.08" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <circle cx="55" cy="85" r="14" fill="oklch(0.75 0.15 75)" opacity="0.2"/>
+  <text x="55" y="90" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="12" font-weight="bold">1</text>
+  <text x="80" y="80" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 1: Вопрос</text>
+  <text x="80" y="98" fill="var(--muted-foreground)" font-size="10">Сколько будет 17 x 24?</text>
 
-  <!-- Confused face - guessing quickly -->
-  <circle cx="70" cy="130" r="25" fill="oklch(0.55 0.08 60)" opacity="0.15" stroke="oklch(0.55 0.08 60)" stroke-width="1"/>
-  <!-- Worried eyes -->
-  <ellipse cx="63" cy="126" rx="3" ry="4" fill="var(--foreground)" opacity="0.5"/>
-  <ellipse cx="77" cy="126" rx="3" ry="4" fill="var(--foreground)" opacity="0.5"/>
-  <!-- Worry sweat drop -->
-  <ellipse cx="88" cy="118" rx="2" ry="3" fill="oklch(0.6 0.1 230)" opacity="0.5"/>
-  <!-- Uncertain mouth -->
-  <path d="M63 138 Q70 134 77 138" fill="none" stroke="var(--foreground)" stroke-width="1" opacity="0.5"/>
-  <!-- Question marks around head -->
-  <text x="45" y="108" fill="oklch(0.577 0.245 27)" font-size="10" opacity="0.6">?</text>
-  <text x="92" y="112" fill="oklch(0.577 0.245 27)" font-size="8" opacity="0.4">??</text>
+  <!-- Connector 1-2 -->
+  <line x1="55" y1="113" x2="55" y2="128" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- The question scribbled quickly -->
-  <text x="155" y="112" text-anchor="middle" fill="var(--foreground)" font-size="10">Сколько будет</text>
-  <text x="155" y="128" text-anchor="middle" fill="var(--foreground)" font-size="14" font-weight="bold">17 x 24</text>
-  <text x="155" y="142" text-anchor="middle" fill="var(--muted-foreground)" font-size="8">?</text>
+  <!-- Step 2 -->
+  <rect x="30" y="128" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="155" r="14" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
+  <text x="55" y="160" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">2</text>
+  <text x="80" y="150" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 2: Разбиваем</text>
+  <text x="80" y="168" fill="var(--muted-foreground)" font-size="10">17 x 20 = 340</text>
 
-  <!-- Quick wrong answer - crossed out messily -->
-  <text x="155" y="170" text-anchor="middle" fill="oklch(0.577 0.245 27)" font-size="16" font-weight="bold" opacity="0.7">"408"</text>
-  <!-- Messy strikethrough -->
-  <line x1="110" y1="167" x2="200" y2="173" stroke="oklch(0.577 0.245 27)" stroke-width="2.5" opacity="0.4"/>
-  <!-- Wrong stamp -->
-  <rect x="125" y="185" width="60" height="22" rx="3" fill="oklch(0.577 0.245 27)" opacity="0.15" stroke="oklch(0.577 0.245 27)" stroke-width="1"/>
-  <text x="155" y="200" text-anchor="middle" fill="oklch(0.577 0.245 27)" font-size="11" font-weight="bold">Неверно</text>
+  <!-- Connector 2-3 -->
+  <line x1="55" y1="183" x2="55" y2="198" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- Squiggly random scratches showing no work -->
-  <path d="M40 215 Q60 210 80 218 Q100 225 120 215" fill="none" stroke="oklch(0.6 0.05 75)" stroke-width="0.8" opacity="0.3"/>
-  <path d="M40 228 Q70 222 100 230 Q130 236 160 225" fill="none" stroke="oklch(0.6 0.05 75)" stroke-width="0.8" opacity="0.25"/>
-  <path d="M40 241 Q55 238 80 243 Q120 248 140 240" fill="none" stroke="oklch(0.6 0.05 75)" stroke-width="0.8" opacity="0.2"/>
+  <!-- Step 3 -->
+  <rect x="30" y="198" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="225" r="14" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
+  <text x="55" y="230" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">3</text>
+  <text x="80" y="220" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 3: Вычисляем</text>
+  <text x="80" y="238" fill="var(--muted-foreground)" font-size="10">17 x 4 = 68</text>
 
-  <text x="155" y="260" text-anchor="middle" fill="oklch(0.577 0.245 27)" font-size="7.5" font-style="italic">Без рассуждений — модель угадывает</text>
+  <!-- Connector 3-4 -->
+  <line x1="55" y1="253" x2="55" y2="268" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- RIGHT SIDE: Scratchpad (Good) -->
-  <!-- Notebook paper with lines -->
-  <rect x="310" y="58" width="270" height="215" rx="4" fill="oklch(0.95 0.02 165)" opacity="0.85" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <!-- Header band -->
-  <rect x="310" y="58" width="270" height="28" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.15"/>
-  <text x="445" y="77" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="11" font-weight="bold">Рассуждения на черновике</text>
+  <!-- Step 4 -->
+  <rect x="30" y="268" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="295" r="14" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
+  <text x="55" y="300" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">4</text>
+  <text x="80" y="290" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 4: Складываем</text>
+  <text x="80" y="308" fill="var(--muted-foreground)" font-size="10">340 + 68 = 408</text>
 
-  <!-- Notebook lines -->
-  <line x1="320" y1="100" x2="570" y2="100" stroke="oklch(0.7 0.04 165)" stroke-width="0.4" opacity="0.3"/>
-  <line x1="320" y1="120" x2="570" y2="120" stroke="oklch(0.7 0.04 165)" stroke-width="0.4" opacity="0.3"/>
-  <line x1="320" y1="140" x2="570" y2="140" stroke="oklch(0.7 0.04 165)" stroke-width="0.4" opacity="0.3"/>
-  <line x1="320" y1="160" x2="570" y2="160" stroke="oklch(0.7 0.04 165)" stroke-width="0.4" opacity="0.3"/>
-  <line x1="320" y1="180" x2="570" y2="180" stroke="oklch(0.7 0.04 165)" stroke-width="0.4" opacity="0.3"/>
-  <line x1="320" y1="200" x2="570" y2="200" stroke="oklch(0.7 0.04 165)" stroke-width="0.4" opacity="0.3"/>
-  <line x1="320" y1="220" x2="570" y2="220" stroke="oklch(0.7 0.04 165)" stroke-width="0.4" opacity="0.3"/>
-  <!-- Margin line -->
-  <line x1="345" y1="90" x2="345" y2="265" stroke="oklch(0.6 0.1 27)" stroke-width="0.8" opacity="0.2"/>
+  <!-- Connector 4-5 -->
+  <line x1="55" y1="323" x2="55" y2="338" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- Focused face - thinking carefully -->
-  <circle cx="365" cy="112" r="10" fill="oklch(0.55 0.08 60)" opacity="0.15" stroke="oklch(0.55 0.08 60)" stroke-width="0.8"/>
-  <circle cx="362" cy="110" r="1.5" fill="var(--foreground)" opacity="0.5"/>
-  <circle cx="368" cy="110" r="1.5" fill="var(--foreground)" opacity="0.5"/>
-  <path d="M362 116 Q365 118 368 116" fill="none" stroke="var(--foreground)" stroke-width="0.6" opacity="0.5"/>
+  <!-- Step 5 -->
+  <rect x="30" y="338" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.12" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="365" r="14" fill="oklch(0.55 0.15 165)" opacity="0.25"/>
+  <text x="55" y="370" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">5</text>
+  <text x="80" y="360" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 5: Финальный ответ</text>
+  <text x="80" y="378" fill="var(--muted-foreground)" font-size="10">408 (проверено пошагово)</text>
 
-  <!-- Step-by-step on the notepad -->
-  <text x="355" y="98" fill="oklch(0.55 0.15 165)" font-size="8" font-weight="bold">Шаг 1:</text>
-  <text x="395" y="98" fill="var(--foreground)" font-size="8.5">17 x 24 = ?</text>
-
-  <text x="355" y="118" fill="oklch(0.55 0.15 165)" font-size="8" font-weight="bold">Шаг 2:</text>
-  <text x="395" y="118" fill="var(--foreground)" font-size="8.5">17 x 20 = 340</text>
-
-  <text x="355" y="138" fill="oklch(0.55 0.15 165)" font-size="8" font-weight="bold">Шаг 3:</text>
-  <text x="395" y="138" fill="var(--foreground)" font-size="8.5">17 x 4 = 68</text>
-
-  <text x="355" y="158" fill="oklch(0.55 0.15 165)" font-size="8" font-weight="bold">Шаг 4:</text>
-  <text x="395" y="158" fill="var(--foreground)" font-size="8.5">340 + 68 = 408</text>
-
-  <!-- Correct answer box -->
-  <rect x="350" y="170" width="210" height="28" rx="4" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.2"/>
-  <text x="455" y="189" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">Ответ: 408</text>
-  <!-- Checkmark -->
-  <circle cx="545" cy="184" r="10" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
-  <path d="M539 184 L543 189 L552 179" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2" stroke-linecap="round"/>
-
-  <!-- Neat written lines showing work done -->
-  <text x="445" y="220" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="7.5" font-style="italic">Каждый шаг проверяем</text>
-  <text x="445" y="235" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="7.5" font-style="italic">и видим промежуточные результаты</text>
-
-  <!-- Divider -->
-  <line x1="300" y1="58" x2="300" y2="273" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3"/>
-  <!-- VS label -->
-  <circle cx="300" cy="165" r="14" fill="var(--card)" stroke="var(--border)" stroke-width="1"/>
-  <text x="300" y="169" text-anchor="middle" fill="var(--muted-foreground)" font-size="9" font-weight="bold">VS</text>
-
-  <!-- "Почему работает" section -->
-  <rect x="20" y="290" width="560" height="115" rx="8" fill="var(--muted)" opacity="0.2" stroke="var(--border)" stroke-width="0.8"/>
-  <text x="300" y="312" text-anchor="middle" fill="var(--foreground)" font-size="12" font-weight="bold">Почему CoT работает</text>
-
-  <!-- Insight card 1 -->
-  <rect x="35" y="322" width="170" height="72" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="0.8"/>
-  <circle cx="55" cy="340" r="10" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
-  <text x="55" y="344" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">1</text>
-  <text x="125" y="345" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">Промежуточный контекст</text>
-  <text x="120" y="362" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5">Каждый шаг создаёт контекст</text>
-  <text x="120" y="376" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5">для следующего шага</text>
-
-  <!-- Insight card 2 -->
-  <rect x="215" y="322" width="170" height="72" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="0.8"/>
-  <circle cx="235" cy="340" r="10" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
-  <text x="235" y="344" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">2</text>
-  <text x="305" y="345" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">Самопроверка</text>
-  <text x="300" y="362" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5">Модель «видит» свои</text>
-  <text x="300" y="376" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5">вычисления и исправляет ошибки</text>
-
-  <!-- Insight card 3 -->
-  <rect x="395" y="322" width="170" height="72" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="0.8"/>
-  <circle cx="415" cy="340" r="10" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
-  <text x="415" y="344" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">3</text>
-  <text x="485" y="345" text-anchor="middle" fill="var(--foreground)" font-size="8.5" font-weight="bold">Декомпозиция</text>
-  <text x="480" y="362" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5">Сложная задача разбивается</text>
-  <text x="480" y="376" text-anchor="middle" fill="var(--muted-foreground)" font-size="7.5">на простые подзадачи</text>
+  <!-- Bottom insight bar -->
+  <rect x="30" y="415" width="540" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+  <text x="300" y="435" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Пошаговые рассуждения снижают ошибки на 40%+</text>
+  <text x="300" y="451" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">на логических задачах</text>
 </svg>`,
       },
       practicalExamples: [
@@ -577,146 +407,65 @@ export const promptEngineering: TopicCategory = {
       diagram: {
         type: 'flowchart',
         title: 'Цикл ReAct',
-        svgContent: `<svg viewBox="0 0 600 440" xmlns="http://www.w3.org/2000/svg" class="w-full">
+        svgContent: `<svg viewBox="0 0 600 510" xmlns="http://www.w3.org/2000/svg" class="w-full">
   <!-- Background -->
-  <rect x="0" y="0" width="600" height="440" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+  <rect x="0" y="0" width="600" height="510" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
 
   <!-- Title -->
-  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="16" font-weight="bold">Детектив (ReAct)</text>
-  <text x="300" y="44" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Рассуждение + Действие + Наблюдение — как детектив на месте преступления</text>
+  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">ReAct: Reasoning + Acting</text>
+  <text x="300" y="44" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Рассуждения и действия в цикле до финального ответа</text>
 
-  <!-- Cork board background -->
-  <rect x="20" y="55" width="560" height="255" rx="6" fill="oklch(0.7 0.06 75)" opacity="0.1" stroke="oklch(0.65 0.08 75)" stroke-width="1.5"/>
-  <!-- Cork texture dots -->
-  <circle cx="50" cy="80" r="1" fill="oklch(0.6 0.06 75)" opacity="0.2"/>
-  <circle cx="120" cy="95" r="0.8" fill="oklch(0.6 0.06 75)" opacity="0.15"/>
-  <circle cx="200" cy="75" r="1" fill="oklch(0.6 0.06 75)" opacity="0.2"/>
-  <circle cx="350" cy="85" r="0.8" fill="oklch(0.6 0.06 75)" opacity="0.15"/>
-  <circle cx="480" cy="78" r="1" fill="oklch(0.6 0.06 75)" opacity="0.2"/>
-  <circle cx="550" cy="95" r="0.8" fill="oklch(0.6 0.06 75)" opacity="0.15"/>
-  <circle cx="90" cy="250" r="0.8" fill="oklch(0.6 0.06 75)" opacity="0.15"/>
-  <circle cx="250" cy="270" r="1" fill="oklch(0.6 0.06 75)" opacity="0.2"/>
-  <circle cx="400" cy="260" r="0.8" fill="oklch(0.6 0.06 75)" opacity="0.15"/>
-  <circle cx="530" cy="240" r="1" fill="oklch(0.6 0.06 75)" opacity="0.2"/>
+  <!-- Step 1 -->
+  <rect x="30" y="58" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="85" r="14" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
+  <text x="55" y="90" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">1</text>
+  <text x="80" y="80" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 1: Thought</text>
+  <text x="80" y="98" fill="var(--muted-foreground)" font-size="10">Модель рассуждает: «Мне нужно найти информацию о...»</text>
 
-  <!-- Detective character (top-left) -->
-  <!-- Hat -->
-  <rect x="42" y="65" width="36" height="8" rx="2" fill="oklch(0.3 0.06 260)" opacity="0.5"/>
-  <rect x="48" y="55" width="24" height="14" rx="3" fill="oklch(0.3 0.06 260)" opacity="0.5"/>
-  <!-- Face -->
-  <circle cx="60" cy="88" r="14" fill="oklch(0.55 0.08 60)" opacity="0.2" stroke="oklch(0.55 0.08 60)" stroke-width="0.8"/>
-  <!-- Eyes -->
-  <circle cx="56" cy="86" r="1.8" fill="var(--foreground)" opacity="0.5"/>
-  <circle cx="64" cy="86" r="1.8" fill="var(--foreground)" opacity="0.5"/>
-  <!-- Determined mouth -->
-  <line x1="56" y1="93" x2="64" y2="93" stroke="var(--foreground)" stroke-width="1" opacity="0.4"/>
-  <!-- Detective coat collar -->
-  <path d="M48 100 L55 108 L60 102 L65 108 L72 100" fill="none" stroke="oklch(0.35 0.08 260)" stroke-width="1.5" opacity="0.4"/>
-  <!-- Magnifying glass in hand -->
-  <circle cx="80" cy="98" r="8" fill="none" stroke="oklch(0.5 0.06 90)" stroke-width="1.5" opacity="0.6"/>
-  <line x1="86" y1="104" x2="92" y2="112" stroke="oklch(0.5 0.06 90)" stroke-width="1.5" opacity="0.6"/>
+  <!-- Connector 1-2 -->
+  <line x1="55" y1="113" x2="55" y2="128" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- 1. THOUGHT - Thought bubble pinned to board -->
-  <rect x="100" y="68" width="185" height="60" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.12" stroke="oklch(0.55 0.15 165)" stroke-width="1.2"/>
-  <!-- Pin -->
-  <circle cx="110" cy="73" r="4" fill="oklch(0.577 0.245 27)" opacity="0.6"/>
-  <!-- Label -->
-  <rect x="108" y="80" width="60" height="14" rx="3" fill="oklch(0.55 0.15 165)" opacity="0.25"/>
-  <text x="138" y="91" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="8" font-weight="bold">Thought</text>
-  <!-- Content -->
-  <text x="115" y="108" fill="var(--foreground)" font-size="8">"Нужно узнать погоду</text>
-  <text x="115" y="120" fill="var(--foreground)" font-size="8">в Москве"</text>
+  <!-- Step 2 -->
+  <rect x="30" y="128" width="540" height="55" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.08" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <circle cx="55" cy="155" r="14" fill="oklch(0.75 0.15 75)" opacity="0.2"/>
+  <text x="55" y="160" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="12" font-weight="bold">2</text>
+  <text x="80" y="150" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 2: Action</text>
+  <text x="80" y="168" fill="var(--muted-foreground)" font-size="10">Модель вызывает инструмент: search(«информация»)</text>
 
-  <!-- 2. ACTION - Tool card pinned to board -->
-  <rect x="310" y="68" width="180" height="60" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.12" stroke="oklch(0.75 0.15 75)" stroke-width="1.2"/>
-  <!-- Pin -->
-  <circle cx="320" cy="73" r="4" fill="oklch(0.577 0.245 27)" opacity="0.6"/>
-  <!-- Label -->
-  <rect x="318" y="80" width="55" height="14" rx="3" fill="oklch(0.75 0.15 75)" opacity="0.25"/>
-  <text x="345" y="91" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="8" font-weight="bold">Action</text>
-  <!-- Tool icon - phone/device -->
-  <rect x="322" y="100" width="12" height="18" rx="2" fill="none" stroke="oklch(0.75 0.15 75)" stroke-width="1" opacity="0.5"/>
-  <circle cx="328" cy="115" r="1.5" fill="oklch(0.75 0.15 75)" opacity="0.5"/>
-  <!-- Content -->
-  <text x="345" y="108" fill="var(--foreground)" font-size="8">weather_api</text>
-  <text x="345" y="120" fill="var(--foreground)" font-size="8.5" font-weight="bold">('Москва')</text>
+  <!-- Connector 2-3 -->
+  <line x1="55" y1="183" x2="55" y2="198" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- String connecting Thought to Action (red thread) -->
-  <path d="M285 98 Q298 95 310 98" fill="none" stroke="oklch(0.577 0.2 27)" stroke-width="1.2" opacity="0.3" stroke-dasharray="3,2"/>
+  <!-- Step 3 -->
+  <rect x="30" y="198" width="540" height="55" rx="8" fill="oklch(0.6 0.2 280)" opacity="0.08" stroke="oklch(0.6 0.2 280)" stroke-width="1.5"/>
+  <circle cx="55" cy="225" r="14" fill="oklch(0.6 0.2 280)" opacity="0.2"/>
+  <text x="55" y="230" text-anchor="middle" fill="oklch(0.6 0.2 280)" font-size="12" font-weight="bold">3</text>
+  <text x="80" y="220" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 3: Observation</text>
+  <text x="80" y="238" fill="var(--muted-foreground)" font-size="10">Получает результат от инструмента</text>
 
-  <!-- 3. OBSERVATION - Evidence/clue card -->
-  <rect x="310" y="150" width="180" height="55" rx="8" fill="oklch(0.6 0.2 280)" opacity="0.1" stroke="oklch(0.6 0.2 280)" stroke-width="1.2"/>
-  <!-- Pin -->
-  <circle cx="320" cy="155" r="4" fill="oklch(0.577 0.245 27)" opacity="0.6"/>
-  <!-- Label -->
-  <rect x="318" y="160" width="78" height="14" rx="3" fill="oklch(0.6 0.2 280)" opacity="0.25"/>
-  <text x="357" y="171" text-anchor="middle" fill="oklch(0.6 0.2 280)" font-size="8" font-weight="bold">Observation</text>
-  <!-- Clue icon - thermometer -->
-  <rect x="322" y="178" width="5" height="16" rx="2" fill="none" stroke="oklch(0.6 0.2 280)" stroke-width="1" opacity="0.5"/>
-  <circle cx="324.5" cy="196" r="3.5" fill="oklch(0.577 0.2 27)" opacity="0.3"/>
-  <!-- Content -->
-  <text x="342" y="188" fill="var(--foreground)" font-size="10" font-weight="bold">+5°C</text>
-  <text x="342" y="200" fill="var(--muted-foreground)" font-size="7.5">Доказательство получено</text>
+  <!-- Connector 3-4 -->
+  <line x1="55" y1="253" x2="55" y2="268" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- String connecting Action to Observation -->
-  <path d="M400 128 Q405 140 400 150" fill="none" stroke="oklch(0.577 0.2 27)" stroke-width="1.2" opacity="0.3" stroke-dasharray="3,2"/>
+  <!-- Step 4 -->
+  <rect x="30" y="268" width="540" height="55" rx="8" fill="oklch(0.577 0.245 27)" opacity="0.08" stroke="oklch(0.577 0.245 27)" stroke-width="1.5"/>
+  <circle cx="55" cy="295" r="14" fill="oklch(0.577 0.245 27)" opacity="0.2"/>
+  <text x="55" y="300" text-anchor="middle" fill="oklch(0.577 0.245 27)" font-size="12" font-weight="bold">4</text>
+  <text x="80" y="290" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 4: Repeat</text>
+  <text x="80" y="308" fill="var(--muted-foreground)" font-size="10">Возвращаемся к Шагу 1 с новыми данными</text>
 
-  <!-- REPEAT badge -->
-  <rect x="115" y="150" width="120" height="35" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="0.8" stroke-dasharray="3,2"/>
-  <!-- Circular repeat icon -->
-  <path d="M130 165 A8 8 0 1 1 138 157" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="1.2" opacity="0.5"/>
-  <polygon points="138,154 138,160 143,157" fill="oklch(0.55 0.15 165)" opacity="0.5"/>
-  <text x="175" y="167" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="8" font-weight="bold">Цикл</text>
-  <text x="175" y="179" text-anchor="middle" fill="var(--muted-foreground)" font-size="7">повторяется</text>
+  <!-- Connector 4-5 -->
+  <line x1="55" y1="323" x2="55" y2="338" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
 
-  <!-- String from Observation back to repeat area -->
-  <path d="M310 177 Q280 175 235 170" fill="none" stroke="oklch(0.577 0.2 27)" stroke-width="1.2" opacity="0.3" stroke-dasharray="3,2"/>
+  <!-- Step 5 -->
+  <rect x="30" y="338" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.12" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="365" r="14" fill="oklch(0.55 0.15 165)" opacity="0.25"/>
+  <text x="55" y="370" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">5</text>
+  <text x="80" y="360" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 5: Final Answer</text>
+  <text x="80" y="378" fill="var(--muted-foreground)" font-size="10">Формулирует итоговый ответ</text>
 
-  <!-- 4. FINAL ANSWER - Case solved! -->
-  <rect x="100" y="210" width="410" height="65" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <!-- Stamp-like "CASE SOLVED" -->
-  <rect x="110" y="218" width="105" height="22" rx="3" fill="oklch(0.55 0.15 165)" opacity="0.2" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <text x="162" y="233" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="9" font-weight="bold">ДЕЛО РАСКРЫТО</text>
-  <!-- Label -->
-  <text x="115" y="252" fill="var(--foreground)" font-size="8">Final Answer:</text>
-  <text x="115" y="266" fill="var(--foreground)" font-size="10" font-weight="bold">"В Москве сейчас +5°C"</text>
-  <!-- Checkmark -->
-  <circle cx="490" cy="245" r="14" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
-  <path d="M482 245 L488 252 L500 238" fill="none" stroke="oklch(0.55 0.15 165)" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Pin -->
-  <circle cx="110" cy="215" r="4" fill="oklch(0.577 0.245 27)" opacity="0.6"/>
-  <circle cx="500" cy="215" r="4" fill="oklch(0.577 0.245 27)" opacity="0.6"/>
-
-  <!-- String from Observation down to Final Answer -->
-  <path d="M400 205 Q390 210 350 215" fill="none" stroke="oklch(0.577 0.2 27)" stroke-width="1.2" opacity="0.3" stroke-dasharray="3,2"/>
-  <text x="420" y="215" fill="oklch(0.55 0.15 165)" font-size="7" font-style="italic">данных достаточно</text>
-
-  <!-- Example walkthrough at bottom -->
-  <rect x="20" y="325" width="560" height="100" rx="8" fill="var(--muted)" opacity="0.2" stroke="var(--border)" stroke-width="0.8"/>
-  <text x="300" y="347" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Пример цикла ReAct</text>
-
-  <!-- Step cards in a row -->
-  <!-- Thought step -->
-  <rect x="35" y="358" width="120" height="52" rx="5" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="0.8"/>
-  <text x="95" y="375" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="7.5" font-weight="bold">Thought</text>
-  <text x="95" y="390" text-anchor="middle" fill="var(--muted-foreground)" font-size="7">Нужно узнать</text>
-  <text x="95" y="401" text-anchor="middle" fill="var(--muted-foreground)" font-size="7">погоду в Москве</text>
-
-  <!-- Action step -->
-  <rect x="170" y="358" width="130" height="52" rx="5" fill="oklch(0.75 0.15 75)" opacity="0.08" stroke="oklch(0.75 0.15 75)" stroke-width="0.8"/>
-  <text x="235" y="375" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="7.5" font-weight="bold">Action</text>
-  <text x="235" y="390" text-anchor="middle" fill="var(--muted-foreground)" font-size="7">weather_api</text>
-  <text x="235" y="401" text-anchor="middle" fill="var(--muted-foreground)" font-size="7">('Москва')</text>
-
-  <!-- Observation step -->
-  <rect x="315" y="358" width="115" height="52" rx="5" fill="oklch(0.6 0.2 280)" opacity="0.08" stroke="oklch(0.6 0.2 280)" stroke-width="0.8"/>
-  <text x="372" y="375" text-anchor="middle" fill="oklch(0.6 0.2 280)" font-size="7.5" font-weight="bold">Observation</text>
-  <text x="372" y="393" text-anchor="middle" fill="var(--muted-foreground)" font-size="9" font-weight="bold">+5°C</text>
-
-  <!-- Final Answer step -->
-  <rect x="445" y="358" width="120" height="52" rx="5" fill="oklch(0.55 0.15 165)" opacity="0.12" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <text x="505" y="375" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="7.5" font-weight="bold">Final Answer</text>
-  <text x="505" y="393" text-anchor="middle" fill="var(--foreground)" font-size="7.5" font-weight="bold">В Москве +5°C</text>
+  <!-- Bottom insight bar -->
+  <rect x="30" y="415" width="540" height="45" rx="8" fill="oklch(0.6 0.2 280)" opacity="0.08" stroke="oklch(0.6 0.2 280)" stroke-width="1"/>
+  <text x="300" y="435" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">ReAct = рассуждения + действия в цикле</text>
+  <text x="300" y="451" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Модель проверяет гипотезы через реальные действия</text>
 </svg>`,
       },
       practicalExamples: [
@@ -798,38 +547,55 @@ async function reactAgent(question: string) {
       diagram: {
         type: 'flowchart',
         title: 'Structured Output',
-        svgContent: `<svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" class="w-full">
-  
-  <rect x="10" y="10" width="580" height="260" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-  <text x="300" y="38" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Structured Output</text>
-  <!-- Промпт -->
-  <rect x="30" y="55" width="200" height="90" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.1" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
-  <text x="130" y="75" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Промпт</text>
-  <text x="130" y="95" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">"Извлеки данные из текста</text>
-  <text x="130" y="108" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">в формате JSON:</text>
-  <text x="130" y="121" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">{name, age, role}"</text>
-  <!-- Связь Промпт и Результат -->
-<text x="238" y="95" fill="#6b7280" font-size="8">|</text>
-  <!-- Результат (JSON) -->
-  <rect x="260" y="55" width="310" height="90" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.1" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
-  <text x="415" y="75" text-anchor="middle" fill="var(--foreground)" font-size="11" font-weight="bold">Результат (JSON)</text>
-  <text x="415" y="97" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">{</text>
-  <text x="415" y="110" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">"name": "Алексей",</text>
-  <text x="415" y="123" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">"age": 28, "role": "инженер"</text>
-  <text x="415" y="136" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">}</text>
-  <!-- Три подхода -->
-  <rect x="30" y="165" width="170" height="45" rx="6" fill="oklch(0.55 0.15 165)" opacity="0.15" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
-  <text x="115" y="185" text-anchor="middle" fill="var(--foreground)" font-size="10">Prompt-only</text>
-  <text x="115" y="200" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Гибко, но не 100%</text>
-  <rect x="215" y="165" width="170" height="45" rx="6" fill="oklch(0.75 0.15 75)" opacity="0.15" stroke="oklch(0.75 0.15 75)" stroke-width="1"/>
-  <text x="300" y="185" text-anchor="middle" fill="var(--foreground)" font-size="10">JSON Mode</text>
-  <text x="300" y="200" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Гарантированный JSON</text>
-  <rect x="400" y="165" width="170" height="45" rx="6" fill="oklch(0.6 0.2 280)" opacity="0.15" stroke="oklch(0.6 0.2 280)" stroke-width="1"/>
-  <text x="485" y="185" text-anchor="middle" fill="var(--foreground)" font-size="10">Function Calling</text>
-  <text x="485" y="200" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Типизированный вызов</text>
-  <!-- Итог -->
-  <rect x="30" y="225" width="540" height="30" rx="6" fill="var(--muted)" opacity="0.4"/>
-  <text x="300" y="245" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Лучший результат = Промпт + JSON Mode / Function Calling</text>
+        svgContent: `<svg viewBox="0 0 600 430" xmlns="http://www.w3.org/2000/svg" class="w-full">
+  <!-- Background -->
+  <rect x="0" y="0" width="600" height="430" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+
+  <!-- Title -->
+  <text x="300" y="28" text-anchor="middle" fill="var(--foreground)" font-size="15" font-weight="bold">Structured Output</text>
+  <text x="300" y="44" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Получение ответа LLM в строго определённом формате</text>
+
+  <!-- Step 1 -->
+  <rect x="30" y="58" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="85" r="14" fill="oklch(0.55 0.15 165)" opacity="0.2"/>
+  <text x="55" y="90" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">1</text>
+  <text x="80" y="80" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 1: Определить схему</text>
+  <text x="80" y="98" fill="var(--muted-foreground)" font-size="10">JSON Schema или формат ответа</text>
+
+  <!-- Connector 1-2 -->
+  <line x1="55" y1="113" x2="55" y2="128" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Step 2 -->
+  <rect x="30" y="128" width="540" height="55" rx="8" fill="oklch(0.75 0.15 75)" opacity="0.08" stroke="oklch(0.75 0.15 75)" stroke-width="1.5"/>
+  <circle cx="55" cy="155" r="14" fill="oklch(0.75 0.15 75)" opacity="0.2"/>
+  <text x="55" y="160" text-anchor="middle" fill="oklch(0.75 0.15 75)" font-size="12" font-weight="bold">2</text>
+  <text x="80" y="150" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 2: Системный промпт</text>
+  <text x="80" y="168" fill="var(--muted-foreground)" font-size="10">Инструкция с требуемым форматом</text>
+
+  <!-- Connector 2-3 -->
+  <line x1="55" y1="183" x2="55" y2="198" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Step 3 -->
+  <rect x="30" y="198" width="540" height="55" rx="8" fill="oklch(0.6 0.2 280)" opacity="0.08" stroke="oklch(0.6 0.2 280)" stroke-width="1.5"/>
+  <circle cx="55" cy="225" r="14" fill="oklch(0.6 0.2 280)" opacity="0.2"/>
+  <text x="55" y="230" text-anchor="middle" fill="oklch(0.6 0.2 280)" font-size="12" font-weight="bold">3</text>
+  <text x="80" y="220" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 3: Пример формата</text>
+  <text x="80" y="238" fill="var(--muted-foreground)" font-size="10">Показываем ожидаемую структуру JSON</text>
+
+  <!-- Connector 3-4 -->
+  <line x1="55" y1="253" x2="55" y2="268" stroke="oklch(0.55 0.15 165)" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Step 4 -->
+  <rect x="30" y="268" width="540" height="55" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.12" stroke="oklch(0.55 0.15 165)" stroke-width="1.5"/>
+  <circle cx="55" cy="295" r="14" fill="oklch(0.55 0.15 165)" opacity="0.25"/>
+  <text x="55" y="300" text-anchor="middle" fill="oklch(0.55 0.15 165)" font-size="12" font-weight="bold">4</text>
+  <text x="80" y="290" fill="var(--foreground)" font-size="12" font-weight="bold">Шаг 4: Валидация</text>
+  <text x="80" y="308" fill="var(--muted-foreground)" font-size="10">Проверяем, что ответ соответствует схеме</text>
+
+  <!-- Bottom insight bar -->
+  <rect x="30" y="345" width="540" height="45" rx="8" fill="oklch(0.55 0.15 165)" opacity="0.08" stroke="oklch(0.55 0.15 165)" stroke-width="1"/>
+  <text x="300" y="365" text-anchor="middle" fill="var(--foreground)" font-size="10" font-weight="bold">Строгий формат = надёжный парсинг в приложениях</text>
+  <text x="300" y="381" text-anchor="middle" fill="var(--muted-foreground)" font-size="9">Лучший результат: промпт + JSON Mode / Function Calling</text>
 </svg>`,
       },
       practicalExamples: [
