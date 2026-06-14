@@ -44,7 +44,7 @@ export function EmbeddingVisualizer({ title, description }: { title: string; des
 
   // Determine current step
   const currentStep = useMemo(() => {
-    if (hasResults) return 4;
+    if (similarities && positions2d) return 4;
     if (texts.length >= 2) return 2;
     return 1;
   }, [texts.length, similarities, positions2d]);
